@@ -9,5 +9,8 @@ namespace VaccinationSystem.Data
             : base(options)
         {
         }
+        public DbSet<DiseaseDto> Diseases { get; set; }
+        public DbSet<Vaccine> Vaccines { get; set; }
+        public DbSet<VaccinationStatusDto> VaccinationStatuses { get; set; }
     }
 }
