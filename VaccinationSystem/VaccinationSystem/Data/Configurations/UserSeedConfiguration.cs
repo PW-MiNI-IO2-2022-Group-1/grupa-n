@@ -33,6 +33,18 @@ namespace VaccinationSystem.Data.Configurations
                     NormalizedEmail = "PATIENT@LOCALHOST.COM",
                     PasswordHash = hasher.HashPassword(null, "patient1"),
                     EmailConfirmed = true,
+                },
+                new ApplicationUser
+                {
+                    Id = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a", //random guid
+                    FirstName = "Default",
+                    LastName = "Doctor",
+                    UserName = "doctor@localhost.com",
+                    NormalizedUserName = "DOCTOR@LOCALHOST.COM",
+                    Email = "doctor@localhost.com",
+                    NormalizedEmail = "DOCTOR@LOCALHOST.COM",
+                    PasswordHash = hasher.HashPassword(null, "doctor1"),
+                    EmailConfirmed = true,
                 }
             );
         }
