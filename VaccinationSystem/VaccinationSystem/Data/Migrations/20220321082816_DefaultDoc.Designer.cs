@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VaccinationSystem.Data;
 
@@ -11,9 +12,10 @@ using VaccinationSystem.Data;
 namespace VaccinationSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220321082816_DefaultDoc")]
+    partial class DefaultDoc
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -326,64 +328,6 @@ namespace VaccinationSystem.Data.Migrations
                             SecurityStamp = "6d87901d-36a9-49b4-b27f-6e636c49e6bf",
                             TwoFactorEnabled = false,
                             UserName = "doctor@localhost.com"
-                        });
-                });
-
-            modelBuilder.Entity("VaccinationSystem.Data.Disease", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Diseases");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -1,
-                            Name = "Covid-19"
-                        },
-                        new
-                        {
-                            Id = -2,
-                            Name = "Covid-21"
-                        },
-                        new
-                        {
-                            Id = -3,
-                            Name = "Flu"
-                        },
-                        new
-                        {
-                            Id = -4,
-                            Name = "Chickenpox"
-                        },
-                        new
-                        {
-                            Id = -5,
-                            Name = "Smallpox"
-                        },
-                        new
-                        {
-                            Id = -6,
-                            Name = "Measles"
-                        },
-                        new
-                        {
-                            Id = -7,
-                            Name = "Mumps"
-                        },
-                        new
-                        {
-                            Id = -8,
-                            Name = "Polio"
                         });
                 });
 

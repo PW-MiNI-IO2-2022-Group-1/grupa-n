@@ -12,7 +12,7 @@ using VaccinationSystem.Data;
 namespace VaccinationSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220320175406_ExtendedUserTable")]
+    [Migration("20220320214635_ExtendedUserTable")]
     partial class ExtendedUserTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -205,8 +205,9 @@ namespace VaccinationSystem.Data.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Pesel")
-                        .HasColumnType("int");
+                    b.Property<string>("Pesel")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
