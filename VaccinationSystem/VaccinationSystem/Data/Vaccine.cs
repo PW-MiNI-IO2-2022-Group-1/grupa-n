@@ -15,9 +15,9 @@ namespace VaccinationSystem.Data
         public int SerialNo { get; set; }
 
         [Required]
-        public int DeseaseId { get; set; }
+        public int DiseaseId { get; set; }
 
-        [ForeignKey("DeseaseId")]
+        [ForeignKey("DiseaseId")]
         public Disease? Disease { get; set; }
 
         public int RequiredDoses { get; set; }
