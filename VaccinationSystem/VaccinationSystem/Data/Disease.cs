@@ -1,12 +1,11 @@
-﻿namespace VaccinationSystem.Data
-{
-    public enum Diseases
-    {
-        Covid19, Covid21, Flu, Chickenpox, Smallpox, Measles, Mumps, Polio
-    };
+﻿using System.ComponentModel.DataAnnotations;
 
-    public class DiseaseDto
+namespace VaccinationSystem.Data
+{
+    public class Disease
     {
-        public Diseases Diseases { get; set; }
+        [Key]
+        public int Id { get; set; }
+        public string? Name { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using VaccinationSystem.Data.Configurations;
 
 namespace VaccinationSystem.Data
 {
@@ -9,8 +10,13 @@ namespace VaccinationSystem.Data
             : base(options)
         {
         }
-        public DbSet<DiseaseDto> Diseases { get; set; }
-        public DbSet<Vaccine> Vaccines { get; set; }
-        public DbSet<VaccinationStatusDto> VaccinationStatuses { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new DiseaseSeedConfiguration());
+        }
+        public DbSet<Disease> Diseases { get; set; }
+        //public DbSet<Vaccine> Vaccines { get; set; }
     }
 }
