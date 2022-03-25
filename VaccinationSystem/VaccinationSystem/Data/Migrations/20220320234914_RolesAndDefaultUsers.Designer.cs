@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VaccinationSystem.Data;
 
@@ -11,9 +12,10 @@ using VaccinationSystem.Data;
 namespace VaccinationSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220320234914_RolesAndDefaultUsers")]
+    partial class RolesAndDefaultUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,21 +54,21 @@ namespace VaccinationSystem.Data.Migrations
                         new
                         {
                             Id = "c8076fe7-faf6-757b-3452-6aa5f7a33c6c",
-                            ConcurrencyStamp = "abd892d0-fade-4365-b067-5573119238c3",
+                            ConcurrencyStamp = "0cd3a2db-d4a9-46ab-8586-bd0d8a19920e",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "53716615-3a3b-4948-9d28-8076bf328b4a",
-                            ConcurrencyStamp = "0e598312-efc8-4772-9d94-9995a870329e",
+                            ConcurrencyStamp = "2c4650f2-c517-4e0e-b5e1-6c843304e403",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
                             Id = "410adff7-f581-4737-b4d6-0dc9a88dec59",
-                            ConcurrencyStamp = "8df9dc84-8cdf-419e-bd1c-9ef61c2e1a07",
+                            ConcurrencyStamp = "ac6c2ced-c96a-4351-8676-147ef2560bb0",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -170,11 +172,6 @@ namespace VaccinationSystem.Data.Migrations
                         {
                             UserId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
                             RoleId = "410adff7-f581-4737-b4d6-0dc9a88dec59"
-                        },
-                        new
-                        {
-                            UserId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
-                            RoleId = "53716615-3a3b-4948-9d28-8076bf328b4a"
                         });
                 });
 
@@ -277,7 +274,7 @@ namespace VaccinationSystem.Data.Migrations
                         {
                             Id = "6f5f0ee8-640a-4645-ba8b-a4e3fa51b3dd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3afcb550-0e3d-42f3-8a35-9aeef3d5f082",
+                            ConcurrencyStamp = "d6ab64a2-5720-41b5-ac14-72cc8cc083ab",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -285,9 +282,9 @@ namespace VaccinationSystem.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAELu+DVtgVhOnyL5nWxnzm48ta8r1fEPZnwArFPr8e5HfPpmhM28eRV5RVtZ0b0dTQg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOXgehtXg2z7si9uryfypiIFYIMjxgGCVLcfdtGShnqBshErBqF0OcTx5wT9T6w++w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ab158651-dda0-4405-b77d-0baadbc1e7d4",
+                            SecurityStamp = "47748950-b61a-48eb-a9a4-09ad909f44c0",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         },
@@ -295,7 +292,7 @@ namespace VaccinationSystem.Data.Migrations
                         {
                             Id = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fe25f980-fde1-44ab-a121-e3d0acddddc7",
+                            ConcurrencyStamp = "283d5fcd-210d-4f52-97dc-8313a1cc5189",
                             Email = "patient@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Default",
@@ -303,29 +300,11 @@ namespace VaccinationSystem.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PATIENT@LOCALHOST.COM",
                             NormalizedUserName = "PATIENT@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI2z4sgREImddmI07G7COG6rpzR6DBVy9bGr+HSBUTdnkcb5LsKV4PHjqlfCK5FA2A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFN0BzRuxW7lx8+ZVL9imjGn2SjZucjLxhDo6IlGEi74s8lDQOd7t/4iu/qNU9a1Lg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "169cf130-b7f3-4383-a406-7520e10afc2d",
+                            SecurityStamp = "22cf15fb-e933-45f9-891d-cf239b2f2bf9",
                             TwoFactorEnabled = false,
                             UserName = "patient@localhost.com"
-                        },
-                        new
-                        {
-                            Id = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "830a5602-06bd-4620-a7e4-febb8f882d18",
-                            Email = "doctor@localhost.com",
-                            EmailConfirmed = true,
-                            FirstName = "Default",
-                            LastName = "Doctor",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "DOCTOR@LOCALHOST.COM",
-                            NormalizedUserName = "DOCTOR@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA6sfwIHKnUyCjaWOqKAVwG5ox565ElPuJQEChYWhTEdKpfrkT9c+MUTTegrh1qrrQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "6d87901d-36a9-49b4-b27f-6e636c49e6bf",
-                            TwoFactorEnabled = false,
-                            UserName = "doctor@localhost.com"
                         });
                 });
 
