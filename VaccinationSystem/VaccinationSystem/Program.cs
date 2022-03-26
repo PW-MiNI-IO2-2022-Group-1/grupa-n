@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using VaccinationSystem.Data;
+using VaccinationSystem.Data.Classes;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace VaccinationSystem.Data
+namespace VaccinationSystem.Data.Classes
 {
     public class Disease
     {

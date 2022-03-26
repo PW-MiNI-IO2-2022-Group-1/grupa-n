@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using VaccinationSystem.Data;
+using VaccinationSystem.Data.Classes;
 
 namespace VaccinationSystem.Areas.Identity.Pages.Account
 {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VaccinationSystem.Data
+namespace VaccinationSystem.Data.Classes
 {
     public class Vaccine
     {
