@@ -13,4 +13,5 @@ Naming convention: [task_nr]-[branch_desc]
 ## Pull requests
 After each task create pull request.
 You need at least one approve.
-Merge into main
+Merge into main - squash and merge
+Delete branch from GitHub
