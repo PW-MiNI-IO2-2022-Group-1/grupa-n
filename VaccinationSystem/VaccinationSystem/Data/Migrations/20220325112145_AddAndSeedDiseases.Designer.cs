@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VaccinationSystem.Data;
 
@@ -11,9 +12,10 @@ using VaccinationSystem.Data;
 namespace VaccinationSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220325112145_AddAndSeedDiseases")]
+    partial class AddAndSeedDiseases
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,29 +49,6 @@ namespace VaccinationSystem.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "c8076fe7-faf6-757b-3452-6aa5f7a33c6c",
-                            ConcurrencyStamp = "abd892d0-fade-4365-b067-5573119238c3",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "53716615-3a3b-4948-9d28-8076bf328b4a",
-                            ConcurrencyStamp = "0e598312-efc8-4772-9d94-9995a870329e",
-                            Name = "Doctor",
-                            NormalizedName = "DOCTOR"
-                        },
-                        new
-                        {
-                            Id = "410adff7-f581-4737-b4d6-0dc9a88dec59",
-                            ConcurrencyStamp = "8df9dc84-8cdf-419e-bd1c-9ef61c2e1a07",
-                            Name = "Patient",
-                            NormalizedName = "PATIENT"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -159,23 +138,6 @@ namespace VaccinationSystem.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "6f5f0ee8-640a-4645-ba8b-a4e3fa51b3dd",
-                            RoleId = "c8076fe7-faf6-757b-3452-6aa5f7a33c6c"
-                        },
-                        new
-                        {
-                            UserId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
-                            RoleId = "410adff7-f581-4737-b4d6-0dc9a88dec59"
-                        },
-                        new
-                        {
-                            UserId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
-                            RoleId = "53716615-3a3b-4948-9d28-8076bf328b4a"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -219,9 +181,11 @@ namespace VaccinationSystem.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -241,8 +205,8 @@ namespace VaccinationSystem.Data.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Pesel")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Pesel")
+                        .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
@@ -271,62 +235,6 @@ namespace VaccinationSystem.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "6f5f0ee8-640a-4645-ba8b-a4e3fa51b3dd",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "3afcb550-0e3d-42f3-8a35-9aeef3d5f082",
-                            Email = "admin@localhost.com",
-                            EmailConfirmed = true,
-                            FirstName = "System",
-                            LastName = "Admin",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
-                            NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAELu+DVtgVhOnyL5nWxnzm48ta8r1fEPZnwArFPr8e5HfPpmhM28eRV5RVtZ0b0dTQg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "ab158651-dda0-4405-b77d-0baadbc1e7d4",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@localhost.com"
-                        },
-                        new
-                        {
-                            Id = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "fe25f980-fde1-44ab-a121-e3d0acddddc7",
-                            Email = "patient@localhost.com",
-                            EmailConfirmed = true,
-                            FirstName = "Default",
-                            LastName = "Patient",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "PATIENT@LOCALHOST.COM",
-                            NormalizedUserName = "PATIENT@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI2z4sgREImddmI07G7COG6rpzR6DBVy9bGr+HSBUTdnkcb5LsKV4PHjqlfCK5FA2A==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "169cf130-b7f3-4383-a406-7520e10afc2d",
-                            TwoFactorEnabled = false,
-                            UserName = "patient@localhost.com"
-                        },
-                        new
-                        {
-                            Id = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "830a5602-06bd-4620-a7e4-febb8f882d18",
-                            Email = "doctor@localhost.com",
-                            EmailConfirmed = true,
-                            FirstName = "Default",
-                            LastName = "Doctor",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "DOCTOR@LOCALHOST.COM",
-                            NormalizedUserName = "DOCTOR@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA6sfwIHKnUyCjaWOqKAVwG5ox565ElPuJQEChYWhTEdKpfrkT9c+MUTTegrh1qrrQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "6d87901d-36a9-49b4-b27f-6e636c49e6bf",
-                            TwoFactorEnabled = false,
-                            UserName = "doctor@localhost.com"
-                        });
                 });
 
             modelBuilder.Entity("VaccinationSystem.Data.Disease", b =>
