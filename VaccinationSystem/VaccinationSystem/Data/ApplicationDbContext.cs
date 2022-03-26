@@ -6,6 +6,12 @@ namespace VaccinationSystem.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Disease> Diseases { get; set; }
+        public DbSet<Vaccine> Vaccine { get; set; }
+        public DbSet<Vaccination> Vaccination { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
