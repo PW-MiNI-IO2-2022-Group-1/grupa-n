@@ -12,30 +12,29 @@ namespace VaccinationSystem.Data.Configurations
                 new Vaccination
                 {
                     Id = -1,
-                    //Patient = patient,        - nie umiem wstawić całych struktur, to się jakoś da czy może lepiej
-                    //                          w klasie Vaccination zamienić je na pojedyncze id?
-                    //Doctor = doctor,
+                    PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                    DoctorId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
                     Status = VaccinationStatus.Planned,
                     Date = new DateTime(2022, 4, 5),    // y, m, d
-                    //Vaccine = vaccine
+                    VaccineId = -1
                 },
                 new Vaccination
                 {
                     Id = -2,
-                    //Patient = patient,
-                    //Doctor = doctor,
+                    PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                    DoctorId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
                     Status = VaccinationStatus.Cancelled,
                     Date = new DateTime(2022, 1, 15),
-                    //Vaccine = vaccine
+                    VaccineId = -3
                 },
                 new Vaccination
                 {
                     Id = -1,
-                    //Patient = patient,
-                    //Doctor = doctor,
+                    PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                    DoctorId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
                     Status = VaccinationStatus.Completed,
                     Date = new DateTime(2022, 2, 12),
-                    //Vaccine = vaccine
+                    VaccineId = -7
                 }
             );
         }
