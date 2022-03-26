@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VaccinationSystem.Data
+namespace VaccinationSystem.Data.Classes
 {
     public class Doctor : ApplicationUser
     {
         [Required]
-        public int LicenseID { get; set; }
+        public int LicenceId { get; set; }
 
         Vaccination AddVaccination()
         {

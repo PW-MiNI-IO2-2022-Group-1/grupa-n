@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using VaccinationSystem.Data.Classes;
 
 namespace VaccinationSystem.Data.Configurations
 {

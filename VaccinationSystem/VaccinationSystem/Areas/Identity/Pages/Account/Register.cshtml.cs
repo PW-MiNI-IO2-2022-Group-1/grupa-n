@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using VaccinationSystem.Data;
+using VaccinationSystem.Data.Classes;
 
 namespace VaccinationSystem.Areas.Identity.Pages.Account
 {
