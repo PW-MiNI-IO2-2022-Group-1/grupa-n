@@ -4,9 +4,4 @@
     {
         Planned, Completed, Cancelled
     };
-
-    public class VaccinationStatusDto
-    {
-        VaccinationStatus VaccinationStatus { get; set; }
-    }
 }
