@@ -5,12 +5,12 @@ using VaccinationSystem.Data.Classes;
 
 namespace VaccinationSystem.Data.Configurations
 {
-    internal class VaccinationSeedConfiguration : IEntityTypeConfiguration<Vaccination>
+    internal class VisitSeedConfiguration : IEntityTypeConfiguration<Visit>
     {
-        public void Configure(EntityTypeBuilder<Vaccination> builder)
+        public void Configure(EntityTypeBuilder<Visit> builder)
         {
             _ = builder.HasData(
-                new Vaccination
+                new Visit
                 {
                     Id = -1,
                     PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
@@ -19,7 +19,7 @@ namespace VaccinationSystem.Data.Configurations
                     Date = new DateTime(2022, 4, 5),    // y, m, d
                     VaccineId = -1
                 },
-                new Vaccination
+                new Visit
                 {
                     Id = -2,
                     PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
@@ -28,7 +28,7 @@ namespace VaccinationSystem.Data.Configurations
                     Date = new DateTime(2022, 1, 15),
                     VaccineId = -3
                 },
-                new Vaccination
+                new Visit
                 {
                     Id = -3,
                     PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
