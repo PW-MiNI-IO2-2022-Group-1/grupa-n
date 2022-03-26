@@ -15,7 +15,9 @@ namespace VaccinationSystem.Data
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new RoleSeedConfiguration());
-            builder.ApplyConfiguration(new UserSeedConfiguration());
+            builder.ApplyConfiguration(new AdminSeedConfiguration());
+            builder.ApplyConfiguration(new DoctorSeedConfiguration());
+            builder.ApplyConfiguration(new PatientSeedConfiguration());
             builder.ApplyConfiguration(new UserRoleSeedConfiguration());
         }
     }
