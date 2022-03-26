@@ -3,6 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VaccinationSystem.Data
 {
+    public enum VaccinationStatus
+    {
+        Planned, Completed, Cancelled
+    };
+
     public class Vaccination
     {
         [Key]
