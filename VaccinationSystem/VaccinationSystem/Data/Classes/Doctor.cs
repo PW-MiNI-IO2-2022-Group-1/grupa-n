@@ -8,7 +8,7 @@ namespace VaccinationSystem.Data.Classes
         [Required]
         public int LicenceId { get; set; }
 
-        Vaccination AddVaccination()
+        Visit AddVaccination()
         {
             throw new NotImplementedException();
         }

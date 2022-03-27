@@ -8,7 +8,7 @@ namespace VaccinationSystem.Data.Classes
         Planned, Completed, Cancelled
     };
 
-    public class Vaccination
+    public class Visit
     {
         [Key]
         public int Id { get; set; }

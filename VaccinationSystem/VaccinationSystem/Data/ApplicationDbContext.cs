@@ -7,9 +7,9 @@ namespace VaccinationSystem.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Disease> Diseases { get; set; }
-        public DbSet<Vaccine> Vaccines { get; set; }
-        public DbSet<Vaccination> Vaccinations { get; set; }
+        public DbSet<Disease>? Diseases { get; set; }
+        public DbSet<Vaccine>? Vaccines { get; set; }
+        public DbSet<Visit>? Visit { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -28,7 +28,7 @@ namespace VaccinationSystem.Data
 
             builder.ApplyConfiguration(new DiseaseSeedConfiguration());
             builder.ApplyConfiguration(new VaccineSeedConfiguration());
-            builder.ApplyConfiguration(new VaccinationSeedConfiguration());
+            builder.ApplyConfiguration(new VisitSeedConfiguration());
         }
     }
 }
