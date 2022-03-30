@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
 using VaccinationSystem.IRepositories;
@@ -20,7 +19,7 @@ namespace VaccinationSystem.Repositories
                 FirstName = firstName,
                 LastName = lastName,
                 Email = email,
-                PasswordHash = hasher.HashPassword(null, "doctor1"),
+                PasswordHash = hasher.HashPassword(null, password),
                 EmailConfirmed = false
             };
             var id = context.Add(doctor).Entity.Id;

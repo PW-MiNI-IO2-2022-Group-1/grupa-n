@@ -7,7 +7,7 @@ namespace VaccinationSystem.IRepositories
         Task<bool> ReserveVisit(int visitId, int vaccineId, string patientId);
         Task<Visit> GetLatestVisit(string patientId);
         Task<List<Visit>> GetAllHistoryVisits(string patientId);
-        Task<List<Visit>> GetAllAvaibleVisits();
+        Task<List<Visit>> GetAllAvailableVisits();
         Task<bool> IsVaccinated(int vaccineId, string patientId);
         Task<bool> CancelVisit(int visitId, string patientId);
     }

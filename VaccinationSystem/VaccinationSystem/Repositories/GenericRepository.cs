@@ -19,7 +19,7 @@ namespace VaccinationSystem.Repositories
             return entity;
         }
                 
-        public async Task<bool> DeleteAsync(string id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var entity = await GetAsync(id);
             if (entity == null)
@@ -27,7 +27,7 @@ namespace VaccinationSystem.Repositories
             context.Set<T>().Remove(entity);
             return await context.SaveChangesAsync()>0;
         }
-        public async Task<bool> ExistsAsync(string id)
+        public async Task<bool> ExistsAsync(int id)
         {
             var entity = await GetAsync(id);
             return entity != null;
@@ -38,7 +38,7 @@ namespace VaccinationSystem.Repositories
             return await context.Set<T>().ToListAsync();
         }
 
-        public async Task<T?> GetAsync(string id)
+        public async Task<T?> GetAsync(int id)
         {
             return await context.Set<T>().FindAsync(id);
         }

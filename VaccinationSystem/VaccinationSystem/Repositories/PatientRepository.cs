@@ -15,7 +15,7 @@ namespace VaccinationSystem.Repositories
         {
             return await context.Visit.Where(visit => visit.PatientId == patientId && visit.Status==VaccinationStatus.Completed).ToListAsync();
         }
-        public async Task<List<Visit>> GetAllAvaibleVisits()
+        public async Task<List<Visit>> GetAllAvailableVisits()
         {
             return await context.Visit.Where(visit => visit.PatientId == null && visit.Status == VaccinationStatus.Planned).ToListAsync();
         }
