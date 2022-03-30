@@ -18,7 +18,7 @@ namespace VaccinationSystem.Repositories
             await context.SaveChangesAsync();
             return entity;
         }
-                
+
         public async Task<bool> DeleteAsync(int id)
         {
             var entity = await GetAsync(id);
