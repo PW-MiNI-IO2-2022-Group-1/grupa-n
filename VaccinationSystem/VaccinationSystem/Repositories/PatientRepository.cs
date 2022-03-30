@@ -1,4 +1,5 @@
-﻿using VaccinationSystem.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
 using VaccinationSystem.IRepositories;
 
@@ -10,24 +11,40 @@ namespace VaccinationSystem.Repositories
         {
         }
 
-        public Task<List<Visit>> GetAllVisits()
+        public async Task<List<Visit>> GetAllHistoryVisits(string patientId)
         {
-            throw new NotImplementedException();
+            return await context.Visit.Where(visit => visit.PatientId == patientId && visit.Status==VaccinationStatus.Completed).ToListAsync();
+        }
+        public async Task<List<Visit>> GetAllAvailableVisits()
+        {
+            return await context.Visit.Where(visit => visit.PatientId == null && visit.Status == VaccinationStatus.Planned).ToListAsync();
+        }
+        public async Task<Visit> GetLatestVisit(string patientId)
+        {
+            return await context.Visit.OrderByDescending(visit => visit.Date).FirstAsync(visit => visit.PatientId == patientId);
         }
 
-        public Task<Visit> GetLatestVisit()
+        public async Task<bool> IsVaccinated(int vaccineId, string patientId)
         {
-            throw new NotImplementedException();
+            return await context.Visit.AnyAsync(visit => visit.PatientId == patientId && visit.VaccineId == vaccineId && visit.Status == VaccinationStatus.Completed);
         }
 
-        public Task<bool> IsVaccinated(Vaccine vaccine)
+        public async Task<bool> ReserveVisit(int visitId,int vaccineId, string patientId)
         {
-            throw new NotImplementedException();
+            var entity = context.Visit.FirstOrDefault(v => v.Id == visitId);
+            if (entity == null || entity.PatientId != null) 
+                return false;
+            entity.PatientId = patientId;
+            entity.VaccineId = vaccineId;
+            return await context.SaveChangesAsync()>0;
         }
-
-        public Task<bool> RegisterVisit(Visit Visit)
+        public async Task<bool> CancelVisit(int visitId, string patientId)
         {
-            throw new NotImplementedException();
+            var entity = context.Visit.FirstOrDefault(v => v.Id == visitId);
+            if (entity == null || entity.PatientId != patientId) 
+                return false;
+            entity.Status = VaccinationStatus.Cancelled;
+            return await context.SaveChangesAsync()>0;
         }
     }
 }

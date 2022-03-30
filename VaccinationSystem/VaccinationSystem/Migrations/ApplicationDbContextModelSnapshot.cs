@@ -3,19 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VaccinationSystem.Data;
 
 #nullable disable
 
-namespace VaccinationSystem.Data.Migrations
+namespace VaccinationSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220326181258_MovedPesel")]
-    partial class MovedPesel
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,21 +52,21 @@ namespace VaccinationSystem.Data.Migrations
                         new
                         {
                             Id = "c8076fe7-faf6-757b-3452-6aa5f7a33c6c",
-                            ConcurrencyStamp = "9af34cf0-d516-40ee-a5e1-7a7106362c9d",
+                            ConcurrencyStamp = "4b364b08-e44d-4a2c-9858-66a38dce9847",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "53716615-3a3b-4948-9d28-8076bf328b4a",
-                            ConcurrencyStamp = "eefd876d-3274-4d36-9ff1-1af2d66aec32",
+                            ConcurrencyStamp = "f79c797f-7661-443b-9b93-980f6e0ba19a",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
                             Id = "410adff7-f581-4737-b4d6-0dc9a88dec59",
-                            ConcurrencyStamp = "e6ef3c99-c714-460a-8a30-2afe67ca8a3b",
+                            ConcurrencyStamp = "94829b77-7ec6-4122-b16b-cf6a3358c75e",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -201,7 +199,7 @@ namespace VaccinationSystem.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("VaccinationSystem.Data.ApplicationUser", b =>
+            modelBuilder.Entity("VaccinationSystem.Data.Classes.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -280,9 +278,242 @@ namespace VaccinationSystem.Data.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("VaccinationSystem.Data.Administrator", b =>
+            modelBuilder.Entity("VaccinationSystem.Data.Classes.Disease", b =>
                 {
-                    b.HasBaseType("VaccinationSystem.Data.ApplicationUser");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Diseases");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            Name = "Covid-19"
+                        },
+                        new
+                        {
+                            Id = -2,
+                            Name = "Covid-21"
+                        },
+                        new
+                        {
+                            Id = -3,
+                            Name = "Flu"
+                        },
+                        new
+                        {
+                            Id = -4,
+                            Name = "Chickenpox"
+                        },
+                        new
+                        {
+                            Id = -5,
+                            Name = "Smallpox"
+                        },
+                        new
+                        {
+                            Id = -6,
+                            Name = "Measles"
+                        },
+                        new
+                        {
+                            Id = -7,
+                            Name = "Mumps"
+                        },
+                        new
+                        {
+                            Id = -8,
+                            Name = "Polio"
+                        });
+                });
+
+            modelBuilder.Entity("VaccinationSystem.Data.Classes.Vaccine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("DiseaseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("RequiredDoses")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SerialNo")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiseaseId");
+
+                    b.ToTable("Vaccines");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            DiseaseId = -1,
+                            Name = "Moderna",
+                            RequiredDoses = 2,
+                            SerialNo = 12345
+                        },
+                        new
+                        {
+                            Id = -2,
+                            DiseaseId = -1,
+                            Name = "Prizer",
+                            RequiredDoses = 2,
+                            SerialNo = 1099231
+                        },
+                        new
+                        {
+                            Id = -3,
+                            DiseaseId = -8,
+                            Name = "Sabina",
+                            RequiredDoses = 1,
+                            SerialNo = 109923
+                        },
+                        new
+                        {
+                            Id = -4,
+                            DiseaseId = -5,
+                            Name = "Smallpox",
+                            RequiredDoses = 1,
+                            SerialNo = 223453464
+                        },
+                        new
+                        {
+                            Id = -5,
+                            DiseaseId = -2,
+                            Name = "Pfizer-21",
+                            RequiredDoses = 2,
+                            SerialNo = 12354659
+                        },
+                        new
+                        {
+                            Id = -6,
+                            DiseaseId = -3,
+                            Name = "Flu-21",
+                            RequiredDoses = 1,
+                            SerialNo = 12315659
+                        },
+                        new
+                        {
+                            Id = -7,
+                            DiseaseId = -3,
+                            Name = "Flu-22",
+                            RequiredDoses = 1,
+                            SerialNo = 56591234
+                        },
+                        new
+                        {
+                            Id = -8,
+                            DiseaseId = -4,
+                            Name = "Chickenpox",
+                            RequiredDoses = 1,
+                            SerialNo = 42565323
+                        },
+                        new
+                        {
+                            Id = -9,
+                            DiseaseId = -6,
+                            Name = "Measles",
+                            RequiredDoses = 1,
+                            SerialNo = 1142565323
+                        },
+                        new
+                        {
+                            Id = -10,
+                            DiseaseId = -7,
+                            Name = "Mumps",
+                            RequiredDoses = 1,
+                            SerialNo = 13245125
+                        });
+                });
+
+            modelBuilder.Entity("VaccinationSystem.Data.Classes.Visit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DoctorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PatientId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VaccineId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("PatientId");
+
+                    b.HasIndex("VaccineId");
+
+                    b.ToTable("Visit");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            Date = new DateTime(2022, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                            PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                            Status = 0,
+                            VaccineId = -1
+                        },
+                        new
+                        {
+                            Id = -2,
+                            Date = new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                            PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                            Status = 2,
+                            VaccineId = -3
+                        },
+                        new
+                        {
+                            Id = -3,
+                            Date = new DateTime(2022, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                            PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                            Status = 1,
+                            VaccineId = -7
+                        });
+                });
+
+            modelBuilder.Entity("VaccinationSystem.Data.Classes.Administrator", b =>
+                {
+                    b.HasBaseType("VaccinationSystem.Data.Classes.ApplicationUser");
 
                     b.HasDiscriminator().HasValue("Administrator");
 
@@ -291,7 +522,7 @@ namespace VaccinationSystem.Data.Migrations
                         {
                             Id = "6f5f0ee8-640a-4645-ba8b-a4e3fa51b3dd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3e973c68-c2f9-4000-b586-e0743dbd13c5",
+                            ConcurrencyStamp = "32855f50-1128-4cb1-a028-28e01ea6c73c",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -299,20 +530,21 @@ namespace VaccinationSystem.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPBGW/Zz6oqHBY4a28iHrxSrxFUH/4+iHlhSmTAmrE6oEFjpyDD6EWty/pFoIK/MMg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOjlbtcoQZ+rTkojlYLMAi3f7wUrbO0o3LVFOgbTlyXz/ejgyvXxdnuxc/gI8aW9Hg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7eba0b8e-69f0-424a-b309-73ce758f3205",
+                            SecurityStamp = "519b6e08-ae6e-4f05-ae5a-7eaad8b3c5e1",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
                 });
 
-            modelBuilder.Entity("VaccinationSystem.Data.Doctor", b =>
+            modelBuilder.Entity("VaccinationSystem.Data.Classes.Doctor", b =>
                 {
-                    b.HasBaseType("VaccinationSystem.Data.ApplicationUser");
+                    b.HasBaseType("VaccinationSystem.Data.Classes.ApplicationUser");
 
-                    b.Property<int>("LicenceId")
-                        .HasColumnType("int");
+                    b.Property<string>("LicenceId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("Doctor");
 
@@ -321,7 +553,7 @@ namespace VaccinationSystem.Data.Migrations
                         {
                             Id = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6e71819a-e7f6-4d53-a11e-b50574af7ebe",
+                            ConcurrencyStamp = "d1f7c488-c6c7-4c7b-80d8-da90d6f543ab",
                             Email = "doctor@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Default",
@@ -329,18 +561,18 @@ namespace VaccinationSystem.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DOCTOR@LOCALHOST.COM",
                             NormalizedUserName = "DOCTOR@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAELAkVDzvBljvSYcbrJ0b+gssUBWL8m38W434YrHlQrhTQDvjlLhqi2Y3gPFD+i+a/A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEv17LkCNyHECi1gzYo7cENrMXrNRL12k7Pes40Vz+JAZXcpQA9VinEzxBC8UDZa1Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3f88f172-8ed2-4552-895f-fcdf6e13f4d9",
+                            SecurityStamp = "0ce2df70-e341-4b06-a40d-3dc51ebbe27e",
                             TwoFactorEnabled = false,
                             UserName = "doctor@localhost.com",
-                            LicenceId = -1
+                            LicenceId = "-1"
                         });
                 });
 
-            modelBuilder.Entity("VaccinationSystem.Data.Patient", b =>
+            modelBuilder.Entity("VaccinationSystem.Data.Classes.Patient", b =>
                 {
-                    b.HasBaseType("VaccinationSystem.Data.ApplicationUser");
+                    b.HasBaseType("VaccinationSystem.Data.Classes.ApplicationUser");
 
                     b.Property<string>("Pesel")
                         .IsRequired()
@@ -353,7 +585,7 @@ namespace VaccinationSystem.Data.Migrations
                         {
                             Id = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5ba179de-fa7b-405a-8179-680bc755f1e3",
+                            ConcurrencyStamp = "1a088086-e283-4cbb-9cd6-152a66552dcf",
                             Email = "patient@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Default",
@@ -361,9 +593,9 @@ namespace VaccinationSystem.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PATIENT@LOCALHOST.COM",
                             NormalizedUserName = "PATIENT@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK637eNajfOajPTHXrNCt7c6QnifwUZWm/LECP0/pESRSZzdoFNDd52gWPh5U8LwcQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOxmbkIugfPxWe4R8+iJKt92tgRXfb6P+hJjPd95khacF8yP2GlIdM3lrQTLmdhwfA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c427f190-f1d1-4b64-938e-7679bd084ee4",
+                            SecurityStamp = "6cc8bf71-00bd-48a8-8fcf-3455559f286f",
                             TwoFactorEnabled = false,
                             UserName = "patient@localhost.com",
                             Pesel = "12345678901"
@@ -381,7 +613,7 @@ namespace VaccinationSystem.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("VaccinationSystem.Data.ApplicationUser", null)
+                    b.HasOne("VaccinationSystem.Data.Classes.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -390,7 +622,7 @@ namespace VaccinationSystem.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("VaccinationSystem.Data.ApplicationUser", null)
+                    b.HasOne("VaccinationSystem.Data.Classes.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -405,7 +637,7 @@ namespace VaccinationSystem.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VaccinationSystem.Data.ApplicationUser", null)
+                    b.HasOne("VaccinationSystem.Data.Classes.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -414,11 +646,45 @@ namespace VaccinationSystem.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("VaccinationSystem.Data.ApplicationUser", null)
+                    b.HasOne("VaccinationSystem.Data.Classes.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("VaccinationSystem.Data.Classes.Vaccine", b =>
+                {
+                    b.HasOne("VaccinationSystem.Data.Classes.Disease", "Disease")
+                        .WithMany()
+                        .HasForeignKey("DiseaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Disease");
+                });
+
+            modelBuilder.Entity("VaccinationSystem.Data.Classes.Visit", b =>
+                {
+                    b.HasOne("VaccinationSystem.Data.Classes.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VaccinationSystem.Data.Classes.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId");
+
+                    b.HasOne("VaccinationSystem.Data.Classes.Vaccine", "Vaccine")
+                        .WithMany()
+                        .HasForeignKey("VaccineId");
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
+
+                    b.Navigation("Vaccine");
                 });
 #pragma warning restore 612, 618
         }

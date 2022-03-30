@@ -6,7 +6,7 @@ namespace VaccinationSystem.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly ApplicationDbContext context;
+        protected readonly ApplicationDbContext context;
 
         public GenericRepository(ApplicationDbContext context)
         {
@@ -25,8 +25,7 @@ namespace VaccinationSystem.Repositories
             if (entity == null)
                 return false;
             context.Set<T>().Remove(entity);
-            var result = await context.SaveChangesAsync();
-            return result > 0;
+            return await context.SaveChangesAsync()>0;
         }
         public async Task<bool> ExistsAsync(int id)
         {
@@ -47,8 +46,7 @@ namespace VaccinationSystem.Repositories
         public async Task<bool> UpdateAsync(T entity)
         {
             context.Update(entity);
-            var result = await context.SaveChangesAsync();
-            return result > 0;
+            return await context.SaveChangesAsync()>0;
         }
     }
 }

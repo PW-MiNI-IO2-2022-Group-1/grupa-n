@@ -13,7 +13,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+{
     options.SignIn.RequireConfirmedAccount = true;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
@@ -26,6 +27,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IDiseaseRepository, DiseaseRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+builder.Services.AddScoped<IVaccineRepository, VaccineRepository>();
+builder.Services.AddScoped<IAdministratorRepository, AdministratorRepository>();
 
 var app = builder.Build();
 

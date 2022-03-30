@@ -14,9 +14,13 @@ namespace VaccinationSystem.Data.Classes
         public int Id { get; set; }
 
         public string? PatientId { get; set; }
+        public int? VaccineId { get; set; }
 
         [ForeignKey("PatientId")]
         public Patient? Patient { get; set; }
+
+        [ForeignKey("VaccineId")]
+        public Vaccine? Vaccine { get; set; }
 
         [Required]
         public string? DoctorId { get; set; }  
@@ -29,12 +33,6 @@ namespace VaccinationSystem.Data.Classes
 
         [Required]
         public DateTime Date { get; set; }
-
-        [Required]
-        public int VaccineId { get; set; }  
-
-        [ForeignKey("VaccineId")]
-        public Vaccine? Vaccine { get; set; }
 
         // AssingDoctor, AssignPatient, ChangeStatus to odpowiednie settery, więc nie ma po co tworzyć tych metod
     }

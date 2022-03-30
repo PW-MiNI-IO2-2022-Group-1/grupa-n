@@ -44,7 +44,7 @@ namespace VaccinationSystem.Data.Configurations
                 },
                 new Vaccine
                 {
-                    Id = -5, 
+                    Id = -5,
                     Name ="Pfizer-21",
                     SerialNo = 12354659,
                     DiseaseId = -2,
