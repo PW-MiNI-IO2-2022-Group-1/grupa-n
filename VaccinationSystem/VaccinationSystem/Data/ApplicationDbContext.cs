@@ -19,13 +19,11 @@ namespace VaccinationSystem.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
             builder.ApplyConfiguration(new RoleSeedConfiguration());
             builder.ApplyConfiguration(new AdminSeedConfiguration());
             builder.ApplyConfiguration(new DoctorSeedConfiguration());
             builder.ApplyConfiguration(new PatientSeedConfiguration());
             builder.ApplyConfiguration(new UserRoleSeedConfiguration());
-
             builder.ApplyConfiguration(new DiseaseSeedConfiguration());
             builder.ApplyConfiguration(new VaccineSeedConfiguration());
             builder.ApplyConfiguration(new VisitSeedConfiguration());

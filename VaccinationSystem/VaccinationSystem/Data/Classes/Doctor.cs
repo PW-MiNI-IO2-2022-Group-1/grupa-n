@@ -6,7 +6,7 @@ namespace VaccinationSystem.Data.Classes
     public class Doctor : ApplicationUser
     {
         [Required]
-        public int LicenceId { get; set; }
+        public string LicenceId { get; set; }
 
         Visit AddVaccination()
         {

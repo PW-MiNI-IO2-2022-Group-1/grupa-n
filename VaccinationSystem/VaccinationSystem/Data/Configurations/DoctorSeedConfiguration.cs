@@ -22,7 +22,7 @@ namespace VaccinationSystem.Data.Configurations
                     NormalizedEmail = "DOCTOR@LOCALHOST.COM",
                     PasswordHash = hasher.HashPassword(null, "doctor1"),
                     EmailConfirmed = true,
-                    LicenceId = -1
+                    LicenceId = "-1"
                 }
             );
         }
