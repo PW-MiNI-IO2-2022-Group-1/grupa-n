@@ -13,7 +13,7 @@ namespace Tests
             // Arrange
             var context = InMemoryDbContext.Get();
             var repo = new VaccinationSystem.Repositories.AdministratorRepository(context);
-            var doctor = context.Users.(user => user.LastName == "Doctor").First();
+            var doctor = context.Users.Where(user => user.LastName == "Doctor").First();
             string doctorId = doctor.Id;
             Assert.False(string.IsNullOrEmpty(doctorId));
 
