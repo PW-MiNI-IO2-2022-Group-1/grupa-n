@@ -1,0 +1,37 @@
+﻿@page
+@model VaccinationSystem.Pages.AdminPanel.Doctors.DeleteModel
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Doctor</h4>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>License ID</th>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+        <tr>
+            <td>
+                @Model.Doctor.LicenceId
+            </td>
+            <td>
+                @Model.Doctor.FirstName @Model.Doctor.LastName
+            </td>
+            <td>
+                @Model.Doctor.Email
+            </td>
+        </tr>
+    </table>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Doctor.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> &nbsp; |
+        <a asp-page="../Index" class="px-2">Back to List</a>
+    </form>
+</div>
