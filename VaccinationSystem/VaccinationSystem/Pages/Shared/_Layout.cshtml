@@ -22,12 +22,21 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/AdminPanel/Index">Admin panel</a>
-                        </li>
+                        @if (User.IsInRole(Roles.Admin.Name))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Index">Admin panel</a>
+                            </li>
+                        } else if (User.IsInRole(Roles.Doctor.Name))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" 
+                                asp-page="/Doctor/VaccinationSlots/Index">Manage your visits</a>
+                            </li>
+                        } else if (User.IsInRole(Roles.Patient.Name))
+                        {
+                            
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

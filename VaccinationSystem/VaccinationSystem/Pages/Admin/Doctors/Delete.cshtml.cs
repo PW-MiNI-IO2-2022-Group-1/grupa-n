@@ -17,7 +17,7 @@ namespace VaccinationSystem.Pages.AdminPanel.Doctors
         }
 
         [BindProperty]
-        public Doctor Doctor { get; private set; }
+        public Data.Classes.Doctor Doctor { get; private set; }
 
         public IActionResult OnGet(string? id)
         {

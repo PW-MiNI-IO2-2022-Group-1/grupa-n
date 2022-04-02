@@ -13,20 +13,22 @@ namespace VaccinationSystem.Repositories
         public async Task<bool> CreateVisit(DateTime date, string DoctorId)
         {
             Visit visit = new Visit() { DoctorId = DoctorId, Date = date, Status = VaccinationStatus.Planned };
-            context.AddAsync(visit);
+            _ = context.AddAsync(visit);
             return await context.SaveChangesAsync() > 0;
         }
         public async Task<bool> DeleteVisit(int visitId)
         {
-            var entity = context.Visit.FirstOrDefault(visit => visit.Id == visitId);
+            var entity = context.Visit?.FirstOrDefault(visit => visit.Id == visitId);
             if (entity == null || entity.Status != VaccinationStatus.Planned) 
                 return false;
-            context.Visit.Remove(entity);
+            context.Visit?.Remove(entity);
             return await context.SaveChangesAsync() > 0;
         }
-        public async Task<List<Visit>> GetVisits(string DoctorId, int page, string? onlyReserved = null, DateTime? startDate = null, DateTime? endDate = null)
+        public async Task<List<Visit>?> GetVisits(string DoctorId, int page, string? onlyReserved = null, DateTime? startDate = null, DateTime? endDate = null)
         {
-            var entity = context.Visit.Where(visit => visit.DoctorId == DoctorId && visit.Status == VaccinationStatus.Planned);
+            var entity = context.Visit?.Where(visit => visit.DoctorId == DoctorId && visit.Status == VaccinationStatus.Planned);
+            if (entity == null)
+                return null;
             if (startDate != null) 
                 entity = entity.Where(visit => visit.Date >= startDate);
             if (endDate !=null) 
@@ -39,7 +41,7 @@ namespace VaccinationSystem.Repositories
         }
         public async Task<bool> VaccinatePatient(int visitId)
         {
-            var entity = context.Visit.FirstOrDefault(visit => visit.Id == visitId);
+            var entity = context.Visit?.FirstOrDefault(visit => visit.Id == visitId);
             if (entity == null) 
                 return false;
             entity.Status = VaccinationStatus.Completed;

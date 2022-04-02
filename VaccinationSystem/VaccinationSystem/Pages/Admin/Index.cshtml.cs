@@ -23,7 +23,7 @@ namespace VaccinationSystem.Pages
             _vaccineRepository = vaccineRepository;
         }
 
-        public IList<Doctor> Doctors { get; private set; }
+        public IList<Data.Classes.Doctor> Doctors { get; private set; }
         public IList<Patient> Patients { get; private set; }
         public IList<Visit> Visits { get; private set; }
 
