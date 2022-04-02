@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
 using VaccinationSystem.IRepositories;
 
 namespace VaccinationSystem.Pages
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = Roles.Admin.Name)]
     public class AdminPanelModel : PageModel
     {
         private readonly ILogger<AdminPanelModel> _logger;

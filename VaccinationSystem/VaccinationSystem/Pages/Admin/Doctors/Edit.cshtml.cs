@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
 using VaccinationSystem.IRepositories;
 
 namespace VaccinationSystem.Pages.AdminPanel.Doctors
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = Roles.Admin.Name)]
     public class EditModel : PageModel
     {
         private readonly IAdministratorRepository _administratorRepository;

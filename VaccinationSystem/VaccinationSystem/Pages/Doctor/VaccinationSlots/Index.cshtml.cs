@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using VaccinationSystem.Data.Classes;
 
 namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
 {
+    [Authorize(Roles = Roles.Doctor.Name)]
     public class IndexModel : PageModel
     {
         private readonly VaccinationSystem.Data.ApplicationDbContext _context;
