@@ -1,0 +1,104 @@
+﻿@page
+@model VaccinationSystem.Pages.AdminPanelModel
+@{
+    ViewData["Title"] = "Admin panel";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>Use this page to manage the site as admin.</p>
+<p>@ViewData["Message"]</p>
+<h4>Doctors</h4>
+<table class="table">
+    <tr>
+        <th>License ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    @foreach (var doctor in Model.Doctors)
+    {
+        <tr>
+            <td>
+                @doctor.LicenceId
+            </td>
+            <td>
+                @doctor.FirstName @doctor.LastName
+            </td>
+            <td>
+                @doctor.Email
+            </td>
+            <td>
+                <a asp-page="./Doctors/Edit" asp-route-id="@doctor.Id" type="button">Edit</a>
+            </td>
+            <td>
+                <a asp-page="./Doctors/Delete" asp-route-id="@doctor.Id" type="button">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+<a asp-page="./Doctors/Add">Add doctor</a>
+<hr />
+
+<h4 style="padding-top: 50px;">Patients</h4>
+<table class="table">
+    <tr>
+        <th>Pesel</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    @foreach (var patient in Model.Patients)
+    {
+        <tr>
+            <td>
+                @patient.Pesel
+            </td>
+            <td>
+                @patient.FirstName @patient.LastName
+            </td>
+            <td>
+                @patient.Email
+            </td>
+            <td>
+                <a asp-page="./Patients/Edit" asp-route-id="@patient.Id" type="button">Edit</a>
+            </td>
+            <td>
+                <a asp-page="./Patients/Delete" asp-route-id="@patient.Id" type="button">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<h4 style="padding-top: 50px;">Visits</h4>
+<table class="table">
+    <tr>
+        <th>Date</th>
+        <th>Patient</th>
+        <th>Doctor</th>
+        <th>Vaccine</th>
+        <th>Status</th>
+    </tr>
+    @foreach (var visit in Model.Visits)
+    {
+        <tr>
+            <td>
+                @visit.Date
+            </td>
+            <td>
+                @visit.Patient.FirstName @visit.Patient.LastName
+            </td>
+            <td>
+                @visit.Doctor.FirstName @visit.Doctor.LastName
+            </td>
+            <td>
+                @visit.Vaccine?.Name
+            </td>
+            <td>
+                @visit.Status
+            </td>
+        </tr>
+    }
+</table>
