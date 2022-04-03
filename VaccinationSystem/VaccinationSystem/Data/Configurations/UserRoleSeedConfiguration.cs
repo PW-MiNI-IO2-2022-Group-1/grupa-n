@@ -11,17 +11,17 @@ namespace VaccinationSystem.Data.Configurations
             builder.HasData(
                 new IdentityUserRole<string>
                 {
-                    RoleId = RoleIdentifiers.Admin, //admin
+                    RoleId = Roles.Admin.Id,
                     UserId = "6f5f0ee8-640a-4645-ba8b-a4e3fa51b3dd"
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = RoleIdentifiers.Patient, //patient
+                    RoleId = Roles.Patient.Id,
                     UserId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a"
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = RoleIdentifiers.Doctor, //doctor
+                    RoleId = Roles.Doctor.Id, //doctor
                     UserId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a"
                 }
             );

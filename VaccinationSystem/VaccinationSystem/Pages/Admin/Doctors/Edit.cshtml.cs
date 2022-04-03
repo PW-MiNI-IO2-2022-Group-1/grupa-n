@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
 using VaccinationSystem.IRepositories;
 
-namespace VaccinationSystem.Pages.AdminPanel.Patients
+namespace VaccinationSystem.Pages.AdminPanel.Doctors
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = Roles.Admin.Name)]
     public class EditModel : PageModel
     {
         private readonly IAdministratorRepository _administratorRepository;
@@ -16,8 +17,10 @@ namespace VaccinationSystem.Pages.AdminPanel.Patients
             _administratorRepository = administratorRepository;
         }
 
+        // trzeba ApplicationUser bo Doctor ma required field LicenceId
+        // ktorego tu nie zmieniamy, ale powoduje !ModelState.IsValid
         [BindProperty]
-        public Patient Patient { get; set; }
+        public ApplicationUser Doctor { get; set; }
 
         public IActionResult OnGet(string? id)
         {
@@ -26,9 +29,9 @@ namespace VaccinationSystem.Pages.AdminPanel.Patients
                 return NotFound();
             }
 
-            Patient = _administratorRepository.GetPatient(id);
+            Doctor = _administratorRepository.GetDoctor(id);
 
-            if (Patient == null)
+            if (Doctor == null)
             {
                 return NotFound();
             }
@@ -40,10 +43,11 @@ namespace VaccinationSystem.Pages.AdminPanel.Patients
         {
             if (!ModelState.IsValid)
             {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).ToList();
                 return Page();
             }
 
-            var res = await _administratorRepository.EditPatient(Patient.Id, Patient.FirstName, Patient.LastName, Patient.Pesel, Patient.Email, Patient.PhoneNumber);
+            var res = await _administratorRepository.EditDoctor(Doctor.Id, Doctor.FirstName, Doctor.LastName, Doctor.Email);
 
             if (res == null)
             {

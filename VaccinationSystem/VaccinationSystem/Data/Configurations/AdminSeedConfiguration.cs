@@ -13,14 +13,14 @@ namespace VaccinationSystem.Data.Configurations
             _ = builder.HasData(
                 new Administrator
                 {
-                    Id = "6f5f0ee8-640a-4645-ba8b-a4e3fa51b3dd", //random guid
+                    Id = Roles.Admin.Id,
                     FirstName = "System",
                     LastName = "Admin",
                     UserName = "admin@localhost.com",
                     NormalizedUserName = "ADMIN@LOCALHOST.COM",
                     Email = "admin@localhost.com",
                     NormalizedEmail = "ADMIN@LOCALHOST.COM",
-                    PasswordHash = hasher.HashPassword(null, "admin1"),
+                    PasswordHash = hasher.HashPassword(new (), "admin1"),
                     EmailConfirmed = true,
                 }
             );

@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
 using VaccinationSystem.IRepositories;
 
 namespace VaccinationSystem.Pages.AdminPanel.Doctors
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = Roles.Admin.Name)]
     public class AddModel : PageModel
     {
         private readonly IAdministratorRepository _administratorRepository;

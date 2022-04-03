@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using VaccinationSystem.Data.Classes;
 using VaccinationSystem.IRepositories;
 
-namespace VaccinationSystem.Pages.PatientPanel
+namespace VaccinationSystem.Pages.Patient
 {
-
     [Authorize(Roles = "Patient")]
     public class PatientPanelModel : PageModel
     {
@@ -14,7 +13,7 @@ namespace VaccinationSystem.Pages.PatientPanel
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IPatientRepository _patientRepository;
 
-        public Patient Patient { get; private set; }
+        public Data.Classes.Patient Patient { get; private set; }
         public IList<Visit> Visits { get; private set; }
 
         public PatientPanelModel(
@@ -29,7 +28,7 @@ namespace VaccinationSystem.Pages.PatientPanel
 
         public async Task OnGetAsync()
         {
-            Patient = (Patient) await _userManager.GetUserAsync(User);
+            Patient = (Data.Classes.Patient) await _userManager.GetUserAsync(User);
             Visits = await _patientRepository.GetAllHistoryVisits(Patient.Id);
 
             ViewData["Message"] = $"Welcome {Patient.FirstName} {Patient.LastName}";

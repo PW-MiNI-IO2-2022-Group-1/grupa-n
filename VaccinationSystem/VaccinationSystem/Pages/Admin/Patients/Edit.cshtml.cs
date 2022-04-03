@@ -1,23 +1,24 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
 using VaccinationSystem.IRepositories;
 
 namespace VaccinationSystem.Pages.AdminPanel.Patients
 {
-    [Authorize(Roles = "Administrator")]
-    public class DeleteModel : PageModel
+    [Authorize(Roles = Roles.Admin.Name)]
+    public class EditModel : PageModel
     {
         private readonly IAdministratorRepository _administratorRepository;
 
-        public DeleteModel(IAdministratorRepository administratorRepository)
+        public EditModel(IAdministratorRepository administratorRepository)
         {
             _administratorRepository = administratorRepository;
         }
 
         [BindProperty]
-        public Patient Patient { get; private set; }
+        public Data.Classes.Patient Patient { get; set; }
 
         public IActionResult OnGet(string? id)
         {
@@ -36,9 +37,16 @@ namespace VaccinationSystem.Pages.AdminPanel.Patients
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string id)
+        public async Task<IActionResult> OnPostAsync()
         {
-            if (!await _administratorRepository.DeletePatient(id))
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var res = await _administratorRepository.EditPatient(Patient.Id, Patient.FirstName, Patient.LastName, Patient.Pesel, Patient.Email, Patient.PhoneNumber);
+
+            if (res == null)
             {
                 return NotFound();
             }
