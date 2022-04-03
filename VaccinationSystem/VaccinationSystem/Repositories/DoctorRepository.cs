@@ -7,10 +7,10 @@ namespace VaccinationSystem.Repositories
 {
     public class DoctorRepository : GenericRepository<Doctor>, IDoctorRepository
     {
-        private readonly VisitRepository visitRepository;
-        public DoctorRepository(ApplicationDbContext context, VisitRepository visitRepository) : base(context)
+        private readonly IVisitRepository iVisitRepository;
+        public DoctorRepository(ApplicationDbContext context, IVisitRepository iVisitRepository) : base(context)
         {
-            this.visitRepository = visitRepository;
+            this.iVisitRepository = iVisitRepository;
         }
         public async Task<Visit?> CreateVisit(DateTime date, string DoctorId)
         {
@@ -21,15 +21,15 @@ namespace VaccinationSystem.Repositories
             }
 
             Visit visit = new Visit() { DoctorId = DoctorId, Date = date, Status = VaccinationStatus.Planned };
-            var asyncVisit = await visitRepository.AddAsync(visit);
-            return asyncVisit;
+            var newVisit = await iVisitRepository.AddAsync(visit);
+            return newVisit;
         }
         public async Task<bool> DeleteVisit(int visitId)
         {
             var entity = context.Visit?.FirstOrDefault(visit => visit.Id == visitId);
             if (entity == null || entity.Status != VaccinationStatus.Planned) 
                 return false;
-            var result = await visitRepository.DeleteAsync(visitId);
+            var result = await iVisitRepository.DeleteAsync(visitId);
             return result;
         }
         public async Task<List<Visit>?> GetVisits(string DoctorId, int page, string? onlyReserved = null, DateTime? startDate = null, DateTime? endDate = null)
