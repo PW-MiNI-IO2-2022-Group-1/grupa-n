@@ -48,6 +48,12 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
             
             var visit = await _doctorRepository.CreateVisit(VisitDateTime, user.Id);
+            if (visit == null)
+            {
+                ModelState.AddModelError(string.Empty, "This slot is already booked.");
+                return Page();
+            }
+                
 
             return RedirectToPage("./Index");
         }

@@ -14,6 +14,8 @@ namespace VaccinationSystem.Repositories
         }
         public async Task<Visit?> CreateVisit(DateTime date, string DoctorId)
         {
+            if ((date - DateTime.Now).Days < 1)
+                return null;
             var entity = context.Visit?.Where(visit => visit.DoctorId == DoctorId && Math.Abs((visit.Date - date).Minutes) < 15);
             if (entity != null)
             {
