@@ -82,7 +82,8 @@ namespace VaccinationSystem.Repositories
             return await context.Users
                 .Join(context.UserRoles, (user => user.Id), (userRole => userRole.UserId), ((user, userRole) => new { user, userRole }))
                 .Where(result => result.userRole.RoleId == Roles.Doctor.Id)
-                .Select(result => (Doctor)result.user).ToListAsync();
+                .Select(result => (Doctor)result.user)
+                .ToListAsync();
         }
 
         public async Task<List<Patient>> GetAllPatients()
@@ -90,7 +91,8 @@ namespace VaccinationSystem.Repositories
             return await context.Users
                 .Join(context.UserRoles, (user => user.Id), (userRole => userRole.UserId), ((user, userRole) => new { user, userRole }))
                 .Where(result => result.userRole.RoleId == Roles.Patient.Id)
-                .Select(result => (Patient)result.user).ToListAsync();
+                .Select(result => (Patient)result.user)
+                .ToListAsync();
         }
 
         public async Task<List<Visit>> GetAllVisits(string? disease = null, string? doctorId = null, string? patientId = null)
@@ -99,7 +101,11 @@ namespace VaccinationSystem.Repositories
             if (disease != null) entity = entity?.Where(visit => visit.Vaccine.Disease.Name == disease);
             if (doctorId != null) entity = entity?.Where(visit => visit.DoctorId == doctorId);
             if (patientId != null) entity = entity?.Where(visit => visit.PatientId == patientId);
-            return await entity?.ToListAsync();
+            return await entity
+                .Include(visit => visit.Patient)
+                .Include(visit => visit.Doctor)
+                .Include(visit => visit.Vaccine)
+                .ToListAsync();
         }
 
         public Doctor? GetDoctor(string doctorId)

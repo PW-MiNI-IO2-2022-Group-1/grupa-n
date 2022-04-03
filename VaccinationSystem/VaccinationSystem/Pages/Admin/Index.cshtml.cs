@@ -34,13 +34,6 @@ namespace VaccinationSystem.Pages
             Doctors = await _administratorRepository.GetAllDoctors();
             Patients = await _administratorRepository.GetAllPatients();
             Visits = await _administratorRepository.GetAllVisits();
-            // Vaccine w zwroconych obiektach Visit jest nullem, pomimo
-            // tego ze VaccineId ma ustalona wartosc,
-            // robie obejscie
-            foreach (var visit in Visits)
-            {
-                visit.Vaccine = await _vaccineRepository.GetAsync((int)visit.VaccineId);
-            }
         }
     }
 }
