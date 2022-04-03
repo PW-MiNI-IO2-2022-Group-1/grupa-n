@@ -23,8 +23,10 @@ namespace VaccinationSystem.Repositories
             //}
 
             Visit visit = new Visit() { DoctorId = DoctorId, Date = date, Status = VaccinationStatus.Planned };
+
             var newVisit = await iVisitRepository.AddAsync(visit);
             return newVisit;
+
         }
         public async Task<bool> DeleteVisit(int visitId)
         {
@@ -33,6 +35,7 @@ namespace VaccinationSystem.Repositories
                 return false;
             var result = await iVisitRepository.DeleteAsync(visitId);
             return result;
+
         }
         public async Task<List<Visit>?> GetVisits(string DoctorId, int page, string? onlyReserved = null, DateTime? startDate = null, DateTime? endDate = null)
         {
