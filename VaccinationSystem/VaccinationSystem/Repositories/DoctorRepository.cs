@@ -10,11 +10,18 @@ namespace VaccinationSystem.Repositories
         public DoctorRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public async Task<bool> CreateVisit(DateTime date, string DoctorId)
+        public async Task<Visit?> CreateVisit(DateTime date, string DoctorId)
         {
+            var entity = context.Visit?.Where(visit => visit.DoctorId == DoctorId && Math.Abs((visit.Date - date).Minutes) < 15);
+            if(entity != null)
+            {
+                return null;
+            }
+
             Visit visit = new Visit() { DoctorId = DoctorId, Date = date, Status = VaccinationStatus.Planned };
-            _ = context.AddAsync(visit);
-            return await context.SaveChangesAsync() > 0;
+            var asyncVisit = context.AddAsync(visit);
+            await context.SaveChangesAsync();
+            return await asyncVisit;
         }
         public async Task<bool> DeleteVisit(int visitId)
         {

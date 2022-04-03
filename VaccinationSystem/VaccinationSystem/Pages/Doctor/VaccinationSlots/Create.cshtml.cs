@@ -1,37 +1,42 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
+using VaccinationSystem.IRepositories;
+
+
 
 namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
 {
-    [Authorize(Roles = Roles.Doctor.Name)]
+    [Authorize(Roles = "Doctor")]
     public class CreateModel : PageModel
     {
+        private readonly IDoctorRepository _doctorRepository;
         private readonly VaccinationSystem.Data.ApplicationDbContext _context;
 
-        public CreateModel(VaccinationSystem.Data.ApplicationDbContext context)
+        public CreateModel(
+            IDoctorRepository doctorRepository,
+            VaccinationSystem.Data.ApplicationDbContext context
+
+            )
         {
+            _doctorRepository = doctorRepository;
             _context = context;
         }
 
+        [BindProperty]
+        public DateTime VisitDateTime { get; set; }
         public IActionResult OnGet()
         {
-        ViewData["DoctorId"] = new SelectList(_context.Set<Data.Classes.Doctor>(), "Id", "Id");
-        ViewData["PatientId"] = new SelectList(_context.Set<Patient>(), "Id", "Id");
-        ViewData["VaccineId"] = new SelectList(_context.Vaccines, "Id", "Name");
+            VisitDateTime = DateTime.Today;
             return Page();
         }
-
-        [BindProperty]
-        public Visit Visit { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -40,9 +45,9 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
             {
                 return Page();
             }
-
-            _context.Visit.Add(Visit);
-            await _context.SaveChangesAsync();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            
+            var visit = await _doctorRepository.CreateVisit(VisitDateTime, user.Id);
 
             return RedirectToPage("./Index");
         }
