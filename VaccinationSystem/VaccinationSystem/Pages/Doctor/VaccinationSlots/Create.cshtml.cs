@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
 using VaccinationSystem.IRepositories;
+using VaccinationSystem.Validations;
 
 
 
@@ -29,7 +30,7 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
             _doctorRepository = doctorRepository;
             _context = context;
         }
-
+        [FutureDateValidation(1, ErrorMessage ="Too late to book this slot.")]
         [BindProperty]
         public DateTime VisitDateTime { get; set; }
         public IActionResult OnGet()

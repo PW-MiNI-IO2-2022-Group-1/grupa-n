@@ -16,11 +16,11 @@ namespace VaccinationSystem.Repositories
         {
             if ((date - DateTime.Now).Days < 1)
                 return null;
-            var entity = context.Visit?.Where(visit => visit.DoctorId == DoctorId && Math.Abs((visit.Date - date).Minutes) < 15);
-            if (entity != null)
-            {
-                return null;
-            }
+            //var entity = context.Visit?.Where(visit => visit.DoctorId == DoctorId && ((visit.Date - date).Minutes < 15));// && (-15 < (visit.Date - date).Minutes));
+            //if (entity == null || entity?.ToList().Count > 0)
+            //{
+            //    return null;
+            //}
 
             Visit visit = new Visit() { DoctorId = DoctorId, Date = date, Status = VaccinationStatus.Planned };
             var newVisit = await iVisitRepository.AddAsync(visit);
