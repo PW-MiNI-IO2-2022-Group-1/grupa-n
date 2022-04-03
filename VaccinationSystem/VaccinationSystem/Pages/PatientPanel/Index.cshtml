@@ -1,0 +1,41 @@
+﻿@page
+@model VaccinationSystem.Pages.PatientPanel.PatientPanelModel
+@{
+    ViewData["Title"] = "Patient panel";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>Use this page to manage your account as patient.</p>
+<p>@ViewData["Message"]</p>
+
+<h4>History of visits</h4>
+<table class="table">
+    <tr>
+        <th>Date</th>
+        <th>Patient</th>
+        <th>Doctor</th>
+        <th>Vaccine</th>
+        <th>Status</th>
+    </tr>
+    @foreach (var visit in Model.Visits)
+    {
+        <tr>
+            <td>
+                @visit.Date
+            </td>
+            <td>
+                @visit.Patient?.FirstName @visit.Patient?.LastName
+            </td>
+            <td>
+                @visit.Doctor?.FirstName @visit.Doctor?.LastName
+            </td>
+            <td>
+                @visit.Vaccine?.Name
+            </td>
+            <td>
+                @visit.Status
+            </td>
+        </tr>
+    }
+</table>
