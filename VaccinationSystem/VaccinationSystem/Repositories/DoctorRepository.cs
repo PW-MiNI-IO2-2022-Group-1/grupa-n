@@ -7,22 +7,35 @@ namespace VaccinationSystem.Repositories
 {
     public class DoctorRepository : GenericRepository<Doctor>, IDoctorRepository
     {
-        public DoctorRepository(ApplicationDbContext context) : base(context)
+        private readonly IVisitRepository iVisitRepository;
+        public DoctorRepository(ApplicationDbContext context, IVisitRepository iVisitRepository) : base(context)
         {
+            this.iVisitRepository = iVisitRepository;
         }
-        public async Task<bool> CreateVisit(DateTime date, string DoctorId)
+        public async Task<Visit?> CreateVisit(DateTime date, string DoctorId)
         {
+            if ((date - DateTime.Now).Days < 1)
+                return null;
+            //var entity = context.Visit?.Where(visit => visit.DoctorId == DoctorId && ((visit.Date - date).Minutes < 15));// && (-15 < (visit.Date - date).Minutes));
+            //if (entity == null || entity?.ToList().Count > 0)
+            //{
+            //    return null;
+            //}
+
             Visit visit = new Visit() { DoctorId = DoctorId, Date = date, Status = VaccinationStatus.Planned };
-            _ = context.AddAsync(visit);
-            return await context.SaveChangesAsync() > 0;
+
+            var newVisit = await iVisitRepository.AddAsync(visit);
+            return newVisit;
+
         }
         public async Task<bool> DeleteVisit(int visitId)
         {
             var entity = context.Visit?.FirstOrDefault(visit => visit.Id == visitId);
             if (entity == null || entity.Status != VaccinationStatus.Planned) 
                 return false;
-            context.Visit?.Remove(entity);
-            return await context.SaveChangesAsync() > 0;
+            var result = await iVisitRepository.DeleteAsync(visitId);
+            return result;
+
         }
         public async Task<List<Visit>?> GetVisits(string DoctorId, int page, string? onlyReserved = null, DateTime? startDate = null, DateTime? endDate = null)
         {
