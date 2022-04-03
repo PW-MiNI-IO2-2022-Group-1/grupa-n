@@ -14,26 +14,10 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Visit.PatientId" class="control-label"></label>
-                <select asp-for="Visit.PatientId" class ="form-control" asp-items="ViewBag.PatientId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Visit.VaccineId" class="control-label"></label>
-                <select asp-for="Visit.VaccineId" class ="form-control" asp-items="ViewBag.VaccineId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Visit.DoctorId" class="control-label"></label>
-                <select asp-for="Visit.DoctorId" class ="form-control" asp-items="ViewBag.DoctorId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Visit.Status" class="control-label"></label>
-                <select asp-for="Visit.Status" class="form-control"></select>
-                <span asp-validation-for="Visit.Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Visit.Date" class="control-label"></label>
-                <input asp-for="Visit.Date" class="form-control" />
-                <span asp-validation-for="Visit.Date" class="text-danger"></span>
+                <label asp-for="VisitDateTime" class="control-label"></label>
+                <input asp-for="VisitDateTime" class="form-control" />
+                <span asp-validation-for="VisitDateTime" class="text-danger"></span>
+
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
