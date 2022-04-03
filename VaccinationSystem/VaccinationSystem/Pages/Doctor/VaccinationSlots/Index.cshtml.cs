@@ -30,6 +30,7 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
                 .Include(v => v.Doctor)
                 .Include(v => v.Patient)
                 .Include(v => v.Vaccine).ToListAsync();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
         }
     }
 }
