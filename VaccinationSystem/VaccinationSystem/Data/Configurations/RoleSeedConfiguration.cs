@@ -11,21 +11,21 @@ namespace VaccinationSystem.Data.Configurations
             builder.HasData(
                 new IdentityRole
                 {
-                    Id = RoleIdentifiers.Admin,
-                    Name = "Administrator",
-                    NormalizedName = "ADMINISTRATOR",
+                    Id = Roles.Admin.Id,
+                    Name = Roles.Admin.Name,
+                    NormalizedName = Roles.Admin.Name.ToUpper(),
                 },
                 new IdentityRole
                 {
-                    Id = RoleIdentifiers.Doctor, //random guid
-                    Name = "Doctor",
-                    NormalizedName = "DOCTOR",
+                    Id = Roles.Doctor.Id,
+                    Name = Roles.Doctor.Name,
+                    NormalizedName = Roles.Doctor.Name.ToUpper(),
                 },
                 new IdentityRole
                 {
-                    Id = RoleIdentifiers.Patient, //random guid
-                    Name = "Patient",
-                    NormalizedName = "PATIENT",
+                    Id = Roles.Patient.Id,
+                    Name = Roles.Patient.Name,
+                    NormalizedName = Roles.Patient.Name.ToUpper(),
                 }
             );
         }

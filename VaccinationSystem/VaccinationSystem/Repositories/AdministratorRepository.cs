@@ -19,13 +19,13 @@ namespace VaccinationSystem.Repositories
                 FirstName = firstName,
                 LastName = lastName,
                 Email = email,
-                PasswordHash = hasher.HashPassword(null, password),
+                PasswordHash = hasher.HashPassword(new ApplicationUser(), password),
                 EmailConfirmed = false
             };
             var id = context.Add(doctor).Entity.Id;
             var userRole = new IdentityUserRole<string>
             {
-                RoleId = RoleIdentifiers.Doctor,
+                RoleId = Roles.Doctor.Id,
                 UserId = id
             };
             await context.UserRoles.AddAsync(userRole);
@@ -63,7 +63,7 @@ namespace VaccinationSystem.Repositories
             return (Doctor)entity;
         }
 
-        public async Task<Patient> EditPatient(string patientId, string? firstName = null, string? lastName = null, string? pesel = null, string? email = null, string? phoneNumber = null)
+        public async Task<Patient?> EditPatient(string patientId, string? firstName = null, string? lastName = null, string? pesel = null, string? email = null, string? phoneNumber = null)
         {
             Patient? entity = (Patient?)context.Users.FirstOrDefault(user => user.Id == patientId);
             if (entity == null)
@@ -81,7 +81,7 @@ namespace VaccinationSystem.Repositories
         {
             return await context.Users
                 .Join(context.UserRoles, (user => user.Id), (userRole => userRole.UserId), ((user, userRole) => new { user, userRole }))
-                .Where(result => result.userRole.RoleId == RoleIdentifiers.Doctor)
+                .Where(result => result.userRole.RoleId == Roles.Doctor.Id)
                 .Select(result => (Doctor)result.user).ToListAsync();
         }
 
@@ -89,7 +89,7 @@ namespace VaccinationSystem.Repositories
         {
             return await context.Users
                 .Join(context.UserRoles, (user => user.Id), (userRole => userRole.UserId), ((user, userRole) => new { user, userRole }))
-                .Where(result => result.userRole.RoleId == RoleIdentifiers.Patient)
+                .Where(result => result.userRole.RoleId == Roles.Patient.Id)
                 .Select(result => (Patient)result.user).ToListAsync();
         }
 
@@ -99,7 +99,7 @@ namespace VaccinationSystem.Repositories
             if (disease != null) entity = entity?.Where(visit => visit.Vaccine.Disease.Name == disease);
             if (doctorId != null) entity = entity?.Where(visit => visit.DoctorId == doctorId);
             if (patientId != null) entity = entity?.Where(visit => visit.PatientId == patientId);
-            return await entity.ToListAsync();
+            return await entity?.ToListAsync();
         }
 
         public Doctor? GetDoctor(string doctorId)

@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
 using VaccinationSystem.IRepositories;
 
-namespace VaccinationSystem.Pages.AdminPanel.Doctors
+namespace VaccinationSystem.Pages.AdminPanel.Patients
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = Roles.Admin.Name)]
     public class DeleteModel : PageModel
     {
         private readonly IAdministratorRepository _administratorRepository;
@@ -17,7 +18,7 @@ namespace VaccinationSystem.Pages.AdminPanel.Doctors
         }
 
         [BindProperty]
-        public Doctor Doctor { get; private set; }
+        public Patient Patient { get; private set; }
 
         public IActionResult OnGet(string? id)
         {
@@ -26,9 +27,9 @@ namespace VaccinationSystem.Pages.AdminPanel.Doctors
                 return NotFound();
             }
 
-            Doctor = _administratorRepository.GetDoctor(id);
+            Patient = _administratorRepository.GetPatient(id);
 
-            if (Doctor == null)
+            if (Patient == null)
             {
                 return NotFound();
             }
@@ -38,7 +39,7 @@ namespace VaccinationSystem.Pages.AdminPanel.Doctors
 
         public async Task<IActionResult> OnPostAsync(string id)
         {
-            if (!await _administratorRepository.DeleteDoctor(id))
+            if (!await _administratorRepository.DeletePatient(id))
             {
                 return NotFound();
             }
