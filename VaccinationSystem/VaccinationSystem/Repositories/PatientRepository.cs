@@ -13,20 +13,36 @@ namespace VaccinationSystem.Repositories
 
         public async Task<List<Visit>> GetAllHistoryVisits(string patientId)
         {
-            return await context.Visit.Where(visit => visit.PatientId == patientId && visit.Status==VaccinationStatus.Completed).ToListAsync();
+            return await context.Visit
+                .Where(visit => visit.PatientId == patientId && visit.Status==VaccinationStatus.Completed)
+                .Include(visit => visit.Patient)
+                .Include(visit => visit.Doctor)
+                .Include(visit => visit.Vaccine)
+                .ToListAsync();
         }
         public async Task<List<Visit>> GetAllAvailableVisits()
         {
-            return await context.Visit.Where(visit => visit.PatientId == null && visit.Status == VaccinationStatus.Planned).ToListAsync();
+            return await context.Visit
+                .Where(visit => visit.PatientId == null && visit.Status == VaccinationStatus.Planned)
+                .Include(visit => visit.Patient)
+                .Include(visit => visit.Doctor)
+                .Include(visit => visit.Vaccine)
+                .ToListAsync();
         }
         public async Task<Visit> GetLatestVisit(string patientId)
         {
-            return await context.Visit.OrderByDescending(visit => visit.Date).FirstAsync(visit => visit.PatientId == patientId);
+            return await context.Visit
+                .OrderByDescending(visit => visit.Date)
+                .Include(visit => visit.Patient)
+                .Include(visit => visit.Doctor)
+                .Include(visit => visit.Vaccine)
+                .FirstAsync(visit => visit.PatientId == patientId);
         }
 
         public async Task<bool> IsVaccinated(int vaccineId, string patientId)
         {
-            return await context.Visit.AnyAsync(visit => visit.PatientId == patientId && visit.VaccineId == vaccineId && visit.Status == VaccinationStatus.Completed);
+            return await context.Visit
+                .AnyAsync(visit => visit.PatientId == patientId && visit.VaccineId == vaccineId && visit.Status == VaccinationStatus.Completed);
         }
 
         public async Task<bool> ReserveVisit(int visitId,int vaccineId, string patientId)
