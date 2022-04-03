@@ -44,13 +44,17 @@ namespace VaccinationSystem.Repositories
                 return null;
             if (startDate != null) 
                 entity = entity.Where(visit => visit.Date >= startDate);
-            if (endDate !=null) 
+            if (endDate != null) 
                 entity = entity.Where(visit => visit.Date <= endDate);
             if (onlyReserved == "0") 
                 entity = entity.Where(visit => visit.PatientId == null);
             if (onlyReserved == "1") 
                 entity = entity.Where(visit => visit.PatientId != null);
-            return await entity.ToListAsync();
+            return await entity
+                .Include(visit => visit.Patient)
+                .Include(visit => visit.Doctor)
+                .Include(visit => visit.Vaccine)
+                .ToListAsync();
         }
         public async Task<bool> VaccinatePatient(int visitId)
         {

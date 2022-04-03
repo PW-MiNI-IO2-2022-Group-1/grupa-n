@@ -31,11 +31,13 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" 
-                                asp-page="/Doctor/VaccinationSlots/Index">Manage your visits</a>
+                                    asp-page="/Doctor/VaccinationSlots/Index">Manage your visits</a>
                             </li>
                         } else if (User.IsInRole(Roles.Patient.Name))
                         {
-                            
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Patient/Index">Patient panel</a>
+                            </li>
                         }
                     </ul>
                     <partial name="_LoginPartial" />
