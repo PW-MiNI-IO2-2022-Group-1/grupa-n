@@ -14,7 +14,7 @@ namespace VaccinationSystem.Validations
         {
             DaysBefore = daysBefore;
         }
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             var inputValue = value as DateTime?;
             if (inputValue.HasValue && inputValue >= DateTime.Now.AddDays(DaysBefore))

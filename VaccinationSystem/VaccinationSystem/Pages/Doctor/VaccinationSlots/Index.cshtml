@@ -2,11 +2,11 @@
 @model VaccinationSystem.Pages.Doctor.VaccinationSlots.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Doctor's visits";
 }
 
-<h1>Index</h1>
-
+<h1>@ViewData["Title"]</h1>
+<p>@ViewData["Message"]</p>
 <p>
     <a asp-page="Create">Create New</a>
 </p>
@@ -14,40 +14,34 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Visit[0].Patient)
+                @Html.DisplayNameFor(model => model.Visits[0].Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Visit[0].Vaccine)
+                @Html.DisplayNameFor(model => model.Visits[0].Patient)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Visit[0].Doctor)
+                @Html.DisplayNameFor(model => model.Visits[0].Vaccine)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Visit[0].Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Visit[0].Date)
+                @Html.DisplayNameFor(model => model.Visits[0].Status)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Visit) {
+@foreach (var item in Model.Visits) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Patient.Id)
+                @item.Date
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Vaccine.Name)
+                @item.Patient?.FirstName @item.Patient?.LastName
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Doctor.Id)
+                @item.Vaccine?.Name
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @item.Status
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

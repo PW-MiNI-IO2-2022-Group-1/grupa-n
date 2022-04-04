@@ -12,8 +12,8 @@ using VaccinationSystem.Data;
 namespace VaccinationSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220330003427_Visit")]
-    partial class Visit
+    [Migration("20220404014346_Visits")]
+    partial class Visits
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,21 +54,21 @@ namespace VaccinationSystem.Migrations
                         new
                         {
                             Id = "c8076fe7-faf6-757b-3452-6aa5f7a33c6c",
-                            ConcurrencyStamp = "4b364b08-e44d-4a2c-9858-66a38dce9847",
+                            ConcurrencyStamp = "e58613c0-8678-4882-8e6a-03deceafc265",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "53716615-3a3b-4948-9d28-8076bf328b4a",
-                            ConcurrencyStamp = "f79c797f-7661-443b-9b93-980f6e0ba19a",
+                            ConcurrencyStamp = "c03bf9db-52c1-48c2-a2e3-6a260e652e5f",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
                             Id = "410adff7-f581-4737-b4d6-0dc9a88dec59",
-                            ConcurrencyStamp = "94829b77-7ec6-4122-b16b-cf6a3358c75e",
+                            ConcurrencyStamp = "9998bfd3-2f9f-4d4e-8dad-6d53bbc56ddf",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -481,7 +481,7 @@ namespace VaccinationSystem.Migrations
 
                     b.HasIndex("VaccineId");
 
-                    b.ToTable("Visit");
+                    b.ToTable("Visits");
 
                     b.HasData(
                         new
@@ -524,7 +524,7 @@ namespace VaccinationSystem.Migrations
                         {
                             Id = "6f5f0ee8-640a-4645-ba8b-a4e3fa51b3dd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "32855f50-1128-4cb1-a028-28e01ea6c73c",
+                            ConcurrencyStamp = "f519299f-f152-4e3e-a90f-dedca73b62e4",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -532,9 +532,9 @@ namespace VaccinationSystem.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOjlbtcoQZ+rTkojlYLMAi3f7wUrbO0o3LVFOgbTlyXz/ejgyvXxdnuxc/gI8aW9Hg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJitHv8MGaoALcRcrwWQ2S3rYmAhsa0nZqAwTs6o9wX98Hq5diRoIzMPrHLHGAuhEQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "519b6e08-ae6e-4f05-ae5a-7eaad8b3c5e1",
+                            SecurityStamp = "8544e7ee-5914-462d-99ad-372618aaba1c",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -555,7 +555,7 @@ namespace VaccinationSystem.Migrations
                         {
                             Id = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d1f7c488-c6c7-4c7b-80d8-da90d6f543ab",
+                            ConcurrencyStamp = "6bae9464-5879-44a5-8eaa-983e46e82a25",
                             Email = "doctor@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Default",
@@ -563,9 +563,9 @@ namespace VaccinationSystem.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DOCTOR@LOCALHOST.COM",
                             NormalizedUserName = "DOCTOR@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEv17LkCNyHECi1gzYo7cENrMXrNRL12k7Pes40Vz+JAZXcpQA9VinEzxBC8UDZa1Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECR/ExJxRFZq/ZZBLRildV76GFX7MnJp1CmSZ9igkbX1ZoxUG8YyRl3CWzif1QVOxQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0ce2df70-e341-4b06-a40d-3dc51ebbe27e",
+                            SecurityStamp = "01248651-b53d-4eac-9da5-a6c3493df6d1",
                             TwoFactorEnabled = false,
                             UserName = "doctor@localhost.com",
                             LicenceId = "-1"
@@ -587,7 +587,7 @@ namespace VaccinationSystem.Migrations
                         {
                             Id = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1a088086-e283-4cbb-9cd6-152a66552dcf",
+                            ConcurrencyStamp = "54b6cc8d-be75-42f7-91bf-d505eb10e525",
                             Email = "patient@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Default",
@@ -595,9 +595,9 @@ namespace VaccinationSystem.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PATIENT@LOCALHOST.COM",
                             NormalizedUserName = "PATIENT@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOxmbkIugfPxWe4R8+iJKt92tgRXfb6P+hJjPd95khacF8yP2GlIdM3lrQTLmdhwfA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOed9q9vkTxFLVopQTdNiLBlysQDfu4D8OEtRSn5Il3Twdmx6xPy59hOCt7u+QFdpA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6cc8bf71-00bd-48a8-8fcf-3455559f286f",
+                            SecurityStamp = "f4f68034-f39d-4608-9574-1adef98197e2",
                             TwoFactorEnabled = false,
                             UserName = "patient@localhost.com",
                             Pesel = "12345678901"

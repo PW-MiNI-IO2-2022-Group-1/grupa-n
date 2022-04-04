@@ -21,7 +21,7 @@ namespace VaccinationSystem.Data.Configurations
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = Roles.Doctor.Id, //doctor
+                    RoleId = Roles.Doctor.Id,
                     UserId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a"
                 }
             );

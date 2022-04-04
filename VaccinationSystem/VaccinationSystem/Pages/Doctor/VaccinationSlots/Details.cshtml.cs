@@ -29,7 +29,7 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
                 return NotFound();
             }
 
-            Visit = await _context.Visit
+            Visit = await _context.Visits
                 .Include(v => v.Doctor)
                 .Include(v => v.Patient)
                 .Include(v => v.Vaccine).FirstOrDefaultAsync(m => m.Id == id);

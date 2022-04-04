@@ -30,7 +30,7 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
                 return NotFound();
             }
 
-            Visit = await _context.Visit
+            Visit = await _context.Visits
                 .Include(v => v.Doctor)
                 .Include(v => v.Patient)
                 .Include(v => v.Vaccine).FirstOrDefaultAsync(m => m.Id == id);
@@ -49,11 +49,11 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
                 return NotFound();
             }
 
-            Visit = await _context.Visit.FindAsync(id);
+            Visit = await _context.Visits.FindAsync(id);
 
             if (Visit != null)
             {
-                _context.Visit.Remove(Visit);
+                _context.Visits.Remove(Visit);
                 await _context.SaveChangesAsync();
             }
 

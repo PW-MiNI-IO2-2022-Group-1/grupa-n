@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VaccinationSystem.Migrations
 {
-    public partial class Visit : Migration
+    public partial class Visits : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -195,7 +195,7 @@ namespace VaccinationSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Visit",
+                name: "Visits",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -208,20 +208,20 @@ namespace VaccinationSystem.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Visit", x => x.Id);
+                    table.PrimaryKey("PK_Visits", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Visit_AspNetUsers_DoctorId",
+                        name: "FK_Visits_AspNetUsers_DoctorId",
                         column: x => x.DoctorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Visit_AspNetUsers_PatientId",
+                        name: "FK_Visits_AspNetUsers_PatientId",
                         column: x => x.PatientId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Visit_Vaccines_VaccineId",
+                        name: "FK_Visits_Vaccines_VaccineId",
                         column: x => x.VaccineId,
                         principalTable: "Vaccines",
                         principalColumn: "Id");
@@ -232,25 +232,25 @@ namespace VaccinationSystem.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "410adff7-f581-4737-b4d6-0dc9a88dec59", "94829b77-7ec6-4122-b16b-cf6a3358c75e", "Patient", "PATIENT" },
-                    { "53716615-3a3b-4948-9d28-8076bf328b4a", "f79c797f-7661-443b-9b93-980f6e0ba19a", "Doctor", "DOCTOR" },
-                    { "c8076fe7-faf6-757b-3452-6aa5f7a33c6c", "4b364b08-e44d-4a2c-9858-66a38dce9847", "Administrator", "ADMINISTRATOR" }
+                    { "410adff7-f581-4737-b4d6-0dc9a88dec59", "9998bfd3-2f9f-4d4e-8dad-6d53bbc56ddf", "Patient", "PATIENT" },
+                    { "53716615-3a3b-4948-9d28-8076bf328b4a", "c03bf9db-52c1-48c2-a2e3-6a260e652e5f", "Doctor", "DOCTOR" },
+                    { "c8076fe7-faf6-757b-3452-6aa5f7a33c6c", "e58613c0-8678-4882-8e6a-03deceafc265", "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "6f5f0ee8-640a-4645-ba8b-a4e3fa51b3dd", 0, "32855f50-1128-4cb1-a028-28e01ea6c73c", "Administrator", "admin@localhost.com", true, "System", "Admin", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAEAACcQAAAAEOjlbtcoQZ+rTkojlYLMAi3f7wUrbO0o3LVFOgbTlyXz/ejgyvXxdnuxc/gI8aW9Hg==", null, false, "519b6e08-ae6e-4f05-ae5a-7eaad8b3c5e1", false, "admin@localhost.com" });
+                values: new object[] { "6f5f0ee8-640a-4645-ba8b-a4e3fa51b3dd", 0, "f519299f-f152-4e3e-a90f-dedca73b62e4", "Administrator", "admin@localhost.com", true, "System", "Admin", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAEAACcQAAAAEJitHv8MGaoALcRcrwWQ2S3rYmAhsa0nZqAwTs6o9wX98Hq5diRoIzMPrHLHGAuhEQ==", null, false, "8544e7ee-5914-462d-99ad-372618aaba1c", false, "admin@localhost.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LicenceId", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "f1076fe7-abf6-420d-8810-6cb0f3a92f6a", 0, "d1f7c488-c6c7-4c7b-80d8-da90d6f543ab", "Doctor", "doctor@localhost.com", true, "Default", "Doctor", "-1", false, null, "DOCTOR@LOCALHOST.COM", "DOCTOR@LOCALHOST.COM", "AQAAAAEAACcQAAAAEEv17LkCNyHECi1gzYo7cENrMXrNRL12k7Pes40Vz+JAZXcpQA9VinEzxBC8UDZa1Q==", null, false, "0ce2df70-e341-4b06-a40d-3dc51ebbe27e", false, "doctor@localhost.com" });
+                values: new object[] { "f1076fe7-abf6-420d-8810-6cb0f3a92f6a", 0, "6bae9464-5879-44a5-8eaa-983e46e82a25", "Doctor", "doctor@localhost.com", true, "Default", "Doctor", "-1", false, null, "DOCTOR@LOCALHOST.COM", "DOCTOR@LOCALHOST.COM", "AQAAAAEAACcQAAAAECR/ExJxRFZq/ZZBLRildV76GFX7MnJp1CmSZ9igkbX1ZoxUG8YyRl3CWzif1QVOxQ==", null, false, "01248651-b53d-4eac-9da5-a6c3493df6d1", false, "doctor@localhost.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "Pesel", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "c1076fe7-abf6-420d-8810-6cb0f3a92f6a", 0, "1a088086-e283-4cbb-9cd6-152a66552dcf", "Patient", "patient@localhost.com", true, "Default", "Patient", false, null, "PATIENT@LOCALHOST.COM", "PATIENT@LOCALHOST.COM", "AQAAAAEAACcQAAAAEOxmbkIugfPxWe4R8+iJKt92tgRXfb6P+hJjPd95khacF8yP2GlIdM3lrQTLmdhwfA==", "12345678901", null, false, "6cc8bf71-00bd-48a8-8fcf-3455559f286f", false, "patient@localhost.com" });
+                values: new object[] { "c1076fe7-abf6-420d-8810-6cb0f3a92f6a", 0, "54b6cc8d-be75-42f7-91bf-d505eb10e525", "Patient", "patient@localhost.com", true, "Default", "Patient", false, null, "PATIENT@LOCALHOST.COM", "PATIENT@LOCALHOST.COM", "AQAAAAEAACcQAAAAEOed9q9vkTxFLVopQTdNiLBlysQDfu4D8OEtRSn5Il3Twdmx6xPy59hOCt7u+QFdpA==", "12345678901", null, false, "f4f68034-f39d-4608-9574-1adef98197e2", false, "patient@localhost.com" });
 
             migrationBuilder.InsertData(
                 table: "Diseases",
@@ -295,17 +295,17 @@ namespace VaccinationSystem.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Visit",
+                table: "Visits",
                 columns: new[] { "Id", "Date", "DoctorId", "PatientId", "Status", "VaccineId" },
                 values: new object[] { -3, new DateTime(2022, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "f1076fe7-abf6-420d-8810-6cb0f3a92f6a", "c1076fe7-abf6-420d-8810-6cb0f3a92f6a", 1, -7 });
 
             migrationBuilder.InsertData(
-                table: "Visit",
+                table: "Visits",
                 columns: new[] { "Id", "Date", "DoctorId", "PatientId", "Status", "VaccineId" },
                 values: new object[] { -2, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "f1076fe7-abf6-420d-8810-6cb0f3a92f6a", "c1076fe7-abf6-420d-8810-6cb0f3a92f6a", 2, -3 });
 
             migrationBuilder.InsertData(
-                table: "Visit",
+                table: "Visits",
                 columns: new[] { "Id", "Date", "DoctorId", "PatientId", "Status", "VaccineId" },
                 values: new object[] { -1, new DateTime(2022, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "f1076fe7-abf6-420d-8810-6cb0f3a92f6a", "c1076fe7-abf6-420d-8810-6cb0f3a92f6a", 0, -1 });
 
@@ -354,18 +354,18 @@ namespace VaccinationSystem.Migrations
                 column: "DiseaseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Visit_DoctorId",
-                table: "Visit",
+                name: "IX_Visits_DoctorId",
+                table: "Visits",
                 column: "DoctorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Visit_PatientId",
-                table: "Visit",
+                name: "IX_Visits_PatientId",
+                table: "Visits",
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Visit_VaccineId",
-                table: "Visit",
+                name: "IX_Visits_VaccineId",
+                table: "Visits",
                 column: "VaccineId");
         }
 
@@ -387,7 +387,7 @@ namespace VaccinationSystem.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Visit");
+                name: "Visits");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
