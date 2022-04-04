@@ -19,16 +19,15 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
     public class CreateModel : PageModel
     {
         private readonly IDoctorRepository _doctorRepository;
-        private readonly VaccinationSystem.Data.ApplicationDbContext _context;
-
+        private readonly UserManager<ApplicationUser> _userManager;
+        public Data.Classes.Doctor Doctor { get; private set; }
         public CreateModel(
             IDoctorRepository doctorRepository,
-            VaccinationSystem.Data.ApplicationDbContext context
-
+            UserManager<ApplicationUser> userManager
             )
         {
             _doctorRepository = doctorRepository;
-            _context = context;
+            _userManager = userManager;
         }
         [FutureDateValidation(1, ErrorMessage ="Too late to book this slot.")]
         [BindProperty]
@@ -46,16 +45,14 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
             {
                 return Page();
             }
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
-            
-            var visit = await _doctorRepository.CreateVisit(VisitDateTime, user.Id);
+            Doctor = (Data.Classes.Doctor)await _userManager.GetUserAsync(User);
+
+            var visit = await _doctorRepository.CreateVisit(VisitDateTime, Doctor.Id);
             if (visit == null)
             {
-                ModelState.AddModelError(string.Empty, "This slot is already booked.");
+                ModelState.AddModelError(string.Empty, "You have another visit at this time.");
                 return Page();
             }
-                
-
             return RedirectToPage("./Index");
         }
     }

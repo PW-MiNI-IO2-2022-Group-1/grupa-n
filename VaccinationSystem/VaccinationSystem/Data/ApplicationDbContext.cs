@@ -9,7 +9,7 @@ namespace VaccinationSystem.Data
     {
         public DbSet<Disease>? Diseases { get; set; }
         public DbSet<Vaccine>? Vaccines { get; set; }
-        public DbSet<Visit>? Visit { get; set; }
+        public DbSet<Visit>? Visits { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

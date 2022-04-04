@@ -13,7 +13,7 @@ namespace VaccinationSystem.Repositories
 
         public async Task<List<Visit>> GetAllHistoryVisits(string patientId)
         {
-            return await context.Visit
+            return await context.Visits
                 .Where(visit => visit.PatientId == patientId && visit.Status==VaccinationStatus.Completed)
                 .Include(visit => visit.Patient)
                 .Include(visit => visit.Doctor)
@@ -22,7 +22,7 @@ namespace VaccinationSystem.Repositories
         }
         public async Task<List<Visit>> GetAllAvailableVisits()
         {
-            return await context.Visit
+            return await context.Visits
                 .Where(visit => visit.PatientId == null && visit.Status == VaccinationStatus.Planned)
                 .Include(visit => visit.Patient)
                 .Include(visit => visit.Doctor)
@@ -31,7 +31,7 @@ namespace VaccinationSystem.Repositories
         }
         public async Task<Visit> GetLatestVisit(string patientId)
         {
-            return await context.Visit
+            return await context.Visits
                 .OrderByDescending(visit => visit.Date)
                 .Include(visit => visit.Patient)
                 .Include(visit => visit.Doctor)
@@ -41,13 +41,13 @@ namespace VaccinationSystem.Repositories
 
         public async Task<bool> IsVaccinated(int vaccineId, string patientId)
         {
-            return await context.Visit
+            return await context.Visits
                 .AnyAsync(visit => visit.PatientId == patientId && visit.VaccineId == vaccineId && visit.Status == VaccinationStatus.Completed);
         }
 
         public async Task<bool> ReserveVisit(int visitId,int vaccineId, string patientId)
         {
-            var entity = context.Visit.FirstOrDefault(v => v.Id == visitId);
+            var entity = context.Visits.FirstOrDefault(v => v.Id == visitId);
             if (entity == null || entity.PatientId != null) 
                 return false;
             entity.PatientId = patientId;
@@ -56,7 +56,7 @@ namespace VaccinationSystem.Repositories
         }
         public async Task<bool> CancelVisit(int visitId, string patientId)
         {
-            var entity = context.Visit.FirstOrDefault(v => v.Id == visitId);
+            var entity = context.Visits.FirstOrDefault(v => v.Id == visitId);
             if (entity == null || entity.PatientId != patientId) 
                 return false;
             entity.Status = VaccinationStatus.Cancelled;

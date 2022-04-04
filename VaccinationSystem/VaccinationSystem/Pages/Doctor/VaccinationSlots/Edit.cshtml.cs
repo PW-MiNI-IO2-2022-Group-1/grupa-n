@@ -31,7 +31,7 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
                 return NotFound();
             }
 
-            Visit = await _context.Visit
+            Visit = await _context.Visits
                 .Include(v => v.Doctor)
                 .Include(v => v.Patient)
                 .Include(v => v.Vaccine).FirstOrDefaultAsync(m => m.Id == id);
@@ -78,7 +78,7 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
 
         private bool VisitExists(int id)
         {
-            return _context.Visit.Any(e => e.Id == id);
+            return _context.Visits.Any(e => e.Id == id);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace VaccinationSystem.Data.Configurations
             _ = builder.HasData(
                 new Administrator
                 {
-                    Id = Roles.Admin.Id,
+                    Id = "6f5f0ee8-640a-4645-ba8b-a4e3fa51b3dd",
                     FirstName = "System",
                     LastName = "Admin",
                     UserName = "admin@localhost.com",

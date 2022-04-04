@@ -97,7 +97,7 @@ namespace VaccinationSystem.Repositories
 
         public async Task<List<Visit>> GetAllVisits(string? disease = null, string? doctorId = null, string? patientId = null)
         {
-            IQueryable<Visit>? entity = context.Visit;
+            IQueryable<Visit>? entity = context.Visits;
             if (disease != null) entity = entity?.Where(visit => visit.Vaccine.Disease.Name == disease);
             if (doctorId != null) entity = entity?.Where(visit => visit.DoctorId == doctorId);
             if (patientId != null) entity = entity?.Where(visit => visit.PatientId == patientId);

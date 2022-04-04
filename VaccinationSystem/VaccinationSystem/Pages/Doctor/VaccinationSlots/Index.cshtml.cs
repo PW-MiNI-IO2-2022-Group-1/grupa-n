@@ -4,35 +4,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
+using VaccinationSystem.IRepositories;
 
 namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
 {
     [Authorize(Roles = Roles.Doctor.Name)]
     public class IndexModel : PageModel
     {
-        private readonly VaccinationSystem.Data.ApplicationDbContext _context;
-
-        public IndexModel(VaccinationSystem.Data.ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IDoctorRepository _doctorRepository;
+        public Data.Classes.Doctor Doctor { get; private set; }
+        public IList<Visit> Visits { get; private set; }
+        public IndexModel(UserManager<ApplicationUser> userManager, IDoctorRepository doctorRepository)
         {
-            _context = context;
+            _userManager = userManager;
+            _doctorRepository = doctorRepository;
         }
-
-        public IList<Visit> Visit { get;set; }
 
         public async Task OnGetAsync()
         {
-            Visit = await _context.Visit
-                .Include(v => v.Doctor)
-                .Include(v => v.Patient)
-                .Include(v => v.Vaccine).ToListAsync();
+            Doctor = (Data.Classes.Doctor) await _userManager.GetUserAsync(User);
+            Visits = await _doctorRepository.GetVisits(Doctor.Id, 1);
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
-
+            ViewData["Message"] = $"Welcome {Doctor.FirstName} {Doctor.LastName}";
         }
     }
 }
