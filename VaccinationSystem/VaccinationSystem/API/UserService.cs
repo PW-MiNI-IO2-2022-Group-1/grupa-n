@@ -22,7 +22,7 @@ namespace VaccinationSystem.API
             _jwtHelper = jwtHelper;
         }
 
-        public async Task<bool> IsValidCredentialsAsync(RequestModels.Login loginInfo)
+        public async Task<bool> HasValidCredentialsAsync(RequestModels.Login loginInfo)
         {
             var result = await _signInManager.PasswordSignInAsync(loginInfo.Email, loginInfo.Password, false, false);
             if (!result.Succeeded)

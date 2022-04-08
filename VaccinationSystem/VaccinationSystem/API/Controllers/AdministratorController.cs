@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VaccinationSystem.API.ModelValidation;
+using VaccinationSystem.API.RequestModels.Admin;
 using VaccinationSystem.Data;
+using VaccinationSystem.IRepositories;
 
 namespace VaccinationSystem.API.Controllers
 {
@@ -9,27 +12,31 @@ namespace VaccinationSystem.API.Controllers
     [Authorize(Roles = Roles.Admin.Name)]
     public class AdministratorController : ControllerBase
     {
-        IUserService _userService;
+        private readonly IUserService _userService;
+        private readonly IAdministratorRepository _administratorRepository;
 
-        public AdministratorController(IUserService userService)
+        public AdministratorController(
+            IUserService userService,
+            IAdministratorRepository administratorRepository)
         {
             _userService = userService;
+            _administratorRepository = administratorRepository;
         }
 
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<ActionResult> LoginAsync([FromBody] RequestModels.Login loginInfo)
         {
-            bool isValidUser = await _userService.IsValidCredentialsAsync(loginInfo);
+            bool isValidUser = await _userService.HasValidCredentialsAsync(loginInfo);
             if (!isValidUser)
             {
-                return Unauthorized();
+                return new UnauthorizedResponse();
             }
             var user = await _userService.GetUserByEmailAsync(loginInfo.Email);
             var roles = await _userService.GetRolesForUser(user);
             if (!roles.Contains(Roles.Admin.Name))
             {
-                return Unauthorized();
+                return new UnauthorizedResponse();
             }
             var token = _userService.GetTokenForUser(user.Email, Roles.Admin.Name);
             var apiUser = new ApiUser
@@ -47,6 +54,14 @@ namespace VaccinationSystem.API.Controllers
                 Admin = apiUser
             };
             return Ok(response);
+        }
+
+        [HttpPost("doctors")]
+        [ValidateModel]
+        public async Task<ActionResult> CreateDoctor([FromBody] CreateDoctor body)
+        {
+            // TODO
+            return Ok();
         }
     }
 }

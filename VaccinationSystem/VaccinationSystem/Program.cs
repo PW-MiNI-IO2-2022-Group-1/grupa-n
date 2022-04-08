@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Net.Mime;
 using System.Text;
+using VaccinationSystem;
 using VaccinationSystem.API;
+using VaccinationSystem.API.ModelValidation;
 using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
 using VaccinationSystem.IRepositories;
@@ -39,7 +42,16 @@ builder.Services.AddScoped<IVisitRepository, VisitRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+{
+    // odpowiedz na zle zwalidowane body w metodzie POST
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var result = new ValidationFailedResponse(context.ModelState);
+        result.ContentTypes.Add(MediaTypeNames.Application.Json);
+        return result;
+    };
+});
 builder.Services.AddSwaggerGen(swagger =>
 {
     //This is to generate the Default UI of Swagger Documentation
@@ -62,15 +74,15 @@ builder.Services.AddSwaggerGen(swagger =>
     swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
-                new OpenApiSecurityScheme
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
                 {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                },
-                new string[] {}
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
         }
     });
 });
@@ -93,8 +105,17 @@ builder.Services.AddAuthentication(option =>
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
+    options.Events = new JwtBearerEvents
+    {
+        OnChallenge = async context =>
+        {
+            context.HandleResponse();
+
+            context.Response.StatusCode = 401;
+            await context.Response.WriteAsJsonAsync(new UnauthorizedResponseModel());
+        }
+    };
 });
-// TODO: Customowa wiadomosc do kodu 401 zgodnie ze specyfikacja API
 
 var app = builder.Build();
 
