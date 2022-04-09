@@ -4,7 +4,10 @@ namespace VaccinationSystem.API.RequestModels.Admin
 {
     public class CreateDoctor
     {
+        [Required]
         public string FirstName { get; set; }
+
+        [Required]
         public string LastName { get; set; }
 
         [EmailAddress]

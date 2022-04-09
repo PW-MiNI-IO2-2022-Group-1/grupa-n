@@ -56,12 +56,51 @@ namespace VaccinationSystem.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("patients/{patientId}")]
+        public async Task<ActionResult> GetSinglePatient(string patientId)
+        {
+            var patient = _administratorRepository.GetPatient(patientId);
+            if (patient == null)
+            {
+                return new NotFoundResponse($"Patient does not exist.");
+            }
+            var response = new ResponseModels.Admin.GetSinglePatient
+            {
+                Id = patient.Id,
+                FirstName = patient.FirstName,
+                LastName = patient.LastName,
+                Pesel = patient.Pesel,
+                Email = patient.Email,
+                Address = patient.Address,
+            };
+            return Ok(response);
+        }
+
         [HttpPost("doctors")]
         [ValidateModel]
         public async Task<ActionResult> CreateDoctor([FromBody] CreateDoctor body)
         {
-            // TODO
-            return Ok();
+            var doctor = await _administratorRepository.CreateDoctor(
+                body.FirstName, body.LastName, body.Email, body.Password);
+            var response = new ApiUser
+            {
+                Id = doctor.Id,
+                Email = doctor.Email,
+                FirstName = doctor.FirstName,
+                LastName = doctor.LastName,
+            };
+            return Ok(response);
+        }
+
+        [HttpDelete("doctors/{doctorId}")]
+        public async Task<IActionResult> DeleteDoctor(string doctorId)
+        {
+            var result = await _administratorRepository.DeleteDoctor(doctorId);
+            if (!result)
+            {
+                return new NotFoundResponse($"Doctor does not exist.");
+            }
+            return Ok(new SuccessResponse());
         }
     }
 }

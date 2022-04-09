@@ -115,7 +115,9 @@ namespace VaccinationSystem.Repositories
 
         public Patient? GetPatient(string patientId)
         {
-            return (Patient?)context.Users.FirstOrDefault(user => user.Id == patientId);
+            return (Patient?)context.Users.Where(user => user.Id == patientId)
+                .Include("Address")
+                .FirstOrDefault();
         }
 
     }
