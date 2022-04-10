@@ -21,6 +21,13 @@ namespace VaccinationSystem.API.ModelValidation
             // chyba tylko w ten sposob z uzyciem domyslnego serializatora
             // zwrocimy odpowiednie nazwy kluczy odpowiadajace nazwom zle
             // zwalidowanych pol
+            if (key.StartsWith("Address"))
+            {
+                return new
+                {
+                    address = message
+                };
+            }
             switch (key)
             {
                 case "FirstName":

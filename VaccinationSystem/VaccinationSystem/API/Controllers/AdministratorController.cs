@@ -56,6 +56,38 @@ namespace VaccinationSystem.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("patients")]
+        public async Task<ActionResult> GetPatients([FromQuery] int page)
+        {
+            // TODO: Paginacja
+            if (page != 1)
+            {
+                return new NotFoundResponse($"Wrong page.");
+            }
+            var patients = await _administratorRepository.GetAllPatients();
+            var pagination = new Pagination
+            {
+                CurrentPage = page,
+                CurrentRecords = patients.Count(),
+                TotalPage = 1,
+                TotalRecords = patients.Count()
+            };
+            var response = new ResponseModels.Admin.GetAllPatients
+            {
+                Pagination = pagination,
+                Data = patients.Select(patient => new ApiPatient
+                {
+                    Id = patient.Id,
+                    FirstName = patient.FirstName,
+                    LastName = patient.LastName,
+                    Pesel = patient.Pesel,
+                    Email = patient.Email,
+                    Address = patient.Address
+                }).ToArray()
+            };
+            return Ok(response);
+        }
+
         [HttpGet("patients/{patientId}")]
         public async Task<ActionResult> GetSinglePatient(string patientId)
         {
@@ -64,7 +96,7 @@ namespace VaccinationSystem.API.Controllers
             {
                 return new NotFoundResponse($"Patient does not exist.");
             }
-            var response = new ResponseModels.Admin.GetSinglePatient
+            var response = new ApiPatient
             {
                 Id = patient.Id,
                 FirstName = patient.FirstName,
@@ -76,8 +108,70 @@ namespace VaccinationSystem.API.Controllers
             return Ok(response);
         }
 
+        [HttpPut("patients/{patientId}")]
+        public async Task<ActionResult> EditPatient(string patientId, [FromBody] EditPatient body)
+        {
+            // Address jeszcze nie dziala bo nie jest zaimplementowany w Repository
+            var patient = await _administratorRepository.EditPatient(
+                patientId, body.FirstName, body.LastName, body.Pesel, body.Email);
+            if (patient == null)
+            {
+                return new NotFoundResponse($"Patient does not exist.");
+            }
+            var response = new ApiPatient
+            {
+                Id = patient.Id,
+                FirstName = patient.FirstName,
+                LastName = patient.LastName,
+                Pesel = patient.Pesel,
+                Email = patient.Email,
+                Address = patient.Address,
+            };
+            return Ok(response);
+        }
+
+        [HttpDelete("patients/{patientId}")]
+        public async Task<IActionResult> DeletePatient(string patientId)
+        {
+            var result = await _administratorRepository.DeletePatient(patientId);
+            if (!result)
+            {
+                return new NotFoundResponse($"Patient does not exist.");
+            }
+            return Ok();
+        }
+
+        [HttpGet("doctors")]
+        public async Task<ActionResult> GetDoctors([FromQuery] int page)
+        {
+            // TODO: Paginacja
+            if (page != 1)
+            {
+                return new NotFoundResponse($"Wrong page.");
+            }
+            var patients = await _administratorRepository.GetAllDoctors();
+            var pagination = new Pagination
+            {
+                CurrentPage = page,
+                CurrentRecords = patients.Count(),
+                TotalPage = 1,
+                TotalRecords = patients.Count()
+            };
+            var response = new ResponseModels.Admin.GetAllDoctors
+            {
+                Pagination = pagination,
+                Data = patients.Select(doctor => new ApiUser
+                {
+                    Id = doctor.Id,
+                    FirstName = doctor.FirstName,
+                    LastName = doctor.LastName,
+                    Email = doctor.Email,
+                }).ToArray()
+            };
+            return Ok(response);
+        }
+
         [HttpPost("doctors")]
-        [ValidateModel]
         public async Task<ActionResult> CreateDoctor([FromBody] CreateDoctor body)
         {
             var doctor = await _administratorRepository.CreateDoctor(
@@ -92,6 +186,43 @@ namespace VaccinationSystem.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("doctors/{doctorId}")]
+        public async Task<ActionResult> GetSingleDoctor(string doctorId)
+        {
+            var doctor = _administratorRepository.GetDoctor(doctorId);
+            if (doctor == null)
+            {
+                return new NotFoundResponse($"Doctor does not exist.");
+            }
+            var response = new ApiUser
+            {
+                Id = doctor.Id,
+                FirstName = doctor.FirstName,
+                LastName = doctor.LastName,
+                Email = doctor.Email,
+            };
+            return Ok(response);
+        }
+
+        [HttpPut("doctors/{doctorId}")]
+        public async Task<ActionResult> EditDoctor(string doctorId, [FromBody] EditDoctor body)
+        {
+            var doctor = await _administratorRepository.EditDoctor(
+                doctorId, body.FirstName, body.LastName, body.Email);
+            if (doctor == null)
+            {
+                return new NotFoundResponse($"Doctor does not exist.");
+            }
+            var response = new ApiUser
+            {
+                Id = doctor.Id,
+                FirstName = doctor.FirstName,
+                LastName = doctor.LastName,
+                Email = doctor.Email
+            };
+            return Ok(response);
+        }
+
         [HttpDelete("doctors/{doctorId}")]
         public async Task<IActionResult> DeleteDoctor(string doctorId)
         {
@@ -101,6 +232,67 @@ namespace VaccinationSystem.API.Controllers
                 return new NotFoundResponse($"Doctor does not exist.");
             }
             return Ok(new SuccessResponse());
+        }
+
+        [HttpGet("vaccinations")]
+        public async Task<IActionResult> GetVaccinations([FromQuery] GetVaccinations body)
+        {
+            // TODO: Paginacja
+            if (body.Page != 1)
+            {
+                return new NotFoundResponse($"Wrong page.");
+            }
+            // Na razie filtrowanie dla pojedynczych wartosci, 
+            // powinno byc mozliwe separowanie po przecinku chorob
+            var visits = await _administratorRepository.GetAllVisits(body.Disease, body.DoctorId, body.PatientId);
+            var data = visits.Select(visit =>
+            {
+                return new ApiVaccination
+                {
+                    Id = visit.Id,
+                    Vaccine = new ApiVaccine
+                    {
+                        Id = visit.VaccineId == null ? int.MaxValue : (int)visit.VaccineId,
+                        Name = visit.Vaccine.Name,
+                        Disease = visit.Vaccine.Disease.Name,
+                        RequiredDoses = visit.Vaccine.RequiredDoses
+                    },
+                    VaccinationSlot = new ApiVaccinationSlot
+                    {
+                        Id = int.MinValue, // nie wiem co tutaj
+                        Date = visit.Date
+                    },
+                    Status = visit.Status.ToString(),
+                    Patient = new ApiPatient
+                    {
+                        Id = visit.Patient.Id,
+                        FirstName = visit.Patient.FirstName,
+                        LastName = visit.Patient.LastName,
+                        Pesel = visit.Patient.Pesel,
+                        Email = visit.Patient.Email,
+                        Address = visit.Patient.Address
+                    },
+                    Doctor = new ApiUser
+                    {
+                        Id = visit.Doctor.Id,
+                        Email = visit.Doctor.Email,
+                        FirstName = visit.Doctor.FirstName,
+                        LastName = visit.Doctor.LastName,
+                    }
+                };
+            }).ToArray();
+            return Ok(new ResponseModels.Admin.GetVaccinations
+            {
+                // Paginacja jeszcze nie dziala
+                Pagination = new Pagination
+                {
+                    CurrentPage = 1,
+                    TotalPage = 1,
+                    CurrentRecords = data.Count(),
+                    TotalRecords = data.Count()
+                },
+                Data = data
+            });
         }
     }
 }
