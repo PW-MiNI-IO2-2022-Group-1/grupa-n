@@ -22,6 +22,7 @@ namespace VaccinationSystem.Data.Configurations
                     NormalizedEmail = "ADMIN@LOCALHOST.COM",
                     PasswordHash = hasher.HashPassword(new (), "admin1"),
                     EmailConfirmed = true,
+                    SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464"
                 }
             );
         }
