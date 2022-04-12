@@ -13,7 +13,7 @@ namespace VaccinationSystem.Data.Configurations
             _ = builder.HasData(
                 new Patient
                 {
-                    Id = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                    Id = -3,
                     FirstName = "Default",
                     LastName = "Patient",
                     UserName = "patient@localhost.com",

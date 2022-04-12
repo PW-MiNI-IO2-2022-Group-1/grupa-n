@@ -23,7 +23,7 @@ namespace VaccinationSystem.Repositories
                 EmailConfirmed = false
             };
             var id = context.Add(doctor).Entity.Id;
-            var userRole = new IdentityUserRole<string>
+            var userRole = new IdentityUserRole<int>
             {
                 RoleId = Roles.Doctor.Id,
                 UserId = id
@@ -33,7 +33,7 @@ namespace VaccinationSystem.Repositories
             return doctor;
         }
 
-        public async Task<bool> DeleteDoctor(string doctorId)
+        public async Task<bool> DeleteDoctor(int doctorId)
         {
             var entity = context.Users.FirstOrDefault(user => user.Id == doctorId);
             if (entity == null)
@@ -42,7 +42,7 @@ namespace VaccinationSystem.Repositories
             return await context.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> DeletePatient(string patientId)
+        public async Task<bool> DeletePatient(int patientId)
         {
             var entity = context.Users.FirstOrDefault(user => user.Id == patientId);
             if (entity == null)
@@ -51,7 +51,7 @@ namespace VaccinationSystem.Repositories
             return await context.SaveChangesAsync() > 0;
         }
 
-        public async Task<Doctor?> EditDoctor(string doctorId, string firstName, string lastName, string email)
+        public async Task<Doctor?> EditDoctor(int doctorId, string firstName, string lastName, string email)
         {
             var entity = context.Users.FirstOrDefault(user => user.Id == doctorId);
             if (entity == null)
@@ -63,7 +63,7 @@ namespace VaccinationSystem.Repositories
             return (Doctor)entity;
         }
 
-        public async Task<Patient?> EditPatient(string patientId, string? firstName = null, string? lastName = null, string? pesel = null, string? email = null, string? phoneNumber = null)
+        public async Task<Patient?> EditPatient(int patientId, string? firstName = null, string? lastName = null, string? pesel = null, string? email = null, string? phoneNumber = null)
         {
             Patient? entity = (Patient?)context.Users.FirstOrDefault(user => user.Id == patientId);
             if (entity == null)
@@ -95,7 +95,7 @@ namespace VaccinationSystem.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<Visit>> GetAllVisits(string? disease = null, string? doctorId = null, string? patientId = null)
+        public async Task<List<Visit>> GetAllVisits(string? disease = null, int? doctorId = null, int? patientId = null)
         {
             IQueryable<Visit>? entity = context.Visits;
             if (disease != null) entity = entity?.Where(visit => visit.Vaccine.Disease.Name == disease);
@@ -108,12 +108,12 @@ namespace VaccinationSystem.Repositories
                 .ToListAsync();
         }
 
-        public Doctor? GetDoctor(string doctorId)
+        public Doctor? GetDoctor(int doctorId)
         {
             return (Doctor?)context.Users.FirstOrDefault(user => user.Id == doctorId);
         }
 
-        public Patient? GetPatient(string patientId)
+        public Patient? GetPatient(int patientId)
         {
             return (Patient?)context.Users.FirstOrDefault(user => user.Id == patientId);
         }

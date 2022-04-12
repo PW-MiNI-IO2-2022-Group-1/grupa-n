@@ -14,8 +14,7 @@ namespace Tests
             var context = InMemoryDbContext.Get();
             var repo = new VaccinationSystem.Repositories.AdministratorRepository(context);
             var doctor = context.Users.Where(user => user.LastName == "Doctor").First();
-            string doctorId = doctor.Id;
-            Assert.False(string.IsNullOrEmpty(doctorId));
+            int doctorId = doctor.Id;
 
             // Act
             bool result = await repo.DeleteDoctor(doctorId);
@@ -32,7 +31,7 @@ namespace Tests
             var context = InMemoryDbContext.Get();
             var repo = new VaccinationSystem.Repositories.AdministratorRepository(context);
             var doctor = context.Users.FirstOrDefault(user => user.LastName == "Doctor");
-            string doctorId = "nonexisting";
+            int doctorId = int.MinValue;
 
             // Act
             bool result = await repo.DeleteDoctor(doctorId);
