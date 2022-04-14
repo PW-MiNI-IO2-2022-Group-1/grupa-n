@@ -20,14 +20,10 @@ namespace VaccinationSystem.Pages.AdminPanel.Patients
         [BindProperty]
         public Data.Classes.Patient Patient { get; set; }
 
-        public IActionResult OnGet(string? id)
+        public IActionResult OnGet(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            Patient = _administratorRepository.GetPatient(id);
+            Patient = _administratorRepository.GetPatient((int) id);
 
             if (Patient == null)
             {

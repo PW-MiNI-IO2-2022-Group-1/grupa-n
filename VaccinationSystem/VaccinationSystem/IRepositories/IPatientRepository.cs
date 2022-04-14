@@ -4,11 +4,11 @@ namespace VaccinationSystem.IRepositories
 {
     public interface IPatientRepository : IGenericRepository<Patient>
     {
-        Task<bool> ReserveVisit(int visitId, int vaccineId, string patientId);
-        Task<Visit> GetLatestVisit(string patientId);
-        Task<List<Visit>> GetAllHistoryVisits(string patientId);
+        Task<bool> ReserveVisit(int visitId, int vaccineId, int patientId);
+        Task<Visit> GetLatestVisit(int patientId);
+        Task<List<Visit>> GetAllHistoryVisits(int patientId);
         Task<List<Visit>> GetAllAvailableVisits();
-        Task<bool> IsVaccinated(int vaccineId, string patientId);
-        Task<bool> CancelVisit(int visitId, string patientId);
+        Task<bool> IsVaccinated(int vaccineId, int patientId);
+        Task<bool> CancelVisit(int visitId, int patientId);
     }
 }

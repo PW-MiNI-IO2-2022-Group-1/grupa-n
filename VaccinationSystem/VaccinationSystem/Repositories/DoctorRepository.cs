@@ -12,11 +12,11 @@ namespace VaccinationSystem.Repositories
         {
             this.visitRepository = visitRepository;
         }
-        public async Task<Visit?> CreateVisit(DateTime date, string DoctorId)
+        public async Task<Visit?> CreateVisit(DateTime date, int doctorId)
         {
             if ((date - DateTime.Now).Days < 1)
                 return null;
-            var entity = context.Visits?.Where(visit => visit.DoctorId == DoctorId);
+            var entity = context.Visits?.Where(visit => visit.DoctorId == doctorId);
             entity = entity?.Where(visit => date.AddMinutes(15) > visit.Date);
             entity = entity?.Where(visit => date.AddMinutes(-15) < visit.Date);
             if ( entity?.ToList().Count > 0)
@@ -24,7 +24,7 @@ namespace VaccinationSystem.Repositories
                 return null;
             }
 
-            Visit visit = new Visit() { DoctorId = DoctorId, Date = date, Status = VaccinationStatus.Planned };
+            Visit visit = new Visit() { DoctorId = doctorId, Date = date, Status = VaccinationStatus.Planned };
 
             var newVisit = await visitRepository.AddAsync(visit);
             return newVisit;
@@ -39,7 +39,7 @@ namespace VaccinationSystem.Repositories
             return result;
 
         }
-        public async Task<List<Visit>?> GetVisits(string DoctorId, int page, string? onlyReserved = null, DateTime? startDate = null, DateTime? endDate = null)
+        public async Task<List<Visit>?> GetVisits(int DoctorId, int page, string? onlyReserved = null, DateTime? startDate = null, DateTime? endDate = null)
         {
             var entity = context.Visits?.Where(visit => visit.DoctorId == DoctorId && visit.Status == VaccinationStatus.Planned);
             if (entity == null)

@@ -13,7 +13,7 @@ namespace VaccinationSystem.Data.Configurations
             _ = builder.HasData(
                 new Doctor
                 {
-                    Id = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                    Id = -2,
                     FirstName = "Default",
                     LastName = "Doctor",
                     UserName = "doctor@localhost.com",
@@ -22,7 +22,8 @@ namespace VaccinationSystem.Data.Configurations
                     NormalizedEmail = "DOCTOR@LOCALHOST.COM",
                     PasswordHash = hasher.HashPassword(new (), "doctor1"),
                     EmailConfirmed = true,
-                    LicenceId = "-1"
+                    SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
+                    LicenceId = "-1",
                 }
             );
         }

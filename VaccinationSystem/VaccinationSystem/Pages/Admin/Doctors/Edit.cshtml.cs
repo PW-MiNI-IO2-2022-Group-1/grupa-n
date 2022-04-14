@@ -22,13 +22,8 @@ namespace VaccinationSystem.Pages.AdminPanel.Doctors
         [BindProperty]
         public ApplicationUser Doctor { get; set; }
 
-        public IActionResult OnGet(string? id)
+        public IActionResult OnGet(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             Doctor = _administratorRepository.GetDoctor(id);
 
             if (Doctor == null)

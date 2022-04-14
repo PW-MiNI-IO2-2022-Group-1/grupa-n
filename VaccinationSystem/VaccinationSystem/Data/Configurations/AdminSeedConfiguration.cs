@@ -13,7 +13,7 @@ namespace VaccinationSystem.Data.Configurations
             _ = builder.HasData(
                 new Administrator
                 {
-                    Id = "6f5f0ee8-640a-4645-ba8b-a4e3fa51b3dd",
+                    Id = -1,
                     FirstName = "System",
                     LastName = "Admin",
                     UserName = "admin@localhost.com",
@@ -22,6 +22,7 @@ namespace VaccinationSystem.Data.Configurations
                     NormalizedEmail = "ADMIN@LOCALHOST.COM",
                     PasswordHash = hasher.HashPassword(new (), "admin1"),
                     EmailConfirmed = true,
+                    SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464"
                 }
             );
         }
