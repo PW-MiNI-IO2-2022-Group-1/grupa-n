@@ -5,7 +5,9 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VaccinationSystem", "VaccinationSystem\VaccinationSystem.csproj", "{FD8A6ADC-344F-49E5-AEF4-B742E72DF0FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{D34DE088-58BD-4CD8-8A8D-0ACDA902FBA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{D34DE088-58BD-4CD8-8A8D-0ACDA902FBA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{38711FD8-0754-4200-B9F8-1459483F5072}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D34DE088-58BD-4CD8-8A8D-0ACDA902FBA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D34DE088-58BD-4CD8-8A8D-0ACDA902FBA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D34DE088-58BD-4CD8-8A8D-0ACDA902FBA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38711FD8-0754-4200-B9F8-1459483F5072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38711FD8-0754-4200-B9F8-1459483F5072}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38711FD8-0754-4200-B9F8-1459483F5072}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38711FD8-0754-4200-B9F8-1459483F5072}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
