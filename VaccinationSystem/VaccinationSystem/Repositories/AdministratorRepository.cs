@@ -22,7 +22,9 @@ namespace VaccinationSystem.Repositories
                 PasswordHash = hasher.HashPassword(new ApplicationUser(), password),
                 EmailConfirmed = false
             };
-            var id = context.Add(doctor).Entity.Id;
+            var entity = context.Add(doctor);
+            context.SaveChanges();
+            int id = entity.Entity.Id;
             var userRole = new IdentityUserRole<int>
             {
                 RoleId = Roles.Doctor.Id,
