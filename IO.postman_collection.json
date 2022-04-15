@@ -1,0 +1,678 @@
+{
+	"info": {
+		"_postman_id": "2390a98c-9222-435e-ab56-19f44b69a3cd",
+		"name": "IO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Patient",
+			"item": [
+				{
+					"name": "Login as a patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"if(jsonData.token) {\r",
+									"    pm.globals.set(\"IO_PATIENT_TOKEN\", jsonData.token);\r",
+									"}\r",
+									"else {\r",
+									"    pm.globals.set(\"IO_PATIENT_TOKEN\", \"\");    \r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"john@patient.com\",\r\n  \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{IOHostURL}}/patient/login",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"patient",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authentication test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IOHostURL}}/patient/auth-test",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"patient",
+								"auth-test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register patient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"pesel\": \"94100613369\",\n  \"email\": \"john.doe@patient.com\",\n  \"password\": \"!Password#123\",\n  \"address\": {\n    \"city\": \"Warszawa\",\n    \"zipCode\": \"01-202\",\n    \"street\": \"Jaktorowska\",\n    \"houseNumber\": \"14\",\n    \"localNumber\": \"5a\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{IOHostURL}}/patient/registration",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"patient",
+								"registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Patient",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "{{IO_PATIENT_TOKEN}}",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "Authorization",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Doctor",
+			"item": [
+				{
+					"name": "Vaccination slots",
+					"item": [
+						{
+							"name": "Create new vaccination slot",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"date\": \"2022-04-01T14:15:00Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IOHostURL}}/doctor/vaccination-slots",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"doctor",
+										"vaccination-slots"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show vaccination slots",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/doctor/vaccination-slots?page=1",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"doctor",
+										"vaccination-slots"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"description": "OPTIONAL | default 1"
+										},
+										{
+											"key": "onlyReserved",
+											"value": "1",
+											"description": "OPTIONAL | 1 - only reserved | 0 - only not reserved",
+											"disabled": true
+										},
+										{
+											"key": "startDate",
+											"value": "2022-03-18T14:15:00Z",
+											"description": "OPTIONAL",
+											"disabled": true
+										},
+										{
+											"key": "endDate",
+											"value": "2022-03-20T14:15:00Z",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete vaccination slot",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/doctor/vaccination-slots/1",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"doctor",
+										"vaccination-slots",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login as a doctor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"if(jsonData.token) {\r",
+									"    pm.globals.set(\"IO_DOCTOR_TOKEN\", jsonData.token);\r",
+									"}\r",
+									"else {\r",
+									"    pm.globals.set(\"IO_DOCTOR_TOKEN\", \"\");    \r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"john@doctor.com\",\r\n  \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{IOHostURL}}/doctor/login",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"doctor",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authentication test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IOHostURL}}/doctor/auth-test",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"doctor",
+								"auth-test"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "{{IO_DOCTOR_TOKEN}}",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "Authorization",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Settings",
+					"item": [
+						{
+							"name": "Get settings",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/admin/settings",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set settings",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"bugEmail\": \"bugEmail@szczepiania.pw\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IOHostURL}}/admin/settings",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"settings"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Doctor",
+					"item": [
+						{
+							"name": "Delete doctor",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/admin/doctors/2",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"doctors",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create doctor",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"firstName\": \"Dr John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@doctor.com\",\n  \"password\": \"!Password#123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IOHostURL}}/admin/doctors",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"doctors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Doctor",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/admin/doctors/1",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"doctors",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show Doctor",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/admin/doctors/-2",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"doctors",
+										"-2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show Doctors",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/admin/doctors?page=1",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"doctors"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login as an admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"if(jsonData.token) {\r",
+									"    pm.globals.set(\"IO_ADMIN_TOKEN\", jsonData.token);\r",
+									"}\r",
+									"else {\r",
+									"    pm.globals.set(\"IO_ADMIN_TOKEN\", \"\");    \r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin@localhost.com\",\r\n  \"password\": \"admin1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{IOHostURL}}/admin/login",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"admin",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authentication test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IOHostURL}}/admin/auth-test",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"admin",
+								"auth-test"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{IO_ADMIN_TOKEN}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Common",
+			"item": [
+				{
+					"name": "Bugs",
+					"item": [
+						{
+							"name": "Send bug",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Some bug\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam erat orci, viverra vitae ex ac, fringilla scelerisque tellus. Maecenas rutrum posuere eros, non ultrices turpis. Praesent rutrum faucibus orci sit amet blandit. Vestibulum id congue magna, ut bibendum nulla. Vivamus in lectus laoreet, imperdiet sem at, placerat erat. Morbi ut enim vel erat pulvinar dapibus a quis ex. In id libero urna. Nullam nec auctor lectus.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IOHostURL}}/bugs",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"bugs"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "{{IO_ADMIN_TOKEN}}",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "Authorization",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}

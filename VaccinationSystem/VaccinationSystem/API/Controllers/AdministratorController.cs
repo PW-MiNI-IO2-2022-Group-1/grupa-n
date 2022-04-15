@@ -55,6 +55,11 @@ namespace VaccinationSystem.API.Controllers
             };
             return Ok(response);
         }
+        [HttpGet("auth-test")]
+        public async Task<ActionResult> AuthTest()
+        {
+            return Ok(new SuccessResponse());
+        }
 
         [HttpGet("patients")]
         public async Task<ActionResult> GetPatients([FromQuery] int page)
@@ -89,7 +94,7 @@ namespace VaccinationSystem.API.Controllers
         }
 
         [HttpGet("patients/{patientId}")]
-        public async Task<ActionResult> GetSinglePatient(string patientId)
+        public async Task<ActionResult> GetSinglePatient(int patientId)
         {
             var patient = _administratorRepository.GetPatient(patientId);
             if (patient == null)
@@ -109,7 +114,7 @@ namespace VaccinationSystem.API.Controllers
         }
 
         [HttpPut("patients/{patientId}")]
-        public async Task<ActionResult> EditPatient(string patientId, [FromBody] EditPatient body)
+        public async Task<ActionResult> EditPatient(int patientId, [FromBody] EditPatient body)
         {
             // Address jeszcze nie dziala bo nie jest zaimplementowany w Repository
             var patient = await _administratorRepository.EditPatient(
@@ -131,7 +136,7 @@ namespace VaccinationSystem.API.Controllers
         }
 
         [HttpDelete("patients/{patientId}")]
-        public async Task<IActionResult> DeletePatient(string patientId)
+        public async Task<IActionResult> DeletePatient(int patientId)
         {
             var result = await _administratorRepository.DeletePatient(patientId);
             if (!result)
@@ -187,7 +192,7 @@ namespace VaccinationSystem.API.Controllers
         }
 
         [HttpGet("doctors/{doctorId}")]
-        public async Task<ActionResult> GetSingleDoctor(string doctorId)
+        public async Task<ActionResult> GetSingleDoctor(int doctorId)
         {
             var doctor = _administratorRepository.GetDoctor(doctorId);
             if (doctor == null)
@@ -205,7 +210,7 @@ namespace VaccinationSystem.API.Controllers
         }
 
         [HttpPut("doctors/{doctorId}")]
-        public async Task<ActionResult> EditDoctor(string doctorId, [FromBody] EditDoctor body)
+        public async Task<ActionResult> EditDoctor(int doctorId, [FromBody] EditDoctor body)
         {
             var doctor = await _administratorRepository.EditDoctor(
                 doctorId, body.FirstName, body.LastName, body.Email);
@@ -224,7 +229,7 @@ namespace VaccinationSystem.API.Controllers
         }
 
         [HttpDelete("doctors/{doctorId}")]
-        public async Task<IActionResult> DeleteDoctor(string doctorId)
+        public async Task<IActionResult> DeleteDoctor(int doctorId)
         {
             var result = await _administratorRepository.DeleteDoctor(doctorId);
             if (!result)

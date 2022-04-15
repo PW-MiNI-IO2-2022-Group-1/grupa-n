@@ -12,8 +12,8 @@ using VaccinationSystem.Data;
 namespace VaccinationSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220409202913_Address")]
-    partial class Address
+    [Migration("20220415092820_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,10 +24,13 @@ namespace VaccinationSystem.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -53,28 +56,28 @@ namespace VaccinationSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c8076fe7-faf6-757b-3452-6aa5f7a33c6c",
-                            ConcurrencyStamp = "1bd3e2e0-2e2e-4c1d-afc9-c28a756f7479",
+                            Id = -1,
+                            ConcurrencyStamp = "e5cbe87c-31cd-469a-aa95-2f2ac995290c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "53716615-3a3b-4948-9d28-8076bf328b4a",
-                            ConcurrencyStamp = "df2769a3-a2b0-48c7-8f05-bf36205451f3",
+                            Id = -2,
+                            ConcurrencyStamp = "3541c308-59c4-41fc-b701-3386197f0307",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "410adff7-f581-4737-b4d6-0dc9a88dec59",
-                            ConcurrencyStamp = "69db5a35-5ec2-4ad3-8c05-f3dd36cf3e2a",
+                            Id = -3,
+                            ConcurrencyStamp = "7e75f4fe-b309-4c26-8098-93d50d6d6cec",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,9 +91,8 @@ namespace VaccinationSystem.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -99,7 +101,7 @@ namespace VaccinationSystem.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -113,9 +115,8 @@ namespace VaccinationSystem.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -124,7 +125,7 @@ namespace VaccinationSystem.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -137,9 +138,8 @@ namespace VaccinationSystem.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -148,13 +148,13 @@ namespace VaccinationSystem.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -165,25 +165,25 @@ namespace VaccinationSystem.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "6f5f0ee8-640a-4645-ba8b-a4e3fa51b3dd",
-                            RoleId = "c8076fe7-faf6-757b-3452-6aa5f7a33c6c"
+                            UserId = -1,
+                            RoleId = -1
                         },
                         new
                         {
-                            UserId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
-                            RoleId = "410adff7-f581-4737-b4d6-0dc9a88dec59"
+                            UserId = -2,
+                            RoleId = -2
                         },
                         new
                         {
-                            UserId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
-                            RoleId = "53716615-3a3b-4948-9d28-8076bf328b4a"
+                            UserId = -3,
+                            RoleId = -3
                         });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -247,8 +247,11 @@ namespace VaccinationSystem.Migrations
 
             modelBuilder.Entity("VaccinationSystem.Data.Classes.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -504,12 +507,12 @@ namespace VaccinationSystem.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DoctorId")
+                    b.Property<int?>("DoctorId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("int");
 
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("PatientId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -532,8 +535,8 @@ namespace VaccinationSystem.Migrations
                         {
                             Id = -1,
                             Date = new DateTime(2022, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DoctorId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
-                            PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                            DoctorId = -2,
+                            PatientId = -3,
                             Status = 0,
                             VaccineId = -1
                         },
@@ -541,8 +544,8 @@ namespace VaccinationSystem.Migrations
                         {
                             Id = -2,
                             Date = new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DoctorId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
-                            PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                            DoctorId = -2,
+                            PatientId = -3,
                             Status = 2,
                             VaccineId = -3
                         },
@@ -550,8 +553,8 @@ namespace VaccinationSystem.Migrations
                         {
                             Id = -3,
                             Date = new DateTime(2022, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DoctorId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
-                            PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                            DoctorId = -2,
+                            PatientId = -3,
                             Status = 1,
                             VaccineId = -7
                         });
@@ -566,9 +569,9 @@ namespace VaccinationSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6f5f0ee8-640a-4645-ba8b-a4e3fa51b3dd",
+                            Id = -1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d5c6ce05-e4f2-41a1-b057-7e3f7f1f6d48",
+                            ConcurrencyStamp = "b854a846-e029-40c1-ac96-cc0f89011227",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -576,9 +579,9 @@ namespace VaccinationSystem.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKr0/vx0hk7EVeYXHrxNQixZpg4zRMa759run7T1bKB8UCEsRiPbR9vQShgBv+3PZg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECZ9huxda8xTzcrIy0TtqrKEIADKCKYAGnDFFC6ziRdDtvy2GLYXJyfppLXlhcby1Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b893d85b-915d-45bb-a092-85758658bfe8",
+                            SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -597,9 +600,9 @@ namespace VaccinationSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                            Id = -2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9ee64026-11e2-41aa-a356-c60db30f9cc3",
+                            ConcurrencyStamp = "ad5a6fe5-446a-4da0-8d2f-1748377fd45d",
                             Email = "doctor@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Default",
@@ -607,9 +610,9 @@ namespace VaccinationSystem.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DOCTOR@LOCALHOST.COM",
                             NormalizedUserName = "DOCTOR@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBzrjEi5Dz+eNTEQPa4U593vIQ0S0ReHMjQX2yFK36k5qL3PxunKnBcETEN7SqiiNQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELqYIWIb7WfGZitI+qKxFPjM//1ZDBbV/d9vdT+t/Sreg+ddJR2Rnu+FykebrE4Lhw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "93a58775-6cc1-4445-a582-74ff982ec36f",
+                            SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
                             TwoFactorEnabled = false,
                             UserName = "doctor@localhost.com",
                             LicenceId = "-1"
@@ -634,9 +637,9 @@ namespace VaccinationSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                            Id = -3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "79f0b26d-ea57-4ec4-9ff2-a96690d58063",
+                            ConcurrencyStamp = "a27543fa-887f-453d-964f-026909f869a7",
                             Email = "patient@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Default",
@@ -644,9 +647,9 @@ namespace VaccinationSystem.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PATIENT@LOCALHOST.COM",
                             NormalizedUserName = "PATIENT@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBWZBYAzkWFESbqsGOnUYrERfhBQoDijmNlv+yBup2l8NmeC1UBlBePhsihPS3BCeQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA7k9epmJok6BWXgLPMbd7eg4iwJ4z2RI7P8VmUOp9UqFaLik/49f3z9UTlaKJtyrA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "70947d52-80b9-4705-95e7-8ce196ade721",
+                            SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
                             TwoFactorEnabled = false,
                             UserName = "patient@localhost.com",
                             AddressId = -1,
@@ -654,16 +657,16 @@ namespace VaccinationSystem.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.HasOne("VaccinationSystem.Data.Classes.ApplicationUser", null)
                         .WithMany()
@@ -672,7 +675,7 @@ namespace VaccinationSystem.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.HasOne("VaccinationSystem.Data.Classes.ApplicationUser", null)
                         .WithMany()
@@ -681,9 +684,9 @@ namespace VaccinationSystem.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -696,7 +699,7 @@ namespace VaccinationSystem.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.HasOne("VaccinationSystem.Data.Classes.ApplicationUser", null)
                         .WithMany()
