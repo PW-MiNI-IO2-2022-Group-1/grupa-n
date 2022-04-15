@@ -51,7 +51,10 @@ namespace API.ModelValidation
                         email = message
                     };
                 default:
-                    throw new ArgumentException($"Validating unexpected field: {key}");
+                    return new
+                    {
+                        unexpected = message
+                    };
             }
         }
     }
