@@ -16,6 +16,11 @@ namespace API.ModelValidation
                     .ToArray();
         }
 
+        public ValidationFailedResponseModel(object[] data)
+        {
+            Data = data;
+        }
+
         private object CreateErrorObject(string key, string message)
         {
             // chyba tylko w ten sposob z uzyciem domyslnego serializatora
@@ -49,6 +54,11 @@ namespace API.ModelValidation
                     return new
                     {
                         email = message
+                    };
+                case "Status":
+                    return new
+                    {
+                        status = message
                     };
                 default:
                     return new

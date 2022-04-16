@@ -69,7 +69,7 @@ namespace API.Controllers
         {
             if (page < 1)
             {
-                return new NotFoundResponse($"Wrong page.");
+                return new NotFoundResponse("Wrong page.");
             }
             var (patients, pagination) = Pagination<Patient>.ShrinkList(await _administratorRepository.GetAllPatients(), page, pageSize);
             var response = new ResponseModels.Admin.GetAllPatients
@@ -94,7 +94,7 @@ namespace API.Controllers
             var patient = _administratorRepository.GetPatient(patientId);
             if (patient == null)
             {
-                return new NotFoundResponse($"Patient does not exist.");
+                return new NotFoundResponse("Patient does not exist.");
             }
             var response = new ApiPatient
             {
@@ -116,7 +116,7 @@ namespace API.Controllers
                 patientId, body.FirstName, body.LastName, body.Pesel, body.Email);
             if (patient == null)
             {
-                return new NotFoundResponse($"Patient does not exist.");
+                return new NotFoundResponse("Patient does not exist.");
             }
             var response = new ApiPatient
             {
@@ -136,7 +136,7 @@ namespace API.Controllers
             var result = await _administratorRepository.DeletePatient(patientId);
             if (!result)
             {
-                return new NotFoundResponse($"Patient does not exist.");
+                return new NotFoundResponse("Patient does not exist.");
             }
             return Ok();
         }
@@ -146,7 +146,7 @@ namespace API.Controllers
         {
             if (page < 1)
             {
-                return new NotFoundResponse($"Wrong page.");
+                return new NotFoundResponse("Wrong page.");
             }
             var (doctors, pagination) = Pagination<Doctor>.ShrinkList(await _administratorRepository.GetAllDoctors(), page, pageSize);
             var response = new ResponseModels.Admin.GetAllDoctors
@@ -184,7 +184,7 @@ namespace API.Controllers
             var doctor = _administratorRepository.GetDoctor(doctorId);
             if (doctor == null)
             {
-                return new NotFoundResponse($"Doctor does not exist.");
+                return new NotFoundResponse("Doctor does not exist.");
             }
             var response = new ApiUser
             {
@@ -203,7 +203,7 @@ namespace API.Controllers
                 doctorId, body.FirstName, body.LastName, body.Email);
             if (doctor == null)
             {
-                return new NotFoundResponse($"Doctor does not exist.");
+                return new NotFoundResponse("Doctor does not exist.");
             }
             var response = new ApiUser
             {
@@ -221,7 +221,7 @@ namespace API.Controllers
             var result = await _administratorRepository.DeleteDoctor(doctorId);
             if (!result)
             {
-                return new NotFoundResponse($"Doctor does not exist.");
+                return new NotFoundResponse("Doctor does not exist.");
             }
             return Ok(new SuccessResponse());
         }
@@ -231,7 +231,7 @@ namespace API.Controllers
         {
             if (body.Page < 1)
             {
-                return new NotFoundResponse($"Wrong page.");
+                return new NotFoundResponse("Wrong page.");
             }
             // Na razie filtrowanie dla pojedynczych wartosci, 
             // powinno byc mozliwe separowanie po przecinku chorob

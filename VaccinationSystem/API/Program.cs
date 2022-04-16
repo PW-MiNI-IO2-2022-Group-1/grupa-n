@@ -30,6 +30,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddScoped<IAdministratorRepository, AdministratorRepository>();
+builder.Services.AddScoped<IVisitRepository, VisitRepository>();
+builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 
@@ -105,7 +107,12 @@ builder.Services.AddAuthentication(option =>
 
             context.Response.StatusCode = 401;
             await context.Response.WriteAsJsonAsync(new UnauthorizedResponseModel());
-        }
+        },
+        OnForbidden = async context =>
+        {
+            context.Response.StatusCode = 401;
+            await context.Response.WriteAsJsonAsync(new UnauthorizedResponseModel());
+        },
     };
 });
 
