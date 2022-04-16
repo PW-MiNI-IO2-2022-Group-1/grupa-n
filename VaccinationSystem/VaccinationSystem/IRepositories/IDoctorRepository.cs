@@ -7,6 +7,6 @@ namespace VaccinationSystem.IRepositories
         Task<bool> VaccinatePatient(int visitId);
         Task<bool> DeleteVisit(int visitId);
         Task<Visit?> CreateVisit(DateTime date, int doctorId);
-        Task<List<Visit>?> GetVisits(int doctorId,int page, string? onlyReserved = null, DateTime? startDate = null, DateTime? endDate = null);
+        Task<List<Visit>?> GetVisits(int doctorId, string? onlyReserved = null, DateTime? startDate = null, DateTime? endDate = null);
     }
 }

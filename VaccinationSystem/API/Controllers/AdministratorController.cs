@@ -4,6 +4,7 @@ using API.ModelValidation;
 using API.RequestModels.Admin;
 using VaccinationSystem.Data;
 using VaccinationSystem.IRepositories;
+using VaccinationSystem.Data.Classes;
 
 namespace API.Controllers
 {
@@ -14,6 +15,8 @@ namespace API.Controllers
     {
         private readonly IUserService _userService;
         private readonly IAdministratorRepository _administratorRepository;
+
+        private const int pageSize = 10;
 
         public AdministratorController(
             IUserService userService,
@@ -64,19 +67,11 @@ namespace API.Controllers
         [HttpGet("patients")]
         public async Task<ActionResult> GetPatients([FromQuery] int page)
         {
-            // TODO: Paginacja
-            if (page != 1)
+            if (page < 1)
             {
                 return new NotFoundResponse($"Wrong page.");
             }
-            var patients = await _administratorRepository.GetAllPatients();
-            var pagination = new Pagination
-            {
-                CurrentPage = page,
-                CurrentRecords = patients.Count(),
-                TotalPage = 1,
-                TotalRecords = patients.Count()
-            };
+            var (patients, pagination) = Pagination<Patient>.ShrinkList(await _administratorRepository.GetAllPatients(), page, pageSize);
             var response = new ResponseModels.Admin.GetAllPatients
             {
                 Pagination = pagination,
@@ -149,23 +144,15 @@ namespace API.Controllers
         [HttpGet("doctors")]
         public async Task<ActionResult> GetDoctors([FromQuery] int page)
         {
-            // TODO: Paginacja
-            if (page != 1)
+            if (page < 1)
             {
                 return new NotFoundResponse($"Wrong page.");
             }
-            var patients = await _administratorRepository.GetAllDoctors();
-            var pagination = new Pagination
-            {
-                CurrentPage = page,
-                CurrentRecords = patients.Count(),
-                TotalPage = 1,
-                TotalRecords = patients.Count()
-            };
+            var (doctors, pagination) = Pagination<Doctor>.ShrinkList(await _administratorRepository.GetAllDoctors(), page, pageSize);
             var response = new ResponseModels.Admin.GetAllDoctors
             {
                 Pagination = pagination,
-                Data = patients.Select(doctor => new ApiUser
+                Data = doctors.Select(doctor => new ApiUser
                 {
                     Id = doctor.Id,
                     FirstName = doctor.FirstName,
@@ -242,14 +229,14 @@ namespace API.Controllers
         [HttpGet("vaccinations")]
         public async Task<IActionResult> GetVaccinations([FromQuery] GetVaccinations body)
         {
-            // TODO: Paginacja
-            if (body.Page != 1)
+            if (body.Page < 1)
             {
                 return new NotFoundResponse($"Wrong page.");
             }
             // Na razie filtrowanie dla pojedynczych wartosci, 
             // powinno byc mozliwe separowanie po przecinku chorob
-            var visits = await _administratorRepository.GetAllVisits(body.Disease, body.DoctorId, body.PatientId);
+            var (visits, pagination) = Pagination<Visit>
+                .ShrinkList(await _administratorRepository.GetAllVisits(body.Disease, body.DoctorId, body.PatientId), body.Page, pageSize);
             var data = visits.Select(visit =>
             {
                 return new ApiVaccination
@@ -264,7 +251,7 @@ namespace API.Controllers
                     },
                     VaccinationSlot = new ApiVaccinationSlot
                     {
-                        Id = int.MinValue, // nie wiem co tutaj
+                        Id = visit.Id,
                         Date = visit.Date
                     },
                     Status = visit.Status.ToString(),
@@ -288,14 +275,7 @@ namespace API.Controllers
             }).ToArray();
             return Ok(new ResponseModels.Admin.GetVaccinations
             {
-                // Paginacja jeszcze nie dziala
-                Pagination = new Pagination
-                {
-                    CurrentPage = 1,
-                    TotalPage = 1,
-                    CurrentRecords = data.Count(),
-                    TotalRecords = data.Count()
-                },
+                Pagination = pagination,
                 Data = data
             });
         }

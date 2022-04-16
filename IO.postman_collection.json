@@ -449,6 +449,15 @@
 							"request": {
 								"method": "PUT",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Adam\",\r\n    \"lastName\": \"Nowak\",\r\n    \"email\": \"abcd@abcd.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "{{IOHostURL}}/admin/doctors/1",
 									"host": [
@@ -566,6 +575,37 @@
 							"path": [
 								"admin",
 								"auth-test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get vaccinations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{IOHostURL}}/admin/vaccinations?page=1",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"admin",
+								"vaccinations"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
 							]
 						}
 					},
