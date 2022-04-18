@@ -16,15 +16,18 @@ namespace API.Controllers
     {
         private readonly IUserService _userService;
         private readonly IPatientRepository _patientRepository;
+        private readonly IVaccineRepository _vaccineRepository;
 
         private const int pageSize = 10;
 
         public PatientController(
             IUserService userService,
-            IPatientRepository patientRepository)
+            IPatientRepository patientRepository,
+            IVaccineRepository vaccineRepository)
         {
             _userService = userService;
             _patientRepository = patientRepository;
+            _vaccineRepository = vaccineRepository;
         }
 
         [HttpPost("login")]
@@ -109,6 +112,21 @@ namespace API.Controllers
             {
                 Id = visit.Id,
                 Date = visit.Date
+            }).ToArray();
+            return Ok(response);
+        }
+
+        [HttpGet("vaccines")]
+        public async Task<IActionResult> GetVaccines([FromQuery] GetVaccines query)
+        {
+            // TODO: filtracja
+            var vaccines = await _vaccineRepository.GetAllAsync();
+            var response = vaccines.Select(vaccine => new ApiVaccine
+            {
+                Id = vaccine.Id,
+                Disease = vaccine.Disease.Name,
+                Name = vaccine.Name,
+                RequiredDoses = vaccine.RequiredDoses
             }).ToArray();
             return Ok(response);
         }
