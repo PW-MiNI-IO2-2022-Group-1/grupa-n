@@ -22,8 +22,9 @@ namespace VaccinationSystem.Data.Configurations
                     NormalizedEmail = "PATIENT@LOCALHOST.COM",
                     PasswordHash = hasher.HashPassword(new (), "patient1"),
                     EmailConfirmed = true,
-                    SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
                     Pesel = "12345678901",
+                    AddressId = -1,
+                    SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464"
                 }
             );
         }

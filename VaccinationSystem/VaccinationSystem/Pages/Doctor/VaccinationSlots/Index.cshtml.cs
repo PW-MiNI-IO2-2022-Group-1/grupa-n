@@ -30,7 +30,7 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
         public async Task OnGetAsync()
         {
             Doctor = (Data.Classes.Doctor) await _userManager.GetUserAsync(User);
-            Visits = await _doctorRepository.GetVisits(Doctor.Id, 1);
+            Visits = await _doctorRepository.GetVisits(Doctor.Id);
 
             ViewData["Message"] = $"Welcome {Doctor.FirstName} {Doctor.LastName}";
         }

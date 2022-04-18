@@ -39,7 +39,7 @@ namespace VaccinationSystem.Repositories
             return result;
 
         }
-        public async Task<List<Visit>?> GetVisits(int DoctorId, int page, string? onlyReserved = null, DateTime? startDate = null, DateTime? endDate = null)
+        public async Task<List<Visit>?> GetVisits(int DoctorId, string? onlyReserved = null, DateTime? startDate = null, DateTime? endDate = null)
         {
             var entity = context.Visits?.Where(visit => visit.DoctorId == DoctorId && visit.Status == VaccinationStatus.Planned);
             if (entity == null)

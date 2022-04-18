@@ -67,7 +67,9 @@ namespace VaccinationSystem.Repositories
 
         public async Task<Patient?> EditPatient(int patientId, string? firstName = null, string? lastName = null, string? pesel = null, string? email = null, string? phoneNumber = null)
         {
-            Patient? entity = (Patient?)context.Users.FirstOrDefault(user => user.Id == patientId);
+            Patient? entity = (Patient?)context.Users
+                .Include("Address")
+                .FirstOrDefault(user => user.Id == patientId);
             if (entity == null)
                 return null;
             if (firstName != null) entity.FirstName = firstName;
@@ -91,6 +93,7 @@ namespace VaccinationSystem.Repositories
         public async Task<List<Patient>> GetAllPatients()
         {
             return await context.Users
+                .Include("Address")
                 .Join(context.UserRoles, (user => user.Id), (userRole => userRole.UserId), ((user, userRole) => new { user, userRole }))
                 .Where(result => result.userRole.RoleId == Roles.Patient.Id)
                 .Select(result => (Patient)result.user)
@@ -107,6 +110,8 @@ namespace VaccinationSystem.Repositories
                 .Include(visit => visit.Patient)
                 .Include(visit => visit.Doctor)
                 .Include(visit => visit.Vaccine)
+                .Include(visit => visit.Vaccine.Disease)
+                .Include(visit => visit.Patient.Address)
                 .ToListAsync();
         }
 
@@ -117,8 +122,9 @@ namespace VaccinationSystem.Repositories
 
         public Patient? GetPatient(int patientId)
         {
-            return (Patient?)context.Users.FirstOrDefault(user => user.Id == patientId);
+            return (Patient?)context.Users.Where(user => user.Id == patientId)
+                .Include("Address")
+                .FirstOrDefault();
         }
-
     }
 }

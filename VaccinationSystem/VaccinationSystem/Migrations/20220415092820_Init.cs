@@ -5,10 +5,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VaccinationSystem.Migrations
 {
-    public partial class NewBasicMigration : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Address",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HouseNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LocalNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Address", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -25,6 +42,19 @@ namespace VaccinationSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Diseases",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Diseases", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -35,6 +65,7 @@ namespace VaccinationSystem.Migrations
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LicenceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Pesel = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AddressId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -53,19 +84,12 @@ namespace VaccinationSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Diseases",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Diseases", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -85,6 +109,28 @@ namespace VaccinationSystem.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Vaccines",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    SerialNo = table.Column<int>(type: "int", nullable: false),
+                    DiseaseId = table.Column<int>(type: "int", nullable: false),
+                    RequiredDoses = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vaccines", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vaccines_Diseases_DiseaseId",
+                        column: x => x.DiseaseId,
+                        principalTable: "Diseases",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -175,28 +221,6 @@ namespace VaccinationSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Vaccines",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    SerialNo = table.Column<int>(type: "int", nullable: false),
-                    DiseaseId = table.Column<int>(type: "int", nullable: false),
-                    RequiredDoses = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vaccines", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Vaccines_Diseases_DiseaseId",
-                        column: x => x.DiseaseId,
-                        principalTable: "Diseases",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Visits",
                 columns: table => new
                 {
@@ -230,29 +254,29 @@ namespace VaccinationSystem.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Address",
+                columns: new[] { "Id", "City", "HouseNumber", "LocalNumber", "Street", "ZipCode" },
+                values: new object[] { -1, "Warszawa", "1", "", "plac Politechniki", "00-661" });
+
+            migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { -3, "88356c8f-c311-4654-8117-2bef156344ff", "Patient", "PATIENT" },
-                    { -2, "fd2148a6-5e42-4484-bf3b-7dace63fd69e", "Doctor", "DOCTOR" },
-                    { -1, "404b4023-d9eb-44f2-b4cb-9f8992eb5087", "Administrator", "ADMINISTRATOR" }
+                    { -3, "7e75f4fe-b309-4c26-8098-93d50d6d6cec", "Patient", "PATIENT" },
+                    { -2, "3541c308-59c4-41fc-b701-3386197f0307", "Doctor", "DOCTOR" },
+                    { -1, "e5cbe87c-31cd-469a-aa95-2f2ac995290c", "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { -1, 0, "c4e25d0f-e1a0-4f88-b467-a57568d73c13", "Administrator", "admin@localhost.com", true, "System", "Admin", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAEAACcQAAAAEBO8czXG6ikTCK/NyAEJrfBW0zd83i85d67hWqupEatuFHFJ/ksE/vqMSeVnuFbNlQ==", null, false, "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464", false, "admin@localhost.com" });
+                values: new object[] { -1, 0, "b854a846-e029-40c1-ac96-cc0f89011227", "Administrator", "admin@localhost.com", true, "System", "Admin", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAEAACcQAAAAECZ9huxda8xTzcrIy0TtqrKEIADKCKYAGnDFFC6ziRdDtvy2GLYXJyfppLXlhcby1Q==", null, false, "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464", false, "admin@localhost.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LicenceId", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { -2, 0, "6053ff48-fb41-4b80-bae6-47f19f70aef3", "Doctor", "doctor@localhost.com", true, "Default", "Doctor", "-1", false, null, "DOCTOR@LOCALHOST.COM", "DOCTOR@LOCALHOST.COM", "AQAAAAEAACcQAAAAEDwH8E7mRUGHHAoXQTS0eYCJLXgLF/Ynwld0YapWNAHjv2qKMvnHhFMhZaMLhXHUig==", null, false, "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464", false, "doctor@localhost.com" });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "Pesel", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { -3, 0, "5f0b3d64-becb-4eb0-9519-aab3545965c6", "Patient", "patient@localhost.com", true, "Default", "Patient", false, null, "PATIENT@LOCALHOST.COM", "PATIENT@LOCALHOST.COM", "AQAAAAEAACcQAAAAECthjZ1mx6MIgb2XPj7g3cswjv+zNHLSpCocWFb2/RhHZCslvwBDKNOCquXaq34v7g==", "12345678901", null, false, "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464", false, "patient@localhost.com" });
+                values: new object[] { -2, 0, "ad5a6fe5-446a-4da0-8d2f-1748377fd45d", "Doctor", "doctor@localhost.com", true, "Default", "Doctor", "-1", false, null, "DOCTOR@LOCALHOST.COM", "DOCTOR@LOCALHOST.COM", "AQAAAAEAACcQAAAAELqYIWIb7WfGZitI+qKxFPjM//1ZDBbV/d9vdT+t/Sreg+ddJR2Rnu+FykebrE4Lhw==", null, false, "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464", false, "doctor@localhost.com" });
 
             migrationBuilder.InsertData(
                 table: "Diseases",
@@ -274,10 +298,14 @@ namespace VaccinationSystem.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { -3, -3 },
                     { -2, -2 },
                     { -1, -1 }
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "AddressId", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "Pesel", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { -3, 0, -1, "a27543fa-887f-453d-964f-026909f869a7", "Patient", "patient@localhost.com", true, "Default", "Patient", false, null, "PATIENT@LOCALHOST.COM", "PATIENT@LOCALHOST.COM", "AQAAAAEAACcQAAAAEA7k9epmJok6BWXgLPMbd7eg4iwJ4z2RI7P8VmUOp9UqFaLik/49f3z9UTlaKJtyrA==", "12345678901", null, false, "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464", false, "patient@localhost.com" });
 
             migrationBuilder.InsertData(
                 table: "Vaccines",
@@ -297,19 +325,19 @@ namespace VaccinationSystem.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Visits",
-                columns: new[] { "Id", "Date", "DoctorId", "PatientId", "Status", "VaccineId" },
-                values: new object[] { -3, new DateTime(2022, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), -2, -3, 1, -7 });
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { -3, -3 });
 
             migrationBuilder.InsertData(
                 table: "Visits",
                 columns: new[] { "Id", "Date", "DoctorId", "PatientId", "Status", "VaccineId" },
-                values: new object[] { -2, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), -2, -3, 2, -3 });
-
-            migrationBuilder.InsertData(
-                table: "Visits",
-                columns: new[] { "Id", "Date", "DoctorId", "PatientId", "Status", "VaccineId" },
-                values: new object[] { -1, new DateTime(2022, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), -2, -3, 0, -1 });
+                values: new object[,]
+                {
+                    { -3, new DateTime(2022, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), -2, -3, 1, -7 },
+                    { -2, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), -2, -3, 2, -3 },
+                    { -1, new DateTime(2022, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), -2, -3, 0, -1 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -342,6 +370,11 @@ namespace VaccinationSystem.Migrations
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_AddressId",
+                table: "AspNetUsers",
+                column: "AddressId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -399,6 +432,9 @@ namespace VaccinationSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "Vaccines");
+
+            migrationBuilder.DropTable(
+                name: "Address");
 
             migrationBuilder.DropTable(
                 name: "Diseases");

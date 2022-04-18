@@ -55,21 +55,21 @@ namespace VaccinationSystem.Migrations
                         new
                         {
                             Id = -1,
-                            ConcurrencyStamp = "404b4023-d9eb-44f2-b4cb-9f8992eb5087",
+                            ConcurrencyStamp = "e5cbe87c-31cd-469a-aa95-2f2ac995290c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = -2,
-                            ConcurrencyStamp = "fd2148a6-5e42-4484-bf3b-7dace63fd69e",
+                            ConcurrencyStamp = "3541c308-59c4-41fc-b701-3386197f0307",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
                             Id = -3,
-                            ConcurrencyStamp = "88356c8f-c311-4654-8117-2bef156344ff",
+                            ConcurrencyStamp = "7e75f4fe-b309-4c26-8098-93d50d6d6cec",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -197,6 +197,50 @@ namespace VaccinationSystem.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("VaccinationSystem.Data.Classes.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HouseNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LocalNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Address");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            City = "Warszawa",
+                            HouseNumber = "1",
+                            LocalNumber = "",
+                            Street = "plac Politechniki",
+                            ZipCode = "00-661"
+                        });
                 });
 
             modelBuilder.Entity("VaccinationSystem.Data.Classes.ApplicationUser", b =>
@@ -525,7 +569,7 @@ namespace VaccinationSystem.Migrations
                         {
                             Id = -1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c4e25d0f-e1a0-4f88-b467-a57568d73c13",
+                            ConcurrencyStamp = "b854a846-e029-40c1-ac96-cc0f89011227",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -533,7 +577,7 @@ namespace VaccinationSystem.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBO8czXG6ikTCK/NyAEJrfBW0zd83i85d67hWqupEatuFHFJ/ksE/vqMSeVnuFbNlQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECZ9huxda8xTzcrIy0TtqrKEIADKCKYAGnDFFC6ziRdDtvy2GLYXJyfppLXlhcby1Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
                             TwoFactorEnabled = false,
@@ -556,7 +600,7 @@ namespace VaccinationSystem.Migrations
                         {
                             Id = -2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6053ff48-fb41-4b80-bae6-47f19f70aef3",
+                            ConcurrencyStamp = "ad5a6fe5-446a-4da0-8d2f-1748377fd45d",
                             Email = "doctor@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Default",
@@ -564,7 +608,7 @@ namespace VaccinationSystem.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DOCTOR@LOCALHOST.COM",
                             NormalizedUserName = "DOCTOR@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDwH8E7mRUGHHAoXQTS0eYCJLXgLF/Ynwld0YapWNAHjv2qKMvnHhFMhZaMLhXHUig==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELqYIWIb7WfGZitI+qKxFPjM//1ZDBbV/d9vdT+t/Sreg+ddJR2Rnu+FykebrE4Lhw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
                             TwoFactorEnabled = false,
@@ -577,9 +621,14 @@ namespace VaccinationSystem.Migrations
                 {
                     b.HasBaseType("VaccinationSystem.Data.Classes.ApplicationUser");
 
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Pesel")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("AddressId");
 
                     b.HasDiscriminator().HasValue("Patient");
 
@@ -588,7 +637,7 @@ namespace VaccinationSystem.Migrations
                         {
                             Id = -3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5f0b3d64-becb-4eb0-9519-aab3545965c6",
+                            ConcurrencyStamp = "a27543fa-887f-453d-964f-026909f869a7",
                             Email = "patient@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Default",
@@ -596,11 +645,12 @@ namespace VaccinationSystem.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PATIENT@LOCALHOST.COM",
                             NormalizedUserName = "PATIENT@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAECthjZ1mx6MIgb2XPj7g3cswjv+zNHLSpCocWFb2/RhHZCslvwBDKNOCquXaq34v7g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA7k9epmJok6BWXgLPMbd7eg4iwJ4z2RI7P8VmUOp9UqFaLik/49f3z9UTlaKJtyrA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
                             TwoFactorEnabled = false,
                             UserName = "patient@localhost.com",
+                            AddressId = -1,
                             Pesel = "12345678901"
                         });
                 });
@@ -688,6 +738,17 @@ namespace VaccinationSystem.Migrations
                     b.Navigation("Patient");
 
                     b.Navigation("Vaccine");
+                });
+
+            modelBuilder.Entity("VaccinationSystem.Data.Classes.Patient", b =>
+                {
+                    b.HasOne("VaccinationSystem.Data.Classes.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
                 });
 #pragma warning restore 612, 618
         }
