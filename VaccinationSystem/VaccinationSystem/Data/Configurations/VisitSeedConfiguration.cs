@@ -13,8 +13,8 @@ namespace VaccinationSystem.Data.Configurations
                 new Visit
                 {
                     Id = -1,
-                    PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
-                    DoctorId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                    PatientId = -3,
+                    DoctorId = -2,
                     Status = VaccinationStatus.Planned,
                     Date = new DateTime(2022, 4, 5),    // y, m, d
                     VaccineId = -1
@@ -22,8 +22,8 @@ namespace VaccinationSystem.Data.Configurations
                 new Visit
                 {
                     Id = -2,
-                    PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
-                    DoctorId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                    PatientId = -3,
+                    DoctorId = -2,
                     Status = VaccinationStatus.Cancelled,
                     Date = new DateTime(2022, 1, 15),
                     VaccineId = -3
@@ -31,8 +31,8 @@ namespace VaccinationSystem.Data.Configurations
                 new Visit
                 {
                     Id = -3,
-                    PatientId = "c1076fe7-abf6-420d-8810-6cb0f3a92f6a",
-                    DoctorId = "f1076fe7-abf6-420d-8810-6cb0f3a92f6a",
+                    PatientId = -3,
+                    DoctorId = -2,
                     Status = VaccinationStatus.Completed,
                     Date = new DateTime(2022, 2, 12),
                     VaccineId = -7

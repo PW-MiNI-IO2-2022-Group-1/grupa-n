@@ -4,24 +4,24 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace VaccinationSystem.Data.Configurations
 {
-    internal class RoleSeedConfiguration : IEntityTypeConfiguration<IdentityRole>
+    internal class RoleSeedConfiguration : IEntityTypeConfiguration<IdentityRole<int>>
     {
-        public void Configure(EntityTypeBuilder<IdentityRole> builder)
+        public void Configure(EntityTypeBuilder<IdentityRole<int>> builder)
         {
             builder.HasData(
-                new IdentityRole
+                new IdentityRole<int>
                 {
                     Id = Roles.Admin.Id,
                     Name = Roles.Admin.Name,
                     NormalizedName = Roles.Admin.Name.ToUpper(),
                 },
-                new IdentityRole
+                new IdentityRole<int>
                 {
                     Id = Roles.Doctor.Id,
                     Name = Roles.Doctor.Name,
                     NormalizedName = Roles.Doctor.Name.ToUpper(),
                 },
-                new IdentityRole
+                new IdentityRole<int>
                 {
                     Id = Roles.Patient.Id,
                     Name = Roles.Patient.Name,

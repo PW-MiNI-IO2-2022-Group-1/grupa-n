@@ -20,12 +20,8 @@ namespace VaccinationSystem.Pages.AdminPanel.Patients
         [BindProperty]
         public Data.Classes.Patient Patient { get; private set; }
 
-        public IActionResult OnGet(string? id)
+        public IActionResult OnGet(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
             Patient = _administratorRepository.GetPatient(id);
 
@@ -37,7 +33,7 @@ namespace VaccinationSystem.Pages.AdminPanel.Patients
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
             if (!await _administratorRepository.DeletePatient(id))
             {

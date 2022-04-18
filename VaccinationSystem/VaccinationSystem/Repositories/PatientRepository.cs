@@ -11,7 +11,7 @@ namespace VaccinationSystem.Repositories
         {
         }
 
-        public async Task<List<Visit>> GetAllHistoryVisits(string patientId)
+        public async Task<List<Visit>> GetAllHistoryVisits(int patientId)
         {
             return await context.Visits
                 .Where(visit => visit.PatientId == patientId && visit.Status==VaccinationStatus.Completed)
@@ -29,7 +29,7 @@ namespace VaccinationSystem.Repositories
                 .Include(visit => visit.Vaccine)
                 .ToListAsync();
         }
-        public async Task<Visit> GetLatestVisit(string patientId)
+        public async Task<Visit> GetLatestVisit(int patientId)
         {
             return await context.Visits
                 .OrderByDescending(visit => visit.Date)
@@ -39,13 +39,13 @@ namespace VaccinationSystem.Repositories
                 .FirstAsync(visit => visit.PatientId == patientId);
         }
 
-        public async Task<bool> IsVaccinated(int vaccineId, string patientId)
+        public async Task<bool> IsVaccinated(int vaccineId, int patientId)
         {
             return await context.Visits
                 .AnyAsync(visit => visit.PatientId == patientId && visit.VaccineId == vaccineId && visit.Status == VaccinationStatus.Completed);
         }
 
-        public async Task<bool> ReserveVisit(int visitId,int vaccineId, string patientId)
+        public async Task<bool> ReserveVisit(int visitId,int vaccineId, int patientId)
         {
             var entity = context.Visits.FirstOrDefault(v => v.Id == visitId);
             if (entity == null || entity.PatientId != null) 
@@ -54,7 +54,7 @@ namespace VaccinationSystem.Repositories
             entity.VaccineId = vaccineId;
             return await context.SaveChangesAsync()>0;
         }
-        public async Task<bool> CancelVisit(int visitId, string patientId)
+        public async Task<bool> CancelVisit(int visitId, int patientId)
         {
             var entity = context.Visits.FirstOrDefault(v => v.Id == visitId);
             if (entity == null || entity.PatientId != patientId) 
