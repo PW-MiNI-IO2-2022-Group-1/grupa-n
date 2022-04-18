@@ -5,6 +5,7 @@ using VaccinationSystem.IRepositories;
 using VaccinationSystem.Data.Classes;
 using API.ModelValidation;
 using API.RequestModels.Doctor;
+using API.RequestModels.Patient;
 
 namespace API.Controllers
 {
@@ -81,6 +82,35 @@ namespace API.Controllers
             };
             // Jedyne miejsce gdzie 201 sie przydaje
             return new ObjectResult(response) { StatusCode = StatusCodes.Status201Created };
+        }
+
+        [HttpPut("account")]
+        public async Task<ActionResult> EditPatient([FromBody] Edit body)
+        {
+            return new NotFoundResponse("Not implemented.");
+        }
+
+        [HttpDelete("account")]
+        public async Task<ActionResult> DeletePatient()
+        {
+            var result = await _patientRepository.DeleteAsync(GetPatientId());
+            if (!result)
+            {
+                return new NotFoundResponse("Account not found.");
+            }
+            return Ok();
+        }
+
+        [HttpGet("vaccination-slots")]
+        public async Task<IActionResult> GetVaccinationSlots()
+        {
+            var visits = await _patientRepository.GetAllAvailableVisits();
+            var response = visits.Select(visit => new
+            {
+                Id = visit.Id,
+                Date = visit.Date
+            }).ToArray();
+            return Ok(response);
         }
 
         private int GetPatientId()

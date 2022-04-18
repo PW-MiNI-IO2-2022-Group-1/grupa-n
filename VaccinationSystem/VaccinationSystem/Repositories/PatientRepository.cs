@@ -95,7 +95,7 @@ namespace VaccinationSystem.Repositories
             {
                 throw new Exception("Error while creating doctor.");
             }
-            await _userManager.AddToRoleAsync(patient, Roles.Doctor.Name);
+            await _userManager.AddToRoleAsync(patient, Roles.Patient.Name);
             return patient;
         }
     }

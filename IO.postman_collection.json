@@ -33,7 +33,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"john@patient.com\",\r\n  \"password\": \"password\"\r\n}",
+							"raw": "{\r\n  \"email\": \"john.doe@patient.com\",\r\n  \"password\": \"!Password#123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -108,19 +108,50 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Delete account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{IOHostURL}}/patient/account",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"patient",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show vaccination slots",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IOHostURL}}/patient/vaccination-slots",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"patient",
+								"vaccination-slots"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"auth": {
-				"type": "apikey",
-				"apikey": [
+				"type": "bearer",
+				"bearer": [
 					{
-						"key": "value",
+						"key": "token",
 						"value": "{{IO_PATIENT_TOKEN}}",
-						"type": "string"
-					},
-					{
-						"key": "key",
-						"value": "Authorization",
 						"type": "string"
 					}
 				]
@@ -159,7 +190,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"date\": \"2022-04-01T14:15:00Z\"\n}",
+									"raw": "{\n  \"date\": \"2022-04-30T10:00:00Z\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -213,7 +244,7 @@
 										},
 										{
 											"key": "endDate",
-											"value": "2022-03-20T14:15:00Z",
+											"value": "2022-05-20T14:15:00Z",
 											"disabled": true
 										}
 									]
@@ -245,15 +276,24 @@
 							"request": {
 								"method": "PUT",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"CANCELED\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{IOHostURL}}/doctor/vaccination-slots/111",
+									"raw": "{{IOHostURL}}/doctor/vaccination-slots/1",
 									"host": [
 										"{{IOHostURL}}"
 									],
 									"path": [
 										"doctor",
 										"vaccination-slots",
-										"111"
+										"1"
 									],
 									"query": [
 										{
@@ -270,30 +310,15 @@
 				},
 				{
 					"name": "Login as a doctor",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);\r",
-									"\r",
-									"if(jsonData.token) {\r",
-									"    pm.globals.set(\"IO_DOCTOR_TOKEN\", jsonData.token);\r",
-									"}\r",
-									"else {\r",
-									"    pm.globals.set(\"IO_DOCTOR_TOKEN\", \"\");    \r",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"john@doctor.com\",\r\n  \"password\": \"password\"\r\n}",
+							"raw": "{\r\n  \"email\": \"john.doe@doctor.com\",\r\n  \"password\": \"!Password#123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -425,14 +450,14 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{IOHostURL}}/admin/doctors/2",
+									"raw": "{{IOHostURL}}/admin/doctors/1004",
 									"host": [
 										"{{IOHostURL}}"
 									],
 									"path": [
 										"admin",
 										"doctors",
-										"2"
+										"1004"
 									]
 								}
 							},
@@ -480,14 +505,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{IOHostURL}}/admin/doctors/1",
+									"raw": "{{IOHostURL}}/admin/doctors/-2",
 									"host": [
 										"{{IOHostURL}}"
 									],
 									"path": [
 										"admin",
 										"doctors",
-										"1"
+										"-2"
 									]
 								}
 							},
@@ -499,14 +524,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{IOHostURL}}/admin/doctors/-2",
+									"raw": "{{IOHostURL}}/admin/doctors/2",
 									"host": [
 										"{{IOHostURL}}"
 									],
 									"path": [
 										"admin",
 										"doctors",
-										"-2"
+										"2"
 									]
 								}
 							},
