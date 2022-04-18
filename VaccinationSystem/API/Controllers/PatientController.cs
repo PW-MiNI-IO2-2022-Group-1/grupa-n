@@ -63,6 +63,12 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("auth-test")]
+        public async Task<ActionResult> AuthTest()
+        {
+            return Ok(new SuccessResponse());
+        }
+
         [HttpPost("registration")]
         [AllowAnonymous]
         public async Task<IActionResult> RegisterPatient(RequestModels.Patient.RegisterPatient body)
@@ -90,7 +96,31 @@ namespace API.Controllers
         [HttpPut("account")]
         public async Task<ActionResult> EditPatient([FromBody] Edit body)
         {
-            return new NotFoundResponse("Not implemented.");
+            // Address jeszcze nie dziala bo nie jest zaimplementowany w Repository
+            var patient = await _patientRepository.GetAsync(GetPatientId());
+            if (patient == null)
+            {
+                return new NotFoundResponse("Patient does not exist.");
+            }
+            patient.FirstName = body.FirstName;
+            patient.LastName = body.LastName;
+            patient.Pesel = body.Pesel;
+            patient.Email = body.Email;
+            var success = await _patientRepository.UpdateAsync(patient);
+            if (!success)
+            {
+                return new NotFoundResponse("Failed editing patient data.");
+            }
+            var response = new ApiPatient
+            {
+                Id = patient.Id,
+                FirstName = patient.FirstName,
+                LastName = patient.LastName,
+                Pesel = patient.Pesel,
+                Email = patient.Email,
+                Address = patient.Address,
+            };
+            return Ok(response);
         }
 
         [HttpDelete("account")]

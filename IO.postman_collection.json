@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2390a98c-9222-435e-ab56-19f44b69a3cd",
+		"_postman_id": "546a338d-4272-4940-b9b1-4bf6504c2145",
 		"name": "IO",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -33,7 +33,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"john.doe@patient.com\",\r\n  \"password\": \"!Password#123\"\r\n}",
+							"raw": "{\r\n  \"email\": \"new@patient.com\",\r\n  \"password\": \"!Password#123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -78,7 +78,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"pesel\": \"94100613369\",\n  \"email\": \"john.doe@patient.com\",\n  \"password\": \"!Password#123\",\n  \"address\": {\n    \"city\": \"Warszawa\",\n    \"zipCode\": \"01-202\",\n    \"street\": \"Jaktorowska\",\n    \"houseNumber\": \"14\",\n    \"localNumber\": \"5a\"\n  }\n}",
+							"raw": "{\n  \"firstName\": \"New\",\n  \"lastName\": \"Patient\",\n  \"pesel\": \"94100613369\",\n  \"email\": \"new@patient.com\",\n  \"password\": \"!Password#123\",\n  \"address\": {\n    \"city\": \"Warszawa\",\n    \"zipCode\": \"01-202\",\n    \"street\": \"Jaktorowska\",\n    \"houseNumber\": \"14\",\n    \"localNumber\": \"5a\"\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -103,8 +103,24 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Edited\",\r\n  \"lastName\": \"Patient\",\r\n  \"pesel\": \"94100613369\",\r\n  \"email\": \"edited@patient.com\",\r\n  \"password\": \"!Password#123\",\r\n  \"address\": {\r\n    \"city\": \"Warszawa\",\r\n    \"zipCode\": \"01-202\",\r\n    \"street\": \"Jaktorowska\",\r\n    \"houseNumber\": \"14\",\r\n    \"localNumber\": \"5a\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "{{IOHostURL}}/patient/account",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"patient",
+								"account"
+							]
 						}
 					},
 					"response": []
@@ -334,15 +350,30 @@
 				},
 				{
 					"name": "Login as a doctor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"if(jsonData.token) {\r",
+									"    pm.globals.set(\"IO_DOCTOR_TOKEN\", jsonData.token);\r",
+									"}\r",
+									"else {\r",
+									"    pm.globals.set(\"IO_DOCTOR_TOKEN\", \"\");    \r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"john.doe@doctor.com\",\r\n  \"password\": \"!Password#123\"\r\n}",
+							"raw": "{\r\n  \"email\": \"doctor@localhost.com\",\r\n  \"password\": \"doctor1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -469,7 +500,7 @@
 					"name": "Doctor",
 					"item": [
 						{
-							"name": "Delete doctor",
+							"name": "Delete Doctor",
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -488,13 +519,13 @@
 							"response": []
 						},
 						{
-							"name": "Create doctor",
+							"name": "Create Doctor",
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"firstName\": \"Dr John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@doctor.com\",\n  \"password\": \"!Password#123\"\n}",
+									"raw": "{\n  \"firstName\": \"New\",\n  \"lastName\": \"Doc\",\n  \"email\": \"new@doctor.com\",\n  \"password\": \"!Password#123\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -580,6 +611,101 @@
 											"key": "page",
 											"value": "1"
 										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Patient",
+					"item": [
+						{
+							"name": "Show Patients",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/admin/patients?page=1",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"patients"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Patient",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/admin/patients/-3",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"patients",
+										"-3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Patient",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"Edited\",\r\n  \"lastName\": \"Patient\",\r\n  \"pesel\": \"94100613369\",\r\n  \"email\": \"john.doe@patient.com\",\r\n  \"password\": \"!Password#123\",\r\n  \"address\": {\r\n    \"city\": \"Warszawa\",\r\n    \"zipCode\": \"01-202\",\r\n    \"street\": \"Jaktorowska\",\r\n    \"houseNumber\": \"14\",\r\n    \"localNumber\": \"5a\"\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IOHostURL}}/admin/patients/-3",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"patients",
+										"-3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show Patient",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/admin/patients/-3",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"patients",
+										"-3"
 									]
 								}
 							},

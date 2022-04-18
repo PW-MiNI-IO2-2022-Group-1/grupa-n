@@ -44,7 +44,14 @@ namespace VaccinationSystem.Repositories
             if (entity == null)
                 return false;
             context.Users.Remove(entity);
-            return await context.SaveChangesAsync() > 0;
+            try
+            {
+                return await context.SaveChangesAsync() > 0;
+            }
+            catch
+            {
+                throw new Exception("Cannot delete doctor.");
+            }
         }
 
         public async Task<bool> DeletePatient(int patientId)
@@ -53,7 +60,14 @@ namespace VaccinationSystem.Repositories
             if (entity == null)
                 return false;
             context.Users.Remove(entity);
-            return await context.SaveChangesAsync() > 0;
+            try
+            {
+                return await context.SaveChangesAsync() > 0;
+            }
+            catch
+            {
+                throw new Exception("Cannot delete patient.");
+            }
         }
 
         public async Task<Doctor?> EditDoctor(int doctorId, string firstName, string lastName, string email)
