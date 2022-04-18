@@ -24,7 +24,7 @@ namespace VaccinationSystem.Data.Configurations
                     EmailConfirmed = true,
                     Pesel = "12345678901",
                     AddressId = -1,
-                    SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
+                    SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464"
                 }
             );
         }
