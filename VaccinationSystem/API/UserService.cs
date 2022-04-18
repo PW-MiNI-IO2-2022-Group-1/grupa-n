@@ -32,13 +32,17 @@ namespace API
             return true;
         }
 
-        public string GetTokenForUser(string email, string role)
+        public string GetTokenForUser(string email, string role, int? id = null)
         {
             var claims = new List<Claim>()
             { 
                 new Claim("email", email),
                 new Claim(ClaimTypes.Role, role)
             };
+            if (id is not null)
+            {
+                claims.Add(new Claim("id", id.ToString()));
+            }
             // token wazny 7 dni
             var token = _jwtHelper.GetJwtToken(email, TimeSpan.FromDays(7), claims);
             return new JwtSecurityTokenHandler().WriteToken(token);

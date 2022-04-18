@@ -8,6 +8,6 @@ namespace API
         Task<bool> HasValidCredentialsAsync(RequestModels.Login loginInfo);
         Task<ApplicationUser> GetUserByEmailAsync(string email);
         Task<IList<string>> GetRolesForUser(ApplicationUser user);
-        public string GetTokenForUser(string email, string role);
+        public string GetTokenForUser(string email, string role, int? id = null);
     }
 }

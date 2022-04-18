@@ -56,6 +56,8 @@ namespace VaccinationSystem.Repositories
                 .Include(visit => visit.Patient)
                 .Include(visit => visit.Doctor)
                 .Include(visit => visit.Vaccine)
+                .Include(visit => visit.Vaccine.Disease)
+                .Include(visit => visit.Patient.Address)
                 .ToListAsync();
         }
         public async Task<bool> VaccinatePatient(int visitId)

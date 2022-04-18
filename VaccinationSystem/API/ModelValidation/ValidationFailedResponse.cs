@@ -11,5 +11,11 @@ namespace API.ModelValidation
         {
             StatusCode = StatusCodes.Status422UnprocessableEntity;
         }
+
+        public ValidationFailedResponse(object[] data)
+             : base(new ValidationFailedResponseModel(data))
+        {
+            StatusCode = StatusCodes.Status422UnprocessableEntity;
+        }
     }
 }

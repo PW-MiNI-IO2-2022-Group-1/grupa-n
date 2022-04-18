@@ -239,6 +239,32 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Vaccinate patient",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/doctor/vaccination-slots/111",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"doctor",
+										"vaccination-slots",
+										"111"
+									],
+									"query": [
+										{
+											"key": null,
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -307,16 +333,11 @@
 				}
 			],
 			"auth": {
-				"type": "apikey",
-				"apikey": [
+				"type": "bearer",
+				"bearer": [
 					{
-						"key": "value",
+						"key": "token",
 						"value": "{{IO_DOCTOR_TOKEN}}",
-						"type": "string"
-					},
-					{
-						"key": "key",
-						"value": "Authorization",
 						"type": "string"
 					}
 				]
@@ -602,6 +623,11 @@
 								"vaccinations"
 							],
 							"query": [
+								{
+									"key": "disease",
+									"value": "Flu",
+									"disabled": true
+								},
 								{
 									"key": "page",
 									"value": "1"
