@@ -144,6 +144,30 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Show vaccines",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IOHostURL}}/patient/vaccines?disease=other",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"patient",
+								"vaccines"
+							],
+							"query": [
+								{
+									"key": "disease",
+									"value": "other"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"auth": {
