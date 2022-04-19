@@ -88,10 +88,16 @@
                 @visit.Date
             </td>
             <td>
-                @visit.Patient.FirstName @visit.Patient.LastName
+                @if (visit.PatientId != null)
+                {
+                    @visit.Patient.FirstName @visit.Patient.LastName
+                }
             </td>
             <td>
-                @visit.Doctor.FirstName @visit.Doctor.LastName
+                @if (visit.DoctorId != null)
+                {
+                    @visit.Doctor.FirstName @visit.Doctor.LastName
+                }
             </td>
             <td>
                 @visit.Vaccine?.Name

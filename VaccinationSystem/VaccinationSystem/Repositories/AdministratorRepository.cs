@@ -59,6 +59,13 @@ namespace VaccinationSystem.Repositories
             var entity = context.Users.FirstOrDefault(user => user.Id == patientId);
             if (entity == null)
                 return false;
+            var visits = context.Visits.Where(vis => vis.PatientId == patientId);
+            foreach(var visit in visits)
+            {
+                visit.PatientId = null;
+                context.Update(visit);
+            }
+            context.SaveChanges();
             context.Users.Remove(entity);
             try
             {
