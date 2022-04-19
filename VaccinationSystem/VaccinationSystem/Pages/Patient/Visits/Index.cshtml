@@ -1,0 +1,38 @@
+﻿@page
+@model VaccinationSystem.Pages.Patient.Visits.IndexModel
+
+@{
+    ViewData["Title"] = "Available visits";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p>@ViewData["Message"]</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Visits[0].Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Visits[0].Vaccine)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Visits) {
+            <tr>
+                <td>
+                    @item.Date
+                </td>
+                <td>
+                    @item.Vaccine?.Name
+                </td>
+                <td>
+                    <a asp-page="./Register" asp-route-id="@item.Id">Register</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

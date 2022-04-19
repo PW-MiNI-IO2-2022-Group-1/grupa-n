@@ -13,5 +13,7 @@ namespace VaccinationSystem.Data.Classes
         [Required]
         [DisplayName("Last name")]
         public string? LastName { get; set; }
+
+        public string? FullName => $"{FirstName} {LastName}";
     }
 }

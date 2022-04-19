@@ -1,0 +1,39 @@
+﻿@page
+@model VaccinationSystem.Pages.Patient.Visits.RegisterModel
+
+<h1>Register for visit</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Visit.Id" />
+            <input type="hidden" asp-for="Patient.Id" />
+            <input type="hidden" asp-for="Visit.VaccineId" />
+            <div class="form-group">
+                <label asp-for="Visit.Doctor" class="control-label"></label>
+                <input asp-for="Visit.Doctor.FullName" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="Visit.VaccineId" class="control-label"></label>
+                <select asp-for="Visit.VaccineId" class="form-control" asp-items="ViewBag.VaccineId"></select>
+                <span asp-validation-for="Visit.VaccineId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Visit.Date" class="control-label"></label>
+                <input asp-for="Visit.Date" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Register" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
