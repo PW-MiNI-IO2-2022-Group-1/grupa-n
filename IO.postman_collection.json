@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2390a98c-9222-435e-ab56-19f44b69a3cd",
+		"_postman_id": "546a338d-4272-4940-b9b1-4bf6504c2145",
 		"name": "IO",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -33,7 +33,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"john@patient.com\",\r\n  \"password\": \"password\"\r\n}",
+							"raw": "{\r\n  \"email\": \"new@patient.com\",\r\n  \"password\": \"!Password#123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -78,7 +78,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"pesel\": \"94100613369\",\n  \"email\": \"john.doe@patient.com\",\n  \"password\": \"!Password#123\",\n  \"address\": {\n    \"city\": \"Warszawa\",\n    \"zipCode\": \"01-202\",\n    \"street\": \"Jaktorowska\",\n    \"houseNumber\": \"14\",\n    \"localNumber\": \"5a\"\n  }\n}",
+							"raw": "{\n  \"firstName\": \"New\",\n  \"lastName\": \"Patient\",\n  \"pesel\": \"94100613369\",\n  \"email\": \"new@patient.com\",\n  \"password\": \"!Password#123\",\n  \"address\": {\n    \"city\": \"Warszawa\",\n    \"zipCode\": \"01-202\",\n    \"street\": \"Jaktorowska\",\n    \"houseNumber\": \"14\",\n    \"localNumber\": \"5a\"\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -103,24 +103,95 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Edited\",\r\n  \"lastName\": \"Patient\",\r\n  \"pesel\": \"94100613369\",\r\n  \"email\": \"edited@patient.com\",\r\n  \"password\": \"!Password#123\",\r\n  \"address\": {\r\n    \"city\": \"Warszawa\",\r\n    \"zipCode\": \"01-202\",\r\n    \"street\": \"Jaktorowska\",\r\n    \"houseNumber\": \"14\",\r\n    \"localNumber\": \"5a\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "{{IOHostURL}}/patient/account",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"patient",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{IOHostURL}}/patient/account",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"patient",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show vaccination slots",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IOHostURL}}/patient/vaccination-slots",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"patient",
+								"vaccination-slots"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show vaccines",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IOHostURL}}/patient/vaccines?disease=other",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"patient",
+								"vaccines"
+							],
+							"query": [
+								{
+									"key": "disease",
+									"value": "other"
+								}
+							]
 						}
 					},
 					"response": []
 				}
 			],
 			"auth": {
-				"type": "apikey",
-				"apikey": [
+				"type": "bearer",
+				"bearer": [
 					{
-						"key": "value",
+						"key": "token",
 						"value": "{{IO_PATIENT_TOKEN}}",
-						"type": "string"
-					},
-					{
-						"key": "key",
-						"value": "Authorization",
 						"type": "string"
 					}
 				]
@@ -159,7 +230,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"date\": \"2022-04-01T14:15:00Z\"\n}",
+									"raw": "{\n  \"date\": \"2022-04-30T10:00:00Z\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -213,7 +284,7 @@
 										},
 										{
 											"key": "endDate",
-											"value": "2022-03-20T14:15:00Z",
+											"value": "2022-05-20T14:15:00Z",
 											"disabled": true
 										}
 									]
@@ -245,15 +316,24 @@
 							"request": {
 								"method": "PUT",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"CANCELED\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{IOHostURL}}/doctor/vaccination-slots/111",
+									"raw": "{{IOHostURL}}/doctor/vaccination-slots/1",
 									"host": [
 										"{{IOHostURL}}"
 									],
 									"path": [
 										"doctor",
 										"vaccination-slots",
-										"111"
+										"1"
 									],
 									"query": [
 										{
@@ -293,7 +373,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"john@doctor.com\",\r\n  \"password\": \"password\"\r\n}",
+							"raw": "{\r\n  \"email\": \"doctor@localhost.com\",\r\n  \"password\": \"doctor1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -420,32 +500,32 @@
 					"name": "Doctor",
 					"item": [
 						{
-							"name": "Delete doctor",
+							"name": "Delete Doctor",
 							"request": {
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{IOHostURL}}/admin/doctors/2",
+									"raw": "{{IOHostURL}}/admin/doctors/1004",
 									"host": [
 										"{{IOHostURL}}"
 									],
 									"path": [
 										"admin",
 										"doctors",
-										"2"
+										"1004"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Create doctor",
+							"name": "Create Doctor",
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"firstName\": \"Dr John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@doctor.com\",\n  \"password\": \"!Password#123\"\n}",
+									"raw": "{\n  \"firstName\": \"New\",\n  \"lastName\": \"Doc\",\n  \"email\": \"new@doctor.com\",\n  \"password\": \"!Password#123\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -480,14 +560,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{IOHostURL}}/admin/doctors/1",
+									"raw": "{{IOHostURL}}/admin/doctors/-2",
 									"host": [
 										"{{IOHostURL}}"
 									],
 									"path": [
 										"admin",
 										"doctors",
-										"1"
+										"-2"
 									]
 								}
 							},
@@ -499,14 +579,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{IOHostURL}}/admin/doctors/-2",
+									"raw": "{{IOHostURL}}/admin/doctors/2",
 									"host": [
 										"{{IOHostURL}}"
 									],
 									"path": [
 										"admin",
 										"doctors",
-										"-2"
+										"2"
 									]
 								}
 							},
@@ -531,6 +611,101 @@
 											"key": "page",
 											"value": "1"
 										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Patient",
+					"item": [
+						{
+							"name": "Show Patients",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/admin/patients?page=1",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"patients"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Patient",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/admin/patients/-3",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"patients",
+										"-3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Patient",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"Edited\",\r\n  \"lastName\": \"Patient\",\r\n  \"pesel\": \"94100613369\",\r\n  \"email\": \"john.doe@patient.com\",\r\n  \"password\": \"!Password#123\",\r\n  \"address\": {\r\n    \"city\": \"Warszawa\",\r\n    \"zipCode\": \"01-202\",\r\n    \"street\": \"Jaktorowska\",\r\n    \"houseNumber\": \"14\",\r\n    \"localNumber\": \"5a\"\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IOHostURL}}/admin/patients/-3",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"patients",
+										"-3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show Patient",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/admin/patients/-3",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"patients",
+										"-3"
 									]
 								}
 							},

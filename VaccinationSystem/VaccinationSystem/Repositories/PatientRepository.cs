@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
 using VaccinationSystem.IRepositories;
@@ -7,8 +8,15 @@ namespace VaccinationSystem.Repositories
 {
     public class PatientRepository : GenericRepository<Patient>, IPatientRepository
     {
-        public PatientRepository(ApplicationDbContext context) : base(context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserStore<ApplicationUser> _userStore;
+        public PatientRepository(
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            IUserStore<ApplicationUser> userStore) : base(context)
         {
+            _userManager = userManager;
+            _userStore = userStore;
         }
 
         public async Task<List<Visit>> GetAllHistoryVisits(int patientId)
@@ -61,6 +69,34 @@ namespace VaccinationSystem.Repositories
                 return false;
             entity.Status = VaccinationStatus.Cancelled;
             return await context.SaveChangesAsync()>0;
+        }
+
+        public Patient? GetPatientByEmail(string email)
+        {
+            return (Patient?)context.Users.Where(user => user.Email == email)
+                .Include("Address")
+                .FirstOrDefault();
+        }
+
+        public async Task<Patient> RegisterPatient(string firstName, string lastName, string pesel, string email,
+            string password, Address address)
+        {
+            Patient patient = new Patient()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                Pesel = pesel,
+                Address = address
+            };
+            await _userStore.SetUserNameAsync(patient, email, CancellationToken.None);
+            var result = await _userManager.CreateAsync(patient, password);
+            if (!result.Succeeded)
+            {
+                throw new Exception("Error while creating doctor.");
+            }
+            await _userManager.AddToRoleAsync(patient, Roles.Patient.Name);
+            return patient;
         }
     }
 }
