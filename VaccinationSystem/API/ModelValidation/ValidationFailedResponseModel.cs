@@ -60,6 +60,11 @@ namespace API.ModelValidation
                     {
                         status = message
                     };
+                case "Disease":
+                    return new
+                    {
+                        disease = message
+                    };
                 default:
                     return new
                     {

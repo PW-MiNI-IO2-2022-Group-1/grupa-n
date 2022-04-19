@@ -242,20 +242,20 @@ namespace API.Controllers
                 return new ApiVaccination
                 {
                     Id = visit.Id,
-                    Vaccine = new ApiVaccine
+                    Vaccine = visit.Vaccine != null ? new ApiVaccine
                     {
-                        Id = visit.VaccineId == null ? int.MaxValue : (int)visit.VaccineId,
+                        Id = (int)visit.VaccineId,
                         Name = visit.Vaccine.Name,
                         Disease = visit.Vaccine.Disease.Name,
                         RequiredDoses = visit.Vaccine.RequiredDoses
-                    },
+                    } : null,
                     VaccinationSlot = new ApiVaccinationSlot
                     {
                         Id = visit.Id,
                         Date = visit.Date
                     },
                     Status = visit.Status.ToString(),
-                    Patient = new ApiPatient
+                    Patient = visit.Patient != null ? new ApiPatient
                     {
                         Id = visit.Patient.Id,
                         FirstName = visit.Patient.FirstName,
@@ -263,7 +263,7 @@ namespace API.Controllers
                         Pesel = visit.Patient.Pesel,
                         Email = visit.Patient.Email,
                         Address = visit.Patient.Address
-                    },
+                    } : null,
                     Doctor = new ApiUser
                     {
                         Id = visit.Doctor.Id,

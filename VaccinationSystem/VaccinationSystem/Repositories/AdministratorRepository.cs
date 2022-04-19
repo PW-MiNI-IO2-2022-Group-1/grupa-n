@@ -8,30 +8,33 @@ namespace VaccinationSystem.Repositories
 {
     public class AdministratorRepository : GenericRepository<Administrator>, IAdministratorRepository
     {
-        public AdministratorRepository(ApplicationDbContext context) : base(context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserStore<ApplicationUser> _userStore;
+
+        public AdministratorRepository(
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            IUserStore<ApplicationUser> userStore) : base(context)
         {
+            _userManager = userManager;
+            _userStore = userStore;
         }
+
         public async Task<Doctor> CreateDoctor(string firstName, string lastName, string email, string password)
         {
-            var hasher = new PasswordHasher<ApplicationUser>();
             Doctor doctor = new Doctor()
             {
                 FirstName = firstName,
                 LastName = lastName,
-                Email = email,
-                PasswordHash = hasher.HashPassword(new ApplicationUser(), password),
-                EmailConfirmed = false
+                Email = email
             };
-            var entity = context.Add(doctor);
-            context.SaveChanges();
-            int id = entity.Entity.Id;
-            var userRole = new IdentityUserRole<int>
+            await _userStore.SetUserNameAsync(doctor, email, CancellationToken.None);
+            var result = await _userManager.CreateAsync(doctor, password);
+            if (!result.Succeeded)
             {
-                RoleId = Roles.Doctor.Id,
-                UserId = id
-            };
-            await context.UserRoles.AddAsync(userRole);
-            context.SaveChanges();
+                throw new Exception("Error while creating doctor.");
+            }
+            await _userManager.AddToRoleAsync(doctor, Roles.Doctor.Name);
             return doctor;
         }
 
@@ -41,7 +44,14 @@ namespace VaccinationSystem.Repositories
             if (entity == null)
                 return false;
             context.Users.Remove(entity);
-            return await context.SaveChangesAsync() > 0;
+            try
+            {
+                return await context.SaveChangesAsync() > 0;
+            }
+            catch
+            {
+                throw new Exception("Cannot delete doctor.");
+            }
         }
 
         public async Task<bool> DeletePatient(int patientId)
@@ -50,7 +60,14 @@ namespace VaccinationSystem.Repositories
             if (entity == null)
                 return false;
             context.Users.Remove(entity);
-            return await context.SaveChangesAsync() > 0;
+            try
+            {
+                return await context.SaveChangesAsync() > 0;
+            }
+            catch
+            {
+                throw new Exception("Cannot delete patient.");
+            }
         }
 
         public async Task<Doctor?> EditDoctor(int doctorId, string firstName, string lastName, string email)

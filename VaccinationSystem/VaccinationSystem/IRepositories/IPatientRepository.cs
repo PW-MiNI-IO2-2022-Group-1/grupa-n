@@ -10,5 +10,8 @@ namespace VaccinationSystem.IRepositories
         Task<List<Visit>> GetAllAvailableVisits();
         Task<bool> IsVaccinated(int vaccineId, int patientId);
         Task<bool> CancelVisit(int visitId, int patientId);
+        Patient? GetPatientByEmail(string email);
+        Task<Patient> RegisterPatient(string firstName, string lastName, string pesel, string email,
+            string password, Address address);
     }
 }

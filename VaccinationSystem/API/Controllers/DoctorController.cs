@@ -58,6 +58,11 @@ namespace API.Controllers
             };
             return Ok(response);
         }
+        [HttpGet("auth-test")]
+        public async Task<ActionResult> AuthTest()
+        {
+            return Ok(new SuccessResponse());
+        }
 
         [HttpGet("vaccination-slots")]
         public async Task<ActionResult> GetVaccinationSlots([FromQuery] RequestModels.Doctor.GetVaccinationSlots query)
