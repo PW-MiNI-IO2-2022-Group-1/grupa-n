@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿#nullable disable
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,7 +11,7 @@ using VaccinationSystem.IRepositories;
 
 namespace VaccinationSystem.Pages.Patient.Visits
 {
-    [Authorize(Roles = Roles.Patient.Name)]
+    [Authorize(Roles = "Patient")]
     public class RegisterModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -17,7 +19,7 @@ namespace VaccinationSystem.Pages.Patient.Visits
         private readonly IVisitRepository _visitRepository;
         private readonly IVaccineRepository _vaccineRepository;
 
-        [BindProperty]
+       
         public Data.Classes.Patient Patient { get; private set; }
 
         [BindProperty]
@@ -57,6 +59,7 @@ namespace VaccinationSystem.Pages.Patient.Visits
 
         public async Task<IActionResult> OnPostAsync()
         {
+            var v = Visit;
             if (!ModelState.IsValid)
             {
                 return Page();

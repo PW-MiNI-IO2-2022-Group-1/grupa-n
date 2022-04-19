@@ -28,7 +28,7 @@ namespace VaccinationSystem.Pages.Patient.Visits
             Patient = (Data.Classes.Patient) await _userManager.GetUserAsync(User);
             Visits = await _patientRepository.GetAllAvailableVisits();
 
-            ViewData["Message"] = $"Welcome {Patient.FirstName} {Patient.LastName}";
+            //ViewData["Message"] = $"Welcome {Patient.FirstName} {Patient.LastName}";
         }
     }
 }
