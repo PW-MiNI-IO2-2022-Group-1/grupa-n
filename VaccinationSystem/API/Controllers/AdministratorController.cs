@@ -168,6 +168,10 @@ namespace API.Controllers
         {
             var doctor = await _administratorRepository.CreateDoctor(
                 body.FirstName, body.LastName, body.Email, body.Password);
+            if (doctor == null)
+            {
+                return new ConflictResponse("Account already exists.");
+            }
             var response = new ApiUser
             {
                 Id = doctor.Id,
