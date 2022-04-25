@@ -32,7 +32,7 @@ namespace VaccinationSystem.Repositories
             var result = await _userManager.CreateAsync(doctor, password);
             if (!result.Succeeded)
             {
-                throw new Exception("Error while creating doctor.");
+                return null;
             }
             await _userManager.AddToRoleAsync(doctor, Roles.Doctor.Name);
             return doctor;

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "546a338d-4272-4940-b9b1-4bf6504c2145",
+		"_postman_id": "0ef9e567-72b3-4fac-a83c-eadf7a89029f",
 		"name": "IO",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -501,18 +501,36 @@
 					"item": [
 						{
 							"name": "Delete Doctor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success equals true\", function() {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.expect(responseJson.success).to.eql(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{IOHostURL}}/admin/doctors/1004",
+									"raw": "{{IOHostURL}}/admin/doctors/{{created_doctor}}",
 									"host": [
 										"{{IOHostURL}}"
 									],
 									"path": [
 										"admin",
 										"doctors",
-										"1004"
+										"{{created_doctor}}"
 									]
 								}
 							},
@@ -520,6 +538,32 @@
 						},
 						{
 							"name": "Create Doctor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Created doctor has id\", function () { \r",
+											"    pm.expect(jsonData.id).to.be.a('number');\r",
+											"    pm.globals.set(\"created_doctor\", jsonData.id);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Returned values are correct\", function () { \r",
+											"    pm.expect(jsonData.email).to.be.equal('new@doctor.com')\r",
+											"    pm.expect(jsonData.firstName).to.be.equal('New')\r",
+											"    pm.expect(jsonData.lastName).to.be.equal('Doc')\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -547,12 +591,31 @@
 						},
 						{
 							"name": "Edit Doctor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Edited firstName is correct\", function() {\r",
+											"    pm.expect(jsonData.firstName).to.equal(\"EditedNew\")\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"firstName\": \"Adam\",\r\n    \"lastName\": \"Nowak\",\r\n    \"email\": \"abcd@abcd.com\"\r\n}",
+									"raw": "{\r\n    \"firstName\": \"EditedNew\",\r\n    \"lastName\": \"Doc\",\r\n    \"email\": \"new@doctor.com\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -560,14 +623,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{IOHostURL}}/admin/doctors/-2",
+									"raw": "{{IOHostURL}}/admin/doctors/{{created_doctor}}",
 									"host": [
 										"{{IOHostURL}}"
 									],
 									"path": [
 										"admin",
 										"doctors",
-										"-2"
+										"{{created_doctor}}"
 									]
 								}
 							},
@@ -575,18 +638,37 @@
 						},
 						{
 							"name": "Show Doctor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Doctor has id\", function () { \r",
+											"    pm.expect(jsonData.id).to.be.a('number');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{IOHostURL}}/admin/doctors/2",
+									"raw": "{{IOHostURL}}/admin/doctors/{{created_doctor}}",
 									"host": [
 										"{{IOHostURL}}"
 									],
 									"path": [
 										"admin",
 										"doctors",
-										"2"
+										"{{created_doctor}}"
 									]
 								}
 							},
@@ -594,6 +676,35 @@
 						},
 						{
 							"name": "Show Doctors",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Has pagination object\", function () { \r",
+											"    pm.expect(jsonData.pagination).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Has data array\", function () { \r",
+											"    pm.expect(jsonData.data).to.be.an('array');\r",
+											"});\r",
+											"\r",
+											"if (jsonData.data.length > 0) {\r",
+											"    pm.test(\"Doctor in array has id which is a number\", function () { \r",
+											"        pm.expect(jsonData.data[0].id).to.be.a('number');\r",
+											"    });\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -623,6 +734,37 @@
 					"item": [
 						{
 							"name": "Show Patients",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Has pagination object\", function () { \r",
+											"    pm.expect(jsonData.pagination).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Has data array\", function () { \r",
+											"    pm.expect(jsonData.data).to.be.an('array');\r",
+											"});\r",
+											"\r",
+											"if (jsonData.data.length > 0) {\r",
+											"    pm.test(\"Patient in array has id which is a number\", function () { \r",
+											"        pm.expect(jsonData.data[0].id).to.be.a('number');\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"pm.globals.set(\"patient_in_admin\", jsonData.data[0].id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -666,12 +808,31 @@
 						},
 						{
 							"name": "Edit Patient",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Edited pesel is correct\", function() {\r",
+											"    pm.expect(jsonData.pesel).to.equal(\"12354678901\")\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"firstName\": \"Edited\",\r\n  \"lastName\": \"Patient\",\r\n  \"pesel\": \"94100613369\",\r\n  \"email\": \"john.doe@patient.com\",\r\n  \"password\": \"!Password#123\",\r\n  \"address\": {\r\n    \"city\": \"Warszawa\",\r\n    \"zipCode\": \"01-202\",\r\n    \"street\": \"Jaktorowska\",\r\n    \"houseNumber\": \"14\",\r\n    \"localNumber\": \"5a\"\r\n  }\r\n}",
+									"raw": "{\r\n    \"pesel\": \"12354678901\",\r\n    \"address\": {\r\n        \"id\": -1,\r\n        \"city\": \"Warszawa\",\r\n        \"zipCode\": \"00-661\",\r\n        \"street\": \"plac Politechniki\",\r\n        \"houseNumber\": \"1\",\r\n        \"localNumber\": \"\"\r\n    },\r\n    \"email\": \"patient@localhost.com\",\r\n    \"firstName\": \"Default\",\r\n    \"lastName\": \"Patient\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -679,14 +840,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{IOHostURL}}/admin/patients/-3",
+									"raw": "{{IOHostURL}}/admin/patients/{{patient_in_admin}}",
 									"host": [
 										"{{IOHostURL}}"
 									],
 									"path": [
 										"admin",
 										"patients",
-										"-3"
+										"{{patient_in_admin}}"
 									]
 								}
 							},
@@ -694,18 +855,41 @@
 						},
 						{
 							"name": "Show Patient",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Patient has an id which is a number\", function () { \r",
+											"        pm.expect(jsonData.id).to.be.a('number');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Patient has an address object\", function () { \r",
+											"        pm.expect(jsonData.address).to.be.a('object');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{IOHostURL}}/admin/patients/-3",
+									"raw": "{{IOHostURL}}/admin/patients/{{patient_in_admin}}",
 									"host": [
 										"{{IOHostURL}}"
 									],
 									"path": [
 										"admin",
 										"patients",
-										"-3"
+										"{{patient_in_admin}}"
 									]
 								}
 							},
@@ -727,7 +911,19 @@
 									"}\r",
 									"else {\r",
 									"    pm.globals.set(\"IO_ADMIN_TOKEN\", \"\");    \r",
-									"}"
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has a token string\", function () {\r",
+									"    pm.expect(jsonData.token).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has an admin object\", function () {\r",
+									"    pm.expect(jsonData.admin).to.be.an('object');\r",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -760,6 +956,24 @@
 				},
 				{
 					"name": "Authentication test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Success equals true\", function() {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.success).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -778,6 +992,35 @@
 				},
 				{
 					"name": "Get vaccinations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Has pagination object\", function () { \r",
+									"    pm.expect(jsonData.pagination).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Has data array\", function () { \r",
+									"    pm.expect(jsonData.data).to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"if (jsonData.data.length > 0) {\r",
+									"    pm.test(\"Vaccination in array has id which is a number\", function () { \r",
+									"        pm.expect(jsonData.data[0].id).to.be.a('number');\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -800,7 +1043,7 @@
 							"query": [
 								{
 									"key": "disease",
-									"value": "Flu",
+									"value": "Fluu",
 									"disabled": true
 								},
 								{
@@ -914,6 +1157,33 @@
 					}
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "IOHostURL",
+			"value": "https://localhost:7296",
+			"type": "default"
 		}
 	]
 }
