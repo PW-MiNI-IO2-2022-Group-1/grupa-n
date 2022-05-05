@@ -6,15 +6,24 @@ using Moq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using VaccinationSystem.Data;
+using VaccinationSystem.Data.Classes;
 
 namespace Tests
 {
-    public static class InMemoryDbContext
+    public static class InMemoryFactory
     {
         private static readonly DbContextOptionsBuilder<ApplicationDbContext> optionsBuilder = 
                                     new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("InMemoryDb");
 
-        public static ApplicationDbContext Get()
+        public static VaccinationSystem.Repositories.AdministratorRepository
+            GetAdministratorRepository(ApplicationDbContext dbContext)
+        {
+            var userStore = TestUserStore<ApplicationUser>();
+            var userManager = TestUserManager(userStore);
+            return new VaccinationSystem.Repositories.AdministratorRepository(dbContext, userManager, userStore);
+        }
+
+        public static ApplicationDbContext GetDbContext()
         {
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
             // EnsureCreated uruchomi seeding
@@ -22,9 +31,8 @@ namespace Tests
             return dbContext;
         }
 
-        public static UserManager<TUser> TestUserManager<TUser>(IUserStore<TUser> store = null) where TUser : class
+        private static UserManager<TUser> TestUserManager<TUser>(IUserStore<TUser> store) where TUser : class
         {
-            store = store ?? new Mock<IUserStore<TUser>>().Object;
             var options = new Mock<IOptions<IdentityOptions>>();
             var idOptions = new IdentityOptions();
             idOptions.Lockout.AllowedForNewUsers = false;
@@ -43,7 +51,7 @@ namespace Tests
             return userManager;
         }
 
-        public static IUserStore<TUser> TestUserStore<TUser>() where TUser: class
+        private static IUserStore<TUser> TestUserStore<TUser>() where TUser: class
         {
             return new Mock<IUserStore<TUser>>().Object;
         }

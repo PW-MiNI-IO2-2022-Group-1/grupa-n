@@ -14,18 +14,15 @@ namespace Tests
         public async Task DeleteDoctor_Existing_ShouldDeleteAndReturnTrue()
         {
             // Arrange
-            var context = InMemoryDbContext.Get();
-            var userStore = InMemoryDbContext.TestUserStore<ApplicationUser>();
-            var userManager = InMemoryDbContext.TestUserManager(userStore);
-            var repo = new VaccinationSystem.Repositories.AdministratorRepository(context, userManager, userStore);
+            var context = InMemoryFactory.GetDbContext();
+            var repo = InMemoryFactory.GetAdministratorRepository(context);
             var doctor = context.Users.Where(user => user.LastName == "Doctor").First();
-            int doctorId = doctor.Id;
 
             // Act
-            bool result = await repo.DeleteDoctor(doctorId);
+            bool result = await repo.DeleteDoctor(doctor.Id);
 
             // Assert
-            Assert.Null(context.Users.Find(doctorId));
+            Assert.Null(context.Users.Find(doctor.Id));
             Assert.True(result);
         }
 
@@ -33,11 +30,8 @@ namespace Tests
         public async Task DeleteDoctor_NonExisting_ShouldReturnFalse()
         {
             // Arrange
-            var context = InMemoryDbContext.Get();
-            var userStore = InMemoryDbContext.TestUserStore<ApplicationUser>();
-            var userManager = InMemoryDbContext.TestUserManager(userStore);
-            var repo = new VaccinationSystem.Repositories.AdministratorRepository(context, userManager, userStore);
-            var doctor = context.Users.FirstOrDefault(user => user.LastName == "Doctor");
+            var context = InMemoryFactory.GetDbContext();
+            var repo = InMemoryFactory.GetAdministratorRepository(context);
             int doctorId = int.MinValue;
 
             // Act
