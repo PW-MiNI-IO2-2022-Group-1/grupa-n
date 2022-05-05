@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using API;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -21,6 +23,23 @@ namespace Tests
             var userStore = TestUserStore<ApplicationUser>();
             var userManager = TestUserManager(userStore);
             return new VaccinationSystem.Repositories.AdministratorRepository(dbContext, userManager, userStore);
+        }
+
+        public static UserService GetUserService()
+        {
+            var userStore = TestUserStore<ApplicationUser>();
+            var userManager = TestUserManager(userStore);
+            var signInManager = new Mock<SignInManager<ApplicationUser>>(
+                userManager,
+                /* IHttpContextAccessor contextAccessor */Mock.Of<IHttpContextAccessor>(),
+                /* IUserClaimsPrincipalFactory<TUser> claimsFactory */Mock.Of<IUserClaimsPrincipalFactory<ApplicationUser>>(),
+                /* IOptions<IdentityOptions> optionsAccessor */null,
+                /* ILogger<SignInManager<TUser>> logger */null,
+                /* IAuthenticationSchemeProvider schemes */null,
+                /* IUserConfirmation<TUser> confirmation */null).Object;
+
+            // jwt nie moze byc mockowany
+            return new UserService(signInManager, userManager, new Mock<IJwtHelper>().Object);
         }
 
         public static ApplicationDbContext GetDbContext()
