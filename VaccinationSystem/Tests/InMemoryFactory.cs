@@ -38,8 +38,18 @@ namespace Tests
                 /* IAuthenticationSchemeProvider schemes */null,
                 /* IUserConfirmation<TUser> confirmation */null).Object;
 
-            // jwt nie moze byc mockowany
-            return new UserService(signInManager, userManager, new Mock<IJwtHelper>().Object);
+            return new UserService(signInManager, userManager, GetJwtHelper());
+        }   
+
+        public static JwtHelper GetJwtHelper()
+        {
+            ConfigurationMock configuration = new ConfigurationMock(new Dictionary<string, string>()
+            {
+                { "Jwt:Key", "Key" },
+                { "Jwt:Issuer", "localhost" },
+                { "Jwt:Audience", "localhost" }
+            });
+            return new JwtHelper(configuration);
         }
 
         public static ApplicationDbContext GetDbContext()
