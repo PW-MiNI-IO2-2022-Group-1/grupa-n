@@ -40,5 +40,20 @@ namespace Tests
             // Assert
             Assert.False(result);
         }
+
+        [Fact]
+        public async Task CreateDoctor_Failure()
+        {
+            // Arrange
+            var context = InMemoryFactory.GetDbContext();
+            var repo = InMemoryFactory.GetAdministratorRepository(context);
+            var doctor = context.Users.Where(user => true).First();
+
+            //Act
+            var result = await repo.CreateDoctor(doctor.FirstName, doctor.LastName, doctor.Email, "123");
+
+            //Assert
+            Assert.Null(result);
+        }
     }
 }
