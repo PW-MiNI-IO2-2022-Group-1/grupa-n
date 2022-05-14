@@ -63,7 +63,7 @@ namespace Tests.RazorPagesTests
             {
                 Id = -2,
                 FirstName = "Test",
-                LastName = "Test",
+                LastName = "Doctor",
                 Email = "Test",
             };
             var result = pageModel.OnPostAsync();
