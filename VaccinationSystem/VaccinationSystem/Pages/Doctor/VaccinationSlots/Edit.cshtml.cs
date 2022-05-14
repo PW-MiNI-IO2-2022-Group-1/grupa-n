@@ -1,4 +1,8 @@
 ﻿#nullable disable
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,9 +14,9 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
 {
     public class EditModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly VaccinationSystem.Data.ApplicationDbContext _context;
 
-        public EditModel(ApplicationDbContext context)
+        public EditModel(VaccinationSystem.Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -36,10 +40,9 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
             {
                 return NotFound();
             }
-            ViewData["DoctorId"] = new SelectList(_context.Set<Data.Classes.Doctor>(), "Id", "Id");
-            ViewData["PatientId"] = new SelectList(_context.Set<Data.Classes.Patient>(), "Id", "Id");
-            ViewData["VaccineId"] = new SelectList(_context.Vaccines, "Id", "Name");
-            ViewData["Statuses"] = new SelectList(Enum.GetValues(typeof(VaccinationStatus)), Visit.Status);
+           ViewData["DoctorId"] = new SelectList(_context.Set<Data.Classes.Doctor>(), "Id", "Id");
+           ViewData["PatientId"] = new SelectList(_context.Set<Data.Classes.Patient>(), "Id", "Id");
+           ViewData["VaccineId"] = new SelectList(_context.Vaccines, "Id", "Name");
             return Page();
         }
 
