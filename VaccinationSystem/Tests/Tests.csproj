@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\API\API.csproj" />
     <ProjectReference Include="..\VaccinationSystem\VaccinationSystem.csproj" />
   </ItemGroup>
 
