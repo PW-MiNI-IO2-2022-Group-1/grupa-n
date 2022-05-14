@@ -27,8 +27,7 @@ namespace Tests.RazorPagesTests
             pageModel.Password = "Test11";
             var result = pageModel.OnPostAsync();
 
-            //assert
-
+            //asserts
             Assert.IsType<RedirectToPageResult>(result.Result);
             RedirectToPageResult redirect = (RedirectToPageResult)result.Result;
             Assert.Equal("../Index", redirect.PageName);
@@ -63,7 +62,7 @@ namespace Tests.RazorPagesTests
             {
                 Id = -2,
                 FirstName = "Test",
-                LastName = "Doctor",
+                LastName = "Test",
                 Email = "Test",
             };
             var result = pageModel.OnPostAsync();
