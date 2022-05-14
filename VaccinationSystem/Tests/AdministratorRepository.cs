@@ -24,6 +24,9 @@ namespace Tests
             // Assert
             Assert.Null(context.Users.Find(doctor.Id));
             Assert.True(result);
+
+            // Reroll
+            context.Users.Add(doctor);
         }
 
         [Fact]
