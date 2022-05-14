@@ -16,7 +16,7 @@ namespace Tests
             // Arrange
             var context = InMemoryFactory.GetDbContext();
             var repo = InMemoryFactory.GetAdministratorRepository(context);
-            var doctor = context.Users.Where(user => user.Id == -2).First();
+            var doctor = context.Users.Where(user => user.LastName == "Doctor").First();
 
             // Act
             bool result = await repo.DeleteDoctor(doctor.Id);
@@ -24,9 +24,6 @@ namespace Tests
             // Assert
             Assert.Null(context.Users.Find(doctor.Id));
             Assert.True(result);
-
-            // Reroll
-            context.Users.Add(doctor);
         }
 
         [Fact]

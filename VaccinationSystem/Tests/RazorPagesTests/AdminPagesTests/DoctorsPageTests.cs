@@ -60,7 +60,7 @@ namespace Tests.RazorPagesTests
             //act
             pageModel.Doctor = new ApplicationUser
             {
-                Id = -2,
+                Id = -22,
                 FirstName = "Test",
                 LastName = "Test",
                 Email = "Test",

@@ -24,6 +24,20 @@ namespace VaccinationSystem.Data.Configurations
                     EmailConfirmed = true,
                     SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
                     LicenceId = "-1",
+                },
+                new Doctor
+                {
+                    Id = -22,
+                    FirstName = "Test",
+                    LastName = "Doctor",
+                    UserName = "testdoctor@localhost.com",
+                    NormalizedUserName = "DOCTOR@LOCALHOST.COM",
+                    Email = "testdoctor@localhost.com",
+                    NormalizedEmail = "DOCTOR@LOCALHOST.COM",
+                    PasswordHash = hasher.HashPassword(new (), "doctor1"),
+                    EmailConfirmed = true,
+                    SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
+                    LicenceId = "-22",
                 }
             );
         }
