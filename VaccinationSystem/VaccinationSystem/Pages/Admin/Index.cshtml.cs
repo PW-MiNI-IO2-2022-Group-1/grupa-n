@@ -14,14 +14,15 @@ namespace VaccinationSystem.Pages
         private readonly IVaccineRepository _vaccineRepository;
 
         public AdminPanelModel(
-            ILogger<AdminPanelModel> logger,
-            IAdministratorRepository administratorRepository,
+            //ILogger<AdminPanelModel> logger,
+            IAdministratorRepository administratorRepository
             /* do usuniecia jak Visit bedzie dzialac: */
-            IVaccineRepository vaccineRepository)
+            //IVaccineRepository vaccineRepository
+            )
         {
-            _logger = logger;
+            //_logger = logger;
             _administratorRepository = administratorRepository;
-            _vaccineRepository = vaccineRepository;
+            //_vaccineRepository = vaccineRepository;
         }
 
         public IList<Data.Classes.Doctor> Doctors { get; private set; }

@@ -26,4 +26,8 @@
     <ProjectReference Include="..\VaccinationSystem\VaccinationSystem.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="RazorPagesTests\PatientPagesTests\" />
+  </ItemGroup>
+
 </Project>

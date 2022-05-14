@@ -45,7 +45,7 @@ namespace Tests
 
         public static IUserStore<TUser> TestUserStore<TUser>() where TUser: class
         {
-            return new Mock<IUserStore<TUser>>().Object;
+            return new Mock<IUserPasswordStore<TUser>>().Object;
         }
     }
 }
