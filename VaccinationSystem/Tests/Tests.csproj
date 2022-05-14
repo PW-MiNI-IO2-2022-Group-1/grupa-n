@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="RazorPagesTests\DoctorPagesTests\" />
     <Folder Include="RazorPagesTests\PatientPagesTests\" />
   </ItemGroup>
 

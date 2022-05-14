@@ -20,7 +20,7 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
     {
         private readonly IDoctorRepository _doctorRepository;
         private readonly UserManager<ApplicationUser> _userManager;
-        public Data.Classes.Doctor Doctor { get; set; }
+        public Data.Classes.Doctor Doctor { get; private set; }
         public CreateModel(
             IDoctorRepository doctorRepository,
             UserManager<ApplicationUser> userManager
@@ -45,8 +45,7 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
             {
                 return Page();
             }
-            if (Doctor == null)
-                Doctor = (Data.Classes.Doctor)await _userManager.GetUserAsync(User);
+            Doctor = (Data.Classes.Doctor)await _userManager.GetUserAsync(User);
 
             var visit = await _doctorRepository.CreateVisit(VisitDateTime, Doctor.Id);
             if (visit == null)
