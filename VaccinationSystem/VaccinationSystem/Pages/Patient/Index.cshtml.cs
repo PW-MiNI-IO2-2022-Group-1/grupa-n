@@ -17,6 +17,7 @@ namespace VaccinationSystem.Pages.Patient
         public Data.Classes.Patient Patient { get; private set; }
         public IList<Visit> HistoryVisits { get; private set; }
         public IList<Visit> AvailableVisits { get; private set; }
+        public IList<Visit> BookedVisits { get; private set; }
 
         public PatientPanelModel(
             ILogger<PatientPanelModel> logger,
@@ -31,6 +32,7 @@ namespace VaccinationSystem.Pages.Patient
         public async Task OnGetAsync()
         {
             Patient = (Data.Classes.Patient) await _userManager.GetUserAsync(User);
+            BookedVisits = await _patientRepository.GetAllBookedVisits(Patient.Id);
             AvailableVisits = await _patientRepository.GetAllAvailableVisits();
             HistoryVisits = await _patientRepository.GetAllHistoryVisits(Patient.Id);
 

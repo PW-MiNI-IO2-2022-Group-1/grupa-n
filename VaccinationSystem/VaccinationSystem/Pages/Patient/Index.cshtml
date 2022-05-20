@@ -29,6 +29,32 @@
     </tr>
 </table>
 
+<h4>Booked visits</h4>
+<table class="table">
+    <tr>
+        <th>Date</th>
+        <th>Doctor</th>
+        <th>Vaccine</th>
+        <th>Status</th>
+    </tr>
+    @foreach (var visit in Model.BookedVisits)
+    {
+        <tr>
+            <td>
+                @visit.Date
+            </td>
+            <td>
+                @visit.Doctor?.FirstName @visit.Doctor?.LastName
+            </td>
+            <td>
+                @visit.Vaccine?.Name
+            </td>
+            <td>
+                @visit.Status
+            </td>
+        </tr>
+    }
+</table>
 
 <h4>Available visits</h4>
 <table class="table">
