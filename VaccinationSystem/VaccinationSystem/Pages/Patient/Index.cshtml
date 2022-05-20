@@ -29,13 +29,16 @@
     </tr>
 </table>
 
-<h4>Booked visits</h4>
+<h4 style="padding-top: 25px;">
+    Booked visits
+</h4>
 <table class="table">
     <tr>
         <th>Date</th>
         <th>Doctor</th>
         <th>Vaccine</th>
         <th>Status</th>
+        <th></th>
     </tr>
     @foreach (var visit in Model.BookedVisits)
     {
@@ -52,11 +55,16 @@
             <td>
                 @visit.Status
             </td>
+            <td>
+                <a asp-page="./Cancel" asp-route-visitid="@visit.Id" asp-route-patientid="@Model.Patient.Id">Cancel</a>
+            </td>
         </tr>
     }
 </table>
 
-<h4>Available visits</h4>
+<h4 style="padding-top: 25px;">
+    Available visits
+</h4>
 <table class="table">
     <tr>
         <th>Date</th>
