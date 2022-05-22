@@ -1,0 +1,35 @@
+﻿@page
+@model CancelModel
+@{
+    ViewData["Title"] = "Book";
+}
+
+<h1>Cancel</h1>
+
+<h3>Are you sure you want to cancel this visit?</h3>
+<div>
+    <h4>Visit</h4>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Doctor</th>
+            <th>Vaccine</th>
+        </tr>
+        <tr>
+            <td>
+                @Model.Date
+            </td>
+            <td>
+                @Model.Doctor
+            </td>
+            <td>
+                @Model.VaccineName
+            </td>
+        </tr>
+    </table>
+    <form method="post">
+        <input type="submit" value="Cancel" class="btn btn-primary" /> &nbsp; |
+        <a asp-page="./Index" class="px-2">Back to Panel</a>
+    </form>
+</div>

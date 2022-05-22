@@ -85,7 +85,7 @@ namespace Tests
         public async Task DeletePatient_NonExisting_ShouldReturnFalse()
         {
             // Arrange
-            var context = InMemoryFactory.GetDbContext();
+            using var context = InMemoryFactory.GetDbContext();
             var repo = InMemoryFactory.GetAdministratorRepository(context);
             int patientId = int.MinValue;
 
@@ -116,7 +116,7 @@ namespace Tests
         public async Task EditDoctor_NonExisting_ShouldReturnFalse()
         {
             // Arrange
-            var context = InMemoryFactory.GetDbContext();
+            using var context = InMemoryFactory.GetDbContext();
             var repo = InMemoryFactory.GetAdministratorRepository(context);
             int doctorId = int.MinValue;
 

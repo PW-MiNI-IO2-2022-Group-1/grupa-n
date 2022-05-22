@@ -4,6 +4,7 @@ namespace VaccinationSystem.IRepositories
 {
     public interface IPatientRepository : IGenericRepository<Patient>
     {
+        Task<List<Visit>> GetAllBookedVisits(int patientId);
         Task<bool> ReserveVisit(int visitId, int vaccineId, int patientId);
         Task<Visit> GetLatestVisit(int patientId);
         Task<List<Visit>> GetAllHistoryVisits(int patientId);
