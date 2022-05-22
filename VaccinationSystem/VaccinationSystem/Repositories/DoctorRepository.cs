@@ -39,6 +39,22 @@ namespace VaccinationSystem.Repositories
             return result;
 
         }
+
+        public async Task<Visit?> RenewVisit(int visitId)
+        {
+            var entity = context.Visits?.FirstOrDefault(visit => visit.Id == visitId);
+            if (entity == null || entity.Status != VaccinationStatus.Cancelled || entity.DoctorId == null)
+                return null;
+            var date = entity.Date;
+            int doctorId = (int)entity.DoctorId;
+            var result = await visitRepository.DeleteAsync(visitId);
+            if (result == false)
+            {
+                return null;
+            }
+            return await CreateVisit(date, doctorId);
+        }
+        
         public async Task<List<Visit>?> GetVisits(int DoctorId, string? onlyReserved = null, DateTime? startDate = null, DateTime? endDate = null)
         {
             var entity = context.Visits?.Where(visit => visit.DoctorId == DoctorId && visit.Status == VaccinationStatus.Planned);
@@ -60,6 +76,21 @@ namespace VaccinationSystem.Repositories
                 .Include(visit => visit.Patient.Address)
                 .ToListAsync();
         }
+
+        public async Task<List<Visit>?> PassedVisits(int doctorId)
+        {
+            var entity = context.Visits?.Where(visit => visit.DoctorId == doctorId && visit.Status != VaccinationStatus.Planned);
+            if (entity == null)
+                return null;
+            return await entity
+                .Include(visit => visit.Patient)
+                .Include(visit => visit.Doctor)
+                .Include(visit => visit.Vaccine)
+                .Include(visit => visit.Vaccine.Disease)
+                .Include(visit => visit.Patient.Address)
+                .ToListAsync();
+        }
+
         public async Task<bool> VaccinatePatient(int visitId)
         {
             var entity = context.Visits?.FirstOrDefault(visit => visit.Id == visitId);
