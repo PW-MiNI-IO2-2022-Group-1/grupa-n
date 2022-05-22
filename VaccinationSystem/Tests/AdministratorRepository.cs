@@ -14,7 +14,7 @@ namespace Tests
         public async Task DeleteDoctor_Existing_ShouldDeleteAndReturnTrue()
         {
             // Arrange
-            var context = InMemoryFactory.GetDbContext();
+            using var context = InMemoryFactory.GetDbContext();
             var repo = InMemoryFactory.GetAdministratorRepository(context);
             var doctor = context.Users.Where(user => user.LastName == "Doctor").First();
 
@@ -30,7 +30,7 @@ namespace Tests
         public async Task DeleteDoctor_NonExisting_ShouldReturnFalse()
         {
             // Arrange
-            var context = InMemoryFactory.GetDbContext();
+            using var context = InMemoryFactory.GetDbContext();
             var repo = InMemoryFactory.GetAdministratorRepository(context);
             int doctorId = int.MinValue;
 
