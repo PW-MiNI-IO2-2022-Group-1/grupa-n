@@ -36,8 +36,8 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
             {
                 return NotFound();
             }
-            ViewData["DoctorId"] = new SelectList(_context.Set<Data.Classes.Doctor>(), "Id", "Id");
-            ViewData["PatientId"] = new SelectList(_context.Set<Data.Classes.Patient>(), "Id", "Id");
+            ViewData["DoctorId"] = new SelectList(_context.Set<Data.Classes.Doctor>(), "Id", "FullName");
+            ViewData["PatientId"] = new SelectList(_context.Set<Data.Classes.Patient>(), "Id", "FullName");
             ViewData["VaccineId"] = new SelectList(_context.Vaccines, "Id", "Name");
             ViewData["Statuses"] = new SelectList(Enum.GetValues(typeof(VaccinationStatus)), Visit.Status);
             return Page();
