@@ -21,6 +21,7 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
         private readonly IDoctorRepository _doctorRepository;
         public Data.Classes.Doctor Doctor { get; private set; }
         public IList<Visit> Visits { get; private set; }
+        public IList<Visit> PassedVisits { get; private set; }
         public IndexModel(UserManager<ApplicationUser> userManager, IDoctorRepository doctorRepository)
         {
             _userManager = userManager;
@@ -31,6 +32,7 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
         {
             Doctor = (Data.Classes.Doctor) await _userManager.GetUserAsync(User);
             Visits = await _doctorRepository.GetVisits(Doctor.Id);
+            PassedVisits = await _doctorRepository.PassedVisits(Doctor.Id);
 
             ViewData["Message"] = $"Welcome {Doctor.FirstName} {Doctor.LastName}";
         }
