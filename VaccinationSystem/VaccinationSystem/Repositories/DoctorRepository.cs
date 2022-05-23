@@ -16,6 +16,9 @@ namespace VaccinationSystem.Repositories
         {
             if ((date - DateTime.Now).Days < 1)
                 return null;
+            var doctor = context.Users.FirstOrDefault(user => user.Id == doctorId);
+            if (doctor == null)
+                return null;
             var entity = context.Visits?.Where(visit => visit.DoctorId == doctorId);
             entity = entity?.Where(visit => date.AddMinutes(15) > visit.Date);
             entity = entity?.Where(visit => date.AddMinutes(-15) < visit.Date);
@@ -95,6 +98,8 @@ namespace VaccinationSystem.Repositories
         {
             var entity = context.Visits?.FirstOrDefault(visit => visit.Id == visitId);
             if (entity == null) 
+                return false;
+            if (entity.Patient == null)
                 return false;
             entity.Status = VaccinationStatus.Completed;
             return await context.SaveChangesAsync() > 0;
