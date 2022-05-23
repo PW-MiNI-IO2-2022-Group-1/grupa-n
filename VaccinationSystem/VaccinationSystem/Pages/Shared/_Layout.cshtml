@@ -33,10 +33,16 @@
                                 <a class="nav-link text-dark" asp-area="" 
                                     asp-page="/Doctor/VaccinationSlots/Index">Manage your visits</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Shared/BugReport">Report a bug</a>
+                            </li>
                         } else if (User.IsInRole(Roles.Patient.Name))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Patient/Index">Patient panel</a>
+                            </li>
+                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Shared/BugReport">Report a bug</a>
                             </li>
                         }
                     </ul>
