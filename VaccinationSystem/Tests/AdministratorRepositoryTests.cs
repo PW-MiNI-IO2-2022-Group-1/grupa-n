@@ -45,26 +45,6 @@ namespace Tests
             Assert.Null(result);
         }
 
-        //[Fact]
-        //public async Task CreateDoctor_success()
-        //{
-        //    // Arrange
-        //    var context = InMemoryFactory.GetDbContext();
-        //    var repo = InMemoryFactory.GetAdministratorRepository(context);
-        //    string firstName = "FN"; //Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8);
-        //    string lastName = "LN"; // Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8);
-        //    //StringBuilder sb = new StringBuilder();
-        //    //sb.Append(Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8)).Append("@").
-        //    //    Append(Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8)).Append(".pl");
-        //    string email = "doctorEmail@gmail.com";
-
-        //    //Act
-        //    var result = await repo.CreateDoctor(firstName, lastName, email, "123");
-        //    //Assert
-
-        //    Assert.NotNull(result);
-        //}
-
         [Fact]
         public async Task DeletePatient_Existing_ShouldDeleteAndReturnTrue()
         {
