@@ -32,6 +32,9 @@ namespace Tests.AutomatedUITests.AdminPagesTests
         public void PopulateFirstName(string name) => FirstNameElement.SendKeys(name);
         public void PopulateLastName(string name) => LastNameElement.SendKeys(name);
         public void PopulateEmail(string email) => EmailElement.SendKeys(email);
+        public void ClearFirstName() => FirstNameElement.Clear();
+        public void ClearLastName() => LastNameElement.Clear();
+        public void ClearEmail() => EmailElement.Clear();
         public void ClickSave() => SaveElement.Click();
     }
 }

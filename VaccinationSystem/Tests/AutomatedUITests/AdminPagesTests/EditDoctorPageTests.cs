@@ -25,9 +25,9 @@ namespace Tests.AutomatedUITests.AdminPagesTests
         [Fact]
         public void Edit_WrongModelData_ReturnsErrorMessage()
         {
-            _page.PopulateFirstName("");
-            _page.PopulateLastName("");
-            _page.PopulateEmail("");
+            _page.ClearFirstName();
+            _page.ClearLastName();
+            _page.ClearEmail();
             _page.ClickSave();
             Assert.Contains("The First name field is required.", _page.Source);
             Assert.Contains("The Last name field is required.", _page.Source);
@@ -36,7 +36,10 @@ namespace Tests.AutomatedUITests.AdminPagesTests
         [Fact]
         public void Edit_WrongEmailFormat_ReturnsErrorMessage()
         {
-            _page.PopulateFirstName("New");
+            _page.ClearFirstName();
+            _page.ClearLastName();
+            _page.ClearEmail();
+            _page.PopulateFirstName("Edited");
             _page.PopulateLastName("Doctor");
             _page.PopulateEmail("newtest doctor com");
             _page.ClickSave();
@@ -45,6 +48,9 @@ namespace Tests.AutomatedUITests.AdminPagesTests
         [Fact]
         public void Edit_WhenSuccessfullyExecuted_ReturnsIndexViewWithNewDoctor()
         {
+            _page.ClearFirstName();
+            _page.ClearLastName();
+            _page.ClearEmail();
             _page.PopulateFirstName("Edited");
             _page.PopulateLastName("Doctor");
             _page.PopulateEmail("edited@doctor.com");

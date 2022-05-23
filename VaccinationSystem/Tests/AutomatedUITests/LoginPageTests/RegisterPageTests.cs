@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
-using System.Linq;
 using Xunit;
 
 namespace Tests.AutomatedUITests.LoginPageTests
@@ -13,6 +12,7 @@ namespace Tests.AutomatedUITests.LoginPageTests
         public RegisterPageTests()
         {
             _driver = new ChromeDriver();
+            _driver.Manage().Window.Maximize();
             _page = new RegisterPage(_driver);
             _page.Navigate();
         }
@@ -26,8 +26,8 @@ namespace Tests.AutomatedUITests.LoginPageTests
         public void Register_WrongModelData_ReturnsErrorMessage()
         {
             _page.ClickRegister();
-            Assert.Contains("The First Name field is required.", _page.Source);
-            Assert.Contains("The Last Name field is required.", _page.Source);
+            Assert.Contains("The First name field is required.", _page.Source);
+            Assert.Contains("The Last name field is required.", _page.Source);
             Assert.Contains("The Pesel field is required.", _page.Source);
             Assert.Contains("The Email field is required.", _page.Source);
             Assert.Contains("The Password field is required.", _page.Source);
@@ -41,10 +41,14 @@ namespace Tests.AutomatedUITests.LoginPageTests
             _page.PopulateEmail("newtest@patient.com");
             _page.PopulatePassword("newtest1");
             _page.PopulateConfirmPassword("newtest1");
+            _page.PopulateCity("city");
+            _page.PopulateZipCode("22-100");
+            _page.PopulateStreet("street");
+            _page.PopulateHouseNumber("5A");
+            _page.PopulateLocalNumber("7");
             _page.ClickRegister();
-            Assert.Equal("Home page - VaccinationSystem", _page.Title);
-            Assert.Contains("Hello", _page.Source);
-            Assert.Contains("Patient panel", _page.Source);
+            Assert.Equal("Register - VaccinationSystem", _page.Title);
+            Assert.Contains("Register confirmation", _page.Source);
         }
         public void Dispose()
         {

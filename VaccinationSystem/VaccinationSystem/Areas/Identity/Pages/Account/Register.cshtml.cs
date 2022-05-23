@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
+using VaccinationSystem.IRepositories;
 
 namespace VaccinationSystem.Areas.Identity.Pages.Account
 {
@@ -31,13 +32,15 @@ namespace VaccinationSystem.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IAddressRepository _addressRepository;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IAddressRepository addressRepository)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -45,6 +48,7 @@ namespace VaccinationSystem.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _addressRepository = addressRepository;
         }
 
         /// <summary>
@@ -101,16 +105,36 @@ namespace VaccinationSystem.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
-            [Display(Name = "First Name")]
+            [Display(Name = "First name")]
             public string FirstName { get; set; }
 
             [Required]
-            [Display(Name = "Last Name")]
+            [Display(Name = "Last name")]
             public string LastName { get; set; }
 
             [Required]
             [Display(Name = "Pesel")]
             public string Pesel { get; set; }
+
+            [Required]
+            [Display(Name = "City")]
+            public string City { get; set; }
+
+            [Required]
+            [RegularExpression("^\\d{2}-\\d{3}$")]
+            [Display(Name = "ZipCode")]
+            public string ZipCode { get; set; }
+
+            [Required]
+            [Display(Name = "Street")]
+            public string Street { get; set; }
+
+            [Required]
+            [Display(Name = "House number")]
+            public string HouseNumber { get; set; }
+
+            [Display(Name = "Local number")]
+            public string LocalNumber { get; set; }
         }
 
 
@@ -127,12 +151,19 @@ namespace VaccinationSystem.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new Patient();
-
+                var address = new Address(Input.City, Input.ZipCode, Input.Street, Input.HouseNumber, Input.LocalNumber);
+                var resultAddress = await _addressRepository.AddAsync(address);
+                if (resultAddress == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Adding address to database failed.");
+                    return Page();
+                }
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
                 user.Pesel = Input.Pesel;
+                user.Address = resultAddress;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 

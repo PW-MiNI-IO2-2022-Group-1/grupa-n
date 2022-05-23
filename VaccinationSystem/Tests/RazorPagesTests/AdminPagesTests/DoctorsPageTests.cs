@@ -18,13 +18,10 @@ namespace Tests.RazorPagesTests
             var pageModel = new AddModel(repo);
 
             //act
-            pageModel.Doctor = new ApplicationUser
-            {
-                FirstName = "Test",
-                LastName = "Test",
-                Email = "Test",
-            };
-            pageModel.Password = "Test11";
+            pageModel.Input.FirstName = "Test";
+            pageModel.Input.LastName = "Test";
+            pageModel.Input.Email = "Test";
+            pageModel.Input.Password = "Test11";
             var result = pageModel.OnPostAsync();
 
             //asserts
@@ -58,13 +55,11 @@ namespace Tests.RazorPagesTests
             var pageModel = new EditModel(repo);
 
             //act
-            pageModel.Doctor = new ApplicationUser
-            {
-                Id = -22,
-                FirstName = "Test",
-                LastName = "Test",
-                Email = "Test",
-            };
+            pageModel.Input.Id = -22;
+            pageModel.Input.FirstName = "Test";
+            pageModel.Input.LastName = "Test";
+            pageModel.Input.Email = "Test";
+
             var result = pageModel.OnPostAsync();
 
             //assert

@@ -16,12 +16,14 @@ namespace Tests.AutomatedUITests.AdminPagesTests
             _page = new AddDoctorPage(_driver);
             _page.Navigate();
         }
+
         [Fact]
         public void Create_WhenExecuted_ReturnsCreateView()
         {
             Assert.Equal("Add - VaccinationSystem", _page.Title);
             Assert.Contains("Doctor", _page.Source);
         }
+
         [Fact]
         public void Create_WrongModelData_ReturnsErrorMessage()
         {
@@ -32,6 +34,7 @@ namespace Tests.AutomatedUITests.AdminPagesTests
             Assert.Contains("The Password field is required.", _page.Source);
             Assert.Contains("The Confirm password field is required.", _page.Source);
         }
+
         [Fact]
         public void Create_WrongEmailFormat_ReturnsErrorMessage()
         {
@@ -43,8 +46,9 @@ namespace Tests.AutomatedUITests.AdminPagesTests
             _page.ClickSave();
             Assert.Contains("The Email field is not a valid e-mail address.", _page.Source);
         }
+
         [Fact]
-        public void Create_WhenSuccessfullyExecuted_ReturnsIndexViewWithNewDoctor()
+        public void Create_WhenSuccessfullyExecuted_ReturnsAdminPanelPageWithNewDoctor()
         {
             _page.PopulateFirstName("New");
             _page.PopulateLastName("Doctor");
@@ -56,6 +60,7 @@ namespace Tests.AutomatedUITests.AdminPagesTests
             Assert.Contains("New Doctor", _page.Source);
             Assert.Contains("newtest@doctor.com", _page.Source);
         }
+
         public void Dispose()
         {
             _driver.Quit();
