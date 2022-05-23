@@ -31,6 +31,13 @@ namespace Tests
             return new VaccinationSystem.Repositories.AdministratorRepository(dbContext, userManager, userStore);
         }
 
+        public static VaccinationSystem.Repositories.DoctorRepository
+            GetDoctorRepository(ApplicationDbContext dbContext)
+        {
+            var visitRepository = new VaccinationSystem.Repositories.VisitRepository(dbContext);
+            return new VaccinationSystem.Repositories.DoctorRepository(dbContext, visitRepository);
+        }
+
         public static UserService GetUserService()
         {
             var userStore = TestUserStore<ApplicationUser>();

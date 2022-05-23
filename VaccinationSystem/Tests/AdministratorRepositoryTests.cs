@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Tests
 {
-    public class AdministratorRepository
+    public class AdministratorRepositoryTests
     {
 
 
@@ -97,7 +97,7 @@ namespace Tests
         }
 
         [Fact]
-        public async Task EditDoctor_Existing_ShouldDeleteAndReturnTrue()
+        public async Task EditDoctor_Existing_ReturnTrue()
         {
             // Arrange
             var context = InMemoryFactory.GetDbContext();
@@ -142,6 +142,37 @@ namespace Tests
             Assert.Null(context.Users.Find(doctor.Id));
             Assert.True(result);
             await repo.CreateDoctor(doctor.FirstName, doctor.LastName, doctor.Email, "123");
+        }
+
+        [Fact]
+        public async Task EditPatient_Existing_ReturnTrue()
+        {
+            // Arrange
+            var context = InMemoryFactory.GetDbContext();
+            var repo = InMemoryFactory.GetAdministratorRepository(context);
+            var patient = context.Users.Where(user => user.LastName == "Patient").First();
+            string newLastName = "PatientNewName";
+
+            // Act
+            var result = await repo.EditPatient(patient.Id, patient.FirstName, newLastName, patient.Email);
+
+            // Assert
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task EditPatient_NonExisting_ShouldReturnFalse()
+        {
+            // Arrange
+            using var context = InMemoryFactory.GetDbContext();
+            var repo = InMemoryFactory.GetAdministratorRepository(context);
+            int patientId = int.MinValue;
+
+            // Act
+            var result = await repo.EditPatient(patientId, "PatientName", "PatientSurname", "PatientEmail");
+
+            // Assert
+            Assert.Null(result);
         }
     }
 }
