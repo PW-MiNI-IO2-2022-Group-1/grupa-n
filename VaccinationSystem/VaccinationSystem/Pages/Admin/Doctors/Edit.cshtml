@@ -15,21 +15,21 @@
             <input type="hidden" asp-for="Doctor.Id" />
             <div class="form-group">
                 <label asp-for="Doctor.Email" class="control-label"></label>
-                <input asp-for="Doctor.Email" class="form-control" />
+                <input asp-for="Doctor.Email" id="email-input" class="form-control" />
                 <span asp-validation-for="Doctor.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Doctor.FirstName" class="control-label"></label>
-                <input asp-for="Doctor.FirstName" class="form-control" />
+                <input asp-for="Doctor.FirstName" id="firstname-input" class="form-control" />
                 <span asp-validation-for="Doctor.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Doctor.LastName" class="control-label"></label>
-                <input asp-for="Doctor.LastName" class="form-control" />
+                <input asp-for="Doctor.LastName" id="lastname-input" class="form-control" />
                 <span asp-validation-for="Doctor.LastName" class="text-danger"></span>
             </div>
             <div class="form-group py-2">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" id="save-btn" class="btn btn-primary" />
             </div>
         </form>
     </div>
