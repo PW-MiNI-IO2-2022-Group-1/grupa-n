@@ -27,7 +27,7 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
         {
             Visit = await _visitRepository.GetAsync(id);
 
-            if (Visit == null)
+            if (Visit == null || Visit.Date > DateTime.Now)
             {
                 return NotFound();
             }

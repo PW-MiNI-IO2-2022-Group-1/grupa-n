@@ -50,7 +50,10 @@
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
             <td>
-                <a asp-page="./Finish" asp-route-id="@item.Id">Finish</a>
+                @if (item.Patient != null && item.Date < DateTime.Now)
+                {
+                    <a asp-page="./Finish" asp-route-id="@item.Id">Finish</a>        
+                }
             </td>
         </tr>
 }
