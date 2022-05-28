@@ -1,8 +1,4 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -49,9 +45,10 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
                 ApplicationUser = (Data.Classes.ApplicationUser)_userManager.GetUserAsync(User).Result;
                 return BugReportUtility.NotFoundAndReport(ApplicationUser, "Visit was null", _bugReportRepository);
             }
-           ViewData["DoctorId"] = new SelectList(_context.Set<Data.Classes.Doctor>(), "Id", "Id");
-           ViewData["PatientId"] = new SelectList(_context.Set<Data.Classes.Patient>(), "Id", "Id");
-           ViewData["VaccineId"] = new SelectList(_context.Vaccines, "Id", "Name");
+            ViewData["DoctorId"] = new SelectList(_context.Set<Data.Classes.Doctor>(), "Id", "Id");
+            ViewData["PatientId"] = new SelectList(_context.Set<Data.Classes.Patient>(), "Id", "Id");
+            ViewData["VaccineId"] = new SelectList(_context.Vaccines, "Id", "Name");
+            ViewData["Statuses"] = new SelectList(Enum.GetValues(typeof(VaccinationStatus)), Visit.Status);
             return Page();
         }
 

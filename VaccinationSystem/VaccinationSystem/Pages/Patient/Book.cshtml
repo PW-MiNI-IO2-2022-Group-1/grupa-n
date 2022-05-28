@@ -1,0 +1,43 @@
+﻿@page
+@model BookModel
+@{
+    ViewData["Title"] = "Book";
+}
+
+<h1>Book</h1>
+
+<h3>Are you sure you want to book this visit?</h3>
+<div>
+    <h4>Visit</h4>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Doctor</th>
+            <th>Vaccine</th>
+        </tr>
+        <tr>
+            <td>
+                @Model.Date
+            </td>
+            <td>
+                @Model.Doctor
+            </td>
+            <td>
+                @(Model.VaccineName == null ? "Any" : Model.VaccineName)
+            </td>
+        </tr>
+    </table>
+    <form method="post">
+        @if (Model.VaccineName == null)
+        {
+            <h3>Select vaccine</h3>
+            <div class="form-group" style="padding-bottom: 25px;">
+                    <label asp-for="VaccineId" class="control-label"></label>
+                    <select name="VaccineId" asp-for="VaccineId" class="form-control" asp-items="Model.VaccineSelect"></select>
+            </div>
+        }
+        <input type="submit" value="Book" class="btn btn-primary" /> &nbsp; |
+        <a asp-page="./Index" class="px-2">Back to Panel</a>
+    </form>
+</div>
