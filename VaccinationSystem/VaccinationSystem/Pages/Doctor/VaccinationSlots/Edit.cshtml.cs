@@ -5,26 +5,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
+using Microsoft.AspNetCore.Identity;
+using VaccinationSystem.IRepositories;
 
 namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
 {
     public class EditModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly VaccinationSystem.Data.ApplicationDbContext _context;
+        private readonly IBugReportRepository _bugReportRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public EditModel(ApplicationDbContext context)
+        public EditModel(IBugReportRepository bugReportRepository, UserManager<ApplicationUser> userManager,VaccinationSystem.Data.ApplicationDbContext context)
         {
             _context = context;
+            _bugReportRepository = bugReportRepository;
+            _userManager = userManager;         
         }
 
         [BindProperty]
         public Visit Visit { get; set; }
 
+        public Data.Classes.ApplicationUser ApplicationUser { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return BugReportUtility.NotFoundAndReport(null,"Id was null",_bugReportRepository);
             }
 
             Visit = await _context.Visits
@@ -34,7 +42,8 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
 
             if (Visit == null)
             {
-                return NotFound();
+                ApplicationUser = (Data.Classes.ApplicationUser)_userManager.GetUserAsync(User).Result;
+                return BugReportUtility.NotFoundAndReport(ApplicationUser, "Visit was null", _bugReportRepository);
             }
             ViewData["DoctorId"] = new SelectList(_context.Set<Data.Classes.Doctor>(), "Id", "Id");
             ViewData["PatientId"] = new SelectList(_context.Set<Data.Classes.Patient>(), "Id", "Id");
@@ -62,7 +71,8 @@ namespace VaccinationSystem.Pages.Doctor.VaccinationSlots
             {
                 if (!VisitExists(Visit.Id))
                 {
-                    return NotFound();
+                    ApplicationUser = (Data.Classes.ApplicationUser)_userManager.GetUserAsync(User).Result;
+                    return BugReportUtility.NotFoundAndReport(ApplicationUser,"Visit not Exist",_bugReportRepository);
                 }
                 else
                 {
