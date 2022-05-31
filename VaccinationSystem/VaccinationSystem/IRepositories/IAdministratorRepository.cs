@@ -14,6 +14,6 @@ namespace VaccinationSystem.IRepositories
         Task<Doctor?> EditDoctor(int doctorId, string firstName, string lastName, string email);
         Task<bool> DeleteDoctor(int doctorId);
         Task<List<Visit>> GetAllVisits(string? disease = null, int? doctorId = null, int? patientId = null);
-
+        Task<Visit> CreateVisit(VaccinationStatus status, DateTime date, int doctorId, int? patientId = null, int? vaccineId = null);
     }
 }
