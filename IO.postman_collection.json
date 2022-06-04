@@ -9,6 +9,63 @@
 			"name": "Patient",
 			"item": [
 				{
+					"name": "Register patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Registered patient has id\", function () { \r",
+									"    pm.expect(jsonData.id).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returned values are correct\", function () { \r",
+									"    pm.expect(jsonData.email).to.be.equal('new@patient.com')\r",
+									"    pm.expect(jsonData.pesel).to.be.equal('94100613369')\r",
+									"    pm.expect(jsonData.firstName).to.be.equal('New')\r",
+									"    pm.expect(jsonData.lastName).to.be.equal('Patient')\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Patient has address object\", function () { \r",
+									"        pm.expect(jsonData.address).to.be.a('object');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"New\",\n  \"lastName\": \"Patient\",\n  \"pesel\": \"94100613369\",\n  \"email\": \"new@patient.com\",\n  \"password\": \"!Password#123\",\n  \"address\": {\n    \"city\": \"Warszawa\",\n    \"zipCode\": \"01-202\",\n    \"street\": \"Jaktorowska\",\n    \"houseNumber\": \"14\",\n    \"localNumber\": \"5a\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{IOHostURL}}/patient/registration",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"patient",
+								"registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Login as a patient",
 					"event": [
 						{
@@ -106,63 +163,6 @@
 					"response": []
 				},
 				{
-					"name": "Register patient",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 201\", function () {\r",
-									"    pm.response.to.have.status(201);\r",
-									"});\r",
-									"\r",
-									"const jsonData = pm.response.json();\r",
-									"\r",
-									"pm.test(\"Registered patient has id\", function () { \r",
-									"    pm.expect(jsonData.id).to.be.a('number');\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Returned values are correct\", function () { \r",
-									"    pm.expect(jsonData.email).to.be.equal('new@patient.com')\r",
-									"    pm.expect(jsonData.pesel).to.be.equal('94100613369')\r",
-									"    pm.expect(jsonData.firstName).to.be.equal('New')\r",
-									"    pm.expect(jsonData.lastName).to.be.equal('Patient')\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Patient has address object\", function () { \r",
-									"        pm.expect(jsonData.address).to.be.a('object');\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"firstName\": \"New\",\n  \"lastName\": \"Patient\",\n  \"pesel\": \"94100613369\",\n  \"email\": \"new@patient.com\",\n  \"password\": \"!Password#123\",\n  \"address\": {\n    \"city\": \"Warszawa\",\n    \"zipCode\": \"01-202\",\n    \"street\": \"Jaktorowska\",\n    \"houseNumber\": \"14\",\n    \"localNumber\": \"5a\"\n  }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{IOHostURL}}/patient/registration",
-							"host": [
-								"{{IOHostURL}}"
-							],
-							"path": [
-								"patient",
-								"registration"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Edit Patient",
 					"event": [
 						{
@@ -195,37 +195,6 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{IOHostURL}}/patient/account",
-							"host": [
-								"{{IOHostURL}}"
-							],
-							"path": [
-								"patient",
-								"account"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete account",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
 						"url": {
 							"raw": "{{IOHostURL}}/patient/account",
 							"host": [
@@ -314,6 +283,90 @@
 									"key": "disease",
 									"value": "Flu"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get vaccinations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Has pagination object\", function () { \r",
+									"    pm.expect(jsonData.pagination).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Has data array\", function () { \r",
+									"    pm.expect(jsonData.data).to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"if (jsonData.data.length > 0) {\r",
+									"    pm.test(\"Vaccination in array has id which is a number\", function () { \r",
+									"        pm.expect(jsonData.data[0].id).to.be.a('number');\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IOHostURL}}/patient/vaccinations?page=1",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"patient",
+								"vaccinations"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{IOHostURL}}/patient/account",
+							"host": [
+								"{{IOHostURL}}"
+							],
+							"path": [
+								"patient",
+								"account"
 							]
 						}
 					},
@@ -722,43 +775,6 @@
 					"name": "Doctor",
 					"item": [
 						{
-							"name": "Delete Doctor",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Success equals true\", function() {\r",
-											"    const responseJson = pm.response.json();\r",
-											"    pm.expect(responseJson.success).to.eql(true);\r",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{IOHostURL}}/admin/doctors/{{created_doctor}}",
-									"host": [
-										"{{IOHostURL}}"
-									],
-									"path": [
-										"admin",
-										"doctors",
-										"{{created_doctor}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Create Doctor",
 							"event": [
 								{
@@ -806,6 +822,59 @@
 									"path": [
 										"admin",
 										"doctors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show Doctors",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Has pagination object\", function () { \r",
+											"    pm.expect(jsonData.pagination).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Has data array\", function () { \r",
+											"    pm.expect(jsonData.data).to.be.an('array');\r",
+											"});\r",
+											"\r",
+											"if (jsonData.data.length > 0) {\r",
+											"    pm.test(\"Doctor in array has id which is a number\", function () { \r",
+											"        pm.expect(jsonData.data[0].id).to.be.a('number');\r",
+											"    });\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/admin/doctors?page=1",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"doctors"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
 									]
 								}
 							},
@@ -897,7 +966,7 @@
 							"response": []
 						},
 						{
-							"name": "Show Doctors",
+							"name": "Delete Doctor",
 							"event": [
 								{
 									"listen": "test",
@@ -907,43 +976,27 @@
 											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"\r",
-											"const jsonData = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Has pagination object\", function () { \r",
-											"    pm.expect(jsonData.pagination).to.be.an('object');\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Has data array\", function () { \r",
-											"    pm.expect(jsonData.data).to.be.an('array');\r",
-											"});\r",
-											"\r",
-											"if (jsonData.data.length > 0) {\r",
-											"    pm.test(\"Doctor in array has id which is a number\", function () { \r",
-											"        pm.expect(jsonData.data[0].id).to.be.a('number');\r",
-											"    });\r",
-											"}"
+											"pm.test(\"Success equals true\", function() {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.expect(responseJson.success).to.eql(true);\r",
+											"});"
 										],
 										"type": "text/javascript"
 									}
 								}
 							],
 							"request": {
-								"method": "GET",
+								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{IOHostURL}}/admin/doctors?page=1",
+									"raw": "{{IOHostURL}}/admin/doctors/{{created_doctor}}",
 									"host": [
 										"{{IOHostURL}}"
 									],
 									"path": [
 										"admin",
-										"doctors"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "1"
-										}
+										"doctors",
+										"{{created_doctor}}"
 									]
 								}
 							},
@@ -1004,25 +1057,6 @@
 											"key": "page",
 											"value": "1"
 										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete Patient",
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{IOHostURL}}/admin/patients/-3",
-									"host": [
-										"{{IOHostURL}}"
-									],
-									"path": [
-										"admin",
-										"patients",
-										"-3"
 									]
 								}
 							},
@@ -1112,6 +1146,25 @@
 										"admin",
 										"patients",
 										"{{patient_in_admin}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Patient",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{IOHostURL}}/admin/patients/-3",
+									"host": [
+										"{{IOHostURL}}"
+									],
+									"path": [
+										"admin",
+										"patients",
+										"-3"
 									]
 								}
 							},

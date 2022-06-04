@@ -29,6 +29,18 @@ namespace VaccinationSystem.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<Visit>> GetAllVisits(int patientId)
+        {
+            return await context.Visits
+                .Where(visit => visit.PatientId == patientId)
+                .Include(visit => visit.Patient)
+                .Include(visit => visit.Patient.Address)
+                .Include(visit => visit.Doctor)
+                .Include(visit => visit.Vaccine)
+                .Include(visit => visit.Vaccine.Disease)
+                .ToListAsync();
+        }
+
         public async Task<List<Visit>> GetAllHistoryVisits(int patientId)
         {
             return await context.Visits
