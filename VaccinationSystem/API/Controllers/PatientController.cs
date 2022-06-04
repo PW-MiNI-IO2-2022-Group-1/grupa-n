@@ -153,14 +153,14 @@ namespace API.Controllers
         {
             // TODO: filtracja
             var vaccines = await _vaccineRepository.GetAllAsync();
-            var response = vaccines.Select(vaccine => new ApiVaccine
+            var array = vaccines.Select(vaccine => new ApiVaccine
             {
                 Id = vaccine.Id,
                 Disease = vaccine.Disease.Name,
                 Name = vaccine.Name,
                 RequiredDoses = vaccine.RequiredDoses
             }).ToArray();
-            return Ok(response);
+            return Ok(new { vaccines = array });
         }
 
         private int GetPatientId()

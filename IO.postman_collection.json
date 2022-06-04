@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "59b3c284-c748-4844-8659-1caf044a3dcb",
+		"_postman_id": "390432dd-2485-48d0-ad87-c0f390e03c14",
 		"name": "IO",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -289,8 +289,8 @@
 									"\r",
 									"const jsonData = pm.response.json();\r",
 									"\r",
-									"pm.test(\"Response is an array\", function () { \r",
-									"    pm.expect(jsonData).to.be.an('array');\r",
+									"pm.test(\"Has vaccines array\", function () { \r",
+									"    pm.expect(jsonData.vaccines).to.be.an('array');\r",
 									"});"
 								],
 								"type": "text/javascript"
