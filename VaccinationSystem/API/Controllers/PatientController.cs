@@ -153,14 +153,68 @@ namespace API.Controllers
         {
             // TODO: filtracja
             var vaccines = await _vaccineRepository.GetAllAsync();
-            var response = vaccines.Select(vaccine => new ApiVaccine
+            var array = vaccines.Select(vaccine => new ApiVaccine
             {
                 Id = vaccine.Id,
                 Disease = vaccine.Disease.Name,
                 Name = vaccine.Name,
                 RequiredDoses = vaccine.RequiredDoses
             }).ToArray();
-            return Ok(response);
+            return Ok(new { vaccines = array });
+        }
+
+        [HttpGet("vaccinations")]
+        public async Task<IActionResult> GetVaccinations([FromQuery] int page)
+        {
+            if (page < 1)
+            {
+                return new NotFoundResponse("Wrong page.");
+            }
+
+            var (visits, pagination) = Pagination<Visit>
+                .ShrinkList(await _patientRepository.GetAllVisits(GetPatientId()),
+                page, pageSize);
+
+            return Ok(new
+            {
+                Pagination = pagination,
+                Data = visits.Select(visit =>
+                {
+                    return new ApiVaccination
+                    {
+                        Id = visit.Id,
+                        Vaccine = visit.Vaccine != null ? new ApiVaccine
+                        {
+                            Id = (int)visit.VaccineId,
+                            Name = visit.Vaccine.Name,
+                            Disease = visit.Vaccine.Disease.Name,
+                            RequiredDoses = visit.Vaccine.RequiredDoses
+                        } : null,
+                        VaccinationSlot = new ApiVaccinationSlot
+                        {
+                            Id = visit.Id,
+                            Date = visit.Date
+                        },
+                        Status = visit.Status.ToString(),
+                        Patient = visit.Patient != null ? new ApiPatient
+                        {
+                            Id = visit.Patient.Id,
+                            FirstName = visit.Patient.FirstName,
+                            LastName = visit.Patient.LastName,
+                            Pesel = visit.Patient.Pesel,
+                            Email = visit.Patient.Email,
+                            Address = visit.Patient.Address
+                        } : null,
+                        Doctor = visit.Doctor != null ? new ApiUser
+                        {
+                            Id = visit.Doctor.Id,
+                            Email = visit.Doctor.Email,
+                            FirstName = visit.Doctor.FirstName,
+                            LastName = visit.Doctor.LastName,
+                        } : null
+                    };
+                }).ToArray()
+            });
         }
 
         private int GetPatientId()
