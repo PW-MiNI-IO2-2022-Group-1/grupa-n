@@ -97,7 +97,11 @@ namespace VaccinationSystem.Repositories
 
         public async Task<bool> VaccinatePatient(int visitId)
         {
-            var entity = context.Visits?.FirstOrDefault(visit => visit.Id == visitId);
+            var entity = context.Visits?
+                .Include(visit => visit.Patient)
+                .Include(visit => visit.Doctor)
+                .Include(visit => visit.Vaccine)
+                .FirstOrDefault(visit => visit.Id == visitId);
             if (entity == null) 
                 return false;
             if (entity.Patient == null)

@@ -26,6 +26,7 @@
                 @Html.DisplayNameFor(model => model.Visits[0].Status)
             </th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -47,6 +48,12 @@
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+            <td>
+                @if (item.Patient != null && item.Date < DateTime.Now)
+                {
+                    <a asp-page="./Finish" asp-route-id="@item.Id">Finish</a>        
+                }
             </td>
         </tr>
 }

@@ -97,16 +97,15 @@ namespace Tests
         [Fact]
         public async Task VaccinatePatient_NoPatient_Failure()
         {
-            //Arrange
+            // Arrange
             var context = InMemoryFactory.GetDbContext();
             var repo = InMemoryFactory.GetDoctorRepository(context);
-            var entity = context.Visits.First();
-            entity.Patient = null;
+            var entity = context.Visits.Where(visit => visit.Patient == null).First();
 
-            //Act
+            // Act
             bool result = await repo.VaccinatePatient(entity.Id);
 
-            //Assert
+            // Assert
             Assert.False(result);
         }
 
