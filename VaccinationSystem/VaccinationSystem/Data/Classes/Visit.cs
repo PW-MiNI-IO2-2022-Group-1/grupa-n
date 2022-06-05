@@ -5,7 +5,7 @@ namespace VaccinationSystem.Data.Classes
 {
     public enum VaccinationStatus
     {
-        Planned, Completed, Cancelled
+        Planned, Completed, Cancelled, Expired
     };
 
     public class Visit
