@@ -104,6 +104,7 @@
         <th>Doctor</th>
         <th>Vaccine</th>
         <th>Status</th>
+        <th>Certificate</th>
     </tr>
     @foreach (var visit in Model.HistoryVisits)
     {
@@ -119,6 +120,12 @@
             </td>
             <td>
                 @visit.Status
+            </td>
+            <td>
+                @if (visit.Status == Data.Classes.VaccinationStatus.Completed)
+                {
+                    <a asp-page="./Certificate/Index" asp-route-visitid="@visit.Id" class="btn btn-outline-primary btn-sm">Download</a>
+                }
             </td>
         </tr>
     }
