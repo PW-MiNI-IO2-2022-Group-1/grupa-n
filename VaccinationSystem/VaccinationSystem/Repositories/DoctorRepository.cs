@@ -60,6 +60,7 @@ namespace VaccinationSystem.Repositories
         
         public async Task<List<Visit>?> GetVisits(int DoctorId, string? onlyReserved = null, DateTime? startDate = null, DateTime? endDate = null)
         {
+            _ = await FilterExpiredVisits(DoctorId);
             var entity = context.Visits?.Where(visit => visit.DoctorId == DoctorId && visit.Status == VaccinationStatus.Planned);
             if (entity == null)
                 return null;
@@ -82,7 +83,7 @@ namespace VaccinationSystem.Repositories
 
         public async Task<List<Visit>?> PassedVisits(int doctorId)
         {
-            var entity = context.Visits?.Where(visit => visit.DoctorId == doctorId && visit.Status != VaccinationStatus.Planned);
+            var entity = context.Visits?.Where(visit => visit.DoctorId == doctorId && (visit.Status != VaccinationStatus.Planned));
             if (entity == null)
                 return null;
             return await entity
@@ -102,6 +103,15 @@ namespace VaccinationSystem.Repositories
             if (entity.Patient == null)
                 return false;
             entity.Status = VaccinationStatus.Completed;
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> FilterExpiredVisits(int DoctorId)
+        {
+            var entity = context.Visits?.Where(visit => visit.DoctorId == DoctorId && visit.Status == VaccinationStatus.Planned);
+            foreach (var visit in entity)
+                if (entity != null && visit.Date < DateTime.Now)
+                    visit.Status = VaccinationStatus.Expired;
             return await context.SaveChangesAsync() > 0;
         }
     }
