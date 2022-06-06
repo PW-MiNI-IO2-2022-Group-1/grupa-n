@@ -35,6 +35,7 @@ builder.Services.AddScoped<IVaccineRepository, VaccineRepository>();
 builder.Services.AddScoped<IVisitRepository, VisitRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IBugReportRepository, BugReportRepository>();
+builder.Services.AddScoped<ICertificateGeneratorService, CertificateGeneratorService>();
 
 var app = builder.Build();
 

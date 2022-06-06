@@ -7,6 +7,7 @@ using API.ModelValidation;
 using API.RequestModels.Doctor;
 using API.RequestModels.Patient;
 using Microsoft.AspNetCore.Cors;
+using VaccinationSystem.Services;
 
 namespace API.Controllers
 {
@@ -19,17 +20,23 @@ namespace API.Controllers
         private readonly IUserService _userService;
         private readonly IPatientRepository _patientRepository;
         private readonly IVaccineRepository _vaccineRepository;
+        private readonly IVisitRepository _visitRepository;
+        private readonly ICertificateGeneratorService _certificateGenerator;
 
         private const int pageSize = 10;
 
         public PatientController(
             IUserService userService,
             IPatientRepository patientRepository,
-            IVaccineRepository vaccineRepository)
+            IVaccineRepository vaccineRepository,
+            ICertificateGeneratorService certificateGenerator,
+            IVisitRepository visitRepository)
         {
             _userService = userService;
             _patientRepository = patientRepository;
             _vaccineRepository = vaccineRepository;
+            _certificateGenerator = certificateGenerator;
+            _visitRepository = visitRepository;
         }
 
         [HttpPost("login")]
@@ -161,6 +168,32 @@ namespace API.Controllers
                 RequiredDoses = vaccine.RequiredDoses
             }).ToArray();
             return Ok(response);
+        }
+
+        [HttpGet("vaccinations/{vaccinationId}/certificate")]
+        public async Task<IActionResult> DownloadCertificate(int vaccinationId)
+        {
+            var patientId = GetPatientId();
+            var patient = await _patientRepository.GetAsync(patientId);
+            var visit = await _visitRepository.GetAsync(vaccinationId);
+
+            if (patient is null || visit is null)
+            {
+                return NotFound();
+            }
+
+            if (visit.Status != VaccinationStatus.Completed)
+            {
+                return BadRequest();
+            }
+
+            if (visit.PatientId != patientId)
+            {
+                return Unauthorized();
+            }
+
+            var fileBytes = _certificateGenerator.Generate(new[] { visit });
+            return File(fileBytes, "application/pdf");
         }
 
         private int GetPatientId()
