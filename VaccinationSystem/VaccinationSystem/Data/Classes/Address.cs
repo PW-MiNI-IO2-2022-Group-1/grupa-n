@@ -13,6 +13,15 @@ namespace VaccinationSystem.Data.Classes
         public string ZipCode { get; set; }
         public string Street { get; set; }
         public string HouseNumber { get; set; }
-        public string LocalNumber { get; set; }
+        public string? LocalNumber { get; set; }
+        public Address() { }
+        public Address(string city, string zipCode, string street, string houseNumber, string localNumber = "")
+        {
+            this.City = city;
+            this.ZipCode = zipCode;
+            this.Street = street;
+            this.HouseNumber = houseNumber;
+            this.LocalNumber = localNumber;
+        }
     }
 }

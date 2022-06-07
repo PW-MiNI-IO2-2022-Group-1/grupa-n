@@ -13,32 +13,32 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Doctor.FirstName" class="control-label"></label>
-                <input asp-for="Doctor.FirstName" class="form-control" />
-                <span asp-validation-for="Doctor.FirstName" class="text-danger"></span>
+                <label asp-for="Input.FirstName" class="control-label"></label>
+                <input asp-for="Input.FirstName" id="firstname-input" class="form-control" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Doctor.LastName" class="control-label"></label>
-                <input asp-for="Doctor.LastName" class="form-control" />
-                <span asp-validation-for="Doctor.LastName" class="text-danger"></span>
+                <label asp-for="Input.LastName" class="control-label"></label>
+                <input asp-for="Input.LastName" id="lastname-input" class="form-control" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Doctor.Email" class="control-label"></label>
-                <input asp-for="Doctor.Email" class="form-control" />
-                <span asp-validation-for="Doctor.Email" class="text-danger"></span>
+                <label asp-for="Input.Email" class="control-label"></label>
+                <input asp-for="Input.Email" id="email-input" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input type="password" asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <label asp-for="Input.Password" class="control-label"></label>
+                <input type="password" asp-for="Input.Password" id="password-input" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input type="password" asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                <label asp-for="Input.ConfirmPassword" class="control-label"></label>
+                <input type="password" asp-for="Input.ConfirmPassword" id="confirmpassword-input" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-group py-2">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" id="save-btn" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
