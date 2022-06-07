@@ -36,6 +36,15 @@ namespace VaccinationSystem.Data.Configurations
                     Status = VaccinationStatus.Completed,
                     Date = new DateTime(2022, 2, 12),
                     VaccineId = -7
+                },
+                new Visit
+                {
+                    Id = -4,
+                    PatientId = null,
+                    DoctorId = -2,
+                    Status = VaccinationStatus.Planned,
+                    Date = new DateTime(2022, 5, 5),
+                    VaccineId = -7
                 }
             );
         }

@@ -26,6 +26,7 @@
                 @Html.DisplayNameFor(model => model.Visits[0].Status)
             </th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -48,7 +49,62 @@
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
+            <td>
+                @if (item.Patient != null && item.Date < DateTime.Now)
+                {
+                    <a asp-page="./Finish" asp-route-id="@item.Id">Finish</a>        
+                }
+            </td>
         </tr>
 }
     </tbody>
 </table>
+@if (Model.PassedVisits != null)
+{
+    <h4 style="padding-top: 25px;">
+        Passed visits
+    </h4>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PassedVisits[0].Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PassedVisits[0].Patient)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PassedVisits[0].Vaccine)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PassedVisits[0].Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.PassedVisits) {
+        <tr>
+            <td>
+                @item.Date
+            </td>
+            <td>
+                @item.Patient?.FirstName @item.Patient?.LastName
+            </td>
+            <td>
+                @item.Vaccine?.Name
+            </td>
+            <td>
+                @item.Status
+            </td>
+            <td>
+                @if ((item.Date - DateTime.Now).Days >= 1)
+                {
+                    <a asp-page="./Renew" asp-route-id="@item.Id">Renew</a>      
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+}

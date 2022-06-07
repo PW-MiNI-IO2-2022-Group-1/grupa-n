@@ -4,6 +4,7 @@ using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
 using VaccinationSystem.IRepositories;
 using VaccinationSystem.Repositories;
+using VaccinationSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,9 @@ builder.Services.AddScoped<IAdministratorRepository, AdministratorRepository>();
 builder.Services.AddScoped<IDiseaseRepository, DiseaseRepository>();
 builder.Services.AddScoped<IVaccineRepository, VaccineRepository>();
 builder.Services.AddScoped<IVisitRepository, VisitRepository>();
-builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IBugReportRepository, BugReportRepository>();
+builder.Services.AddScoped<ICertificateGeneratorService, CertificateGeneratorService>();
 
 var app = builder.Build();
 

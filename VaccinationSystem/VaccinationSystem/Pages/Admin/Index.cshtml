@@ -8,6 +8,9 @@
 
 <p>Use this page to manage the site as admin.</p>
 <p>@ViewData["Message"]</p>
+<form asp-page-handler="button" style="padding-bottom: 10px; method="post">
+    <button class="btn btn-dark">Download report</button>
+</form>
 <h4>Doctors</h4>
 <table class="table">
     <tr>
@@ -80,6 +83,9 @@
         <th>Doctor</th>
         <th>Vaccine</th>
         <th>Status</th>
+        <th>Details</th>
+        <th>Edit</th>
+        <th>Delete</th>
     </tr>
     @foreach (var visit in Model.Visits)
     {
@@ -105,6 +111,17 @@
             <td>
                 @visit.Status
             </td>
+            <td>
+                <a asp-page="./Visits/Details" asp-route-id="@visit.Id" type="button">Details</a>
+            </td>
+            <td>
+                <a asp-page="./Visits/Edit" asp-route-id="@visit.Id" type="button">Edit</a>
+            </td>
+            <td>
+                <a asp-page="./Visits/Delete" asp-route-id="@visit.Id" type="button">Delete</a>
+            </td>
         </tr>
     }
 </table>
+<a asp-page="./Visits/Create">Create visit</a>
+<hr />

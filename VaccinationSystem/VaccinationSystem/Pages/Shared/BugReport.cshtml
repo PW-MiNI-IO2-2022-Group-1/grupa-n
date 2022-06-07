@@ -1,0 +1,21 @@
+﻿@page
+@model VaccinationSystem.Pages.BugReportModel
+@{
+    ViewData["Title"] = "Report a bug";
+}
+<h1>Report a bug</h1>
+
+<div class='row'>
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="BugReport.Description" class="control-label"></label>
+                <textarea asp-for="BugReport.Description" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="BugReport.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group py-2">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

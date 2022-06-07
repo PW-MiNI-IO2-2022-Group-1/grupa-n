@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using VaccinationSystem.Data;
@@ -14,8 +15,13 @@ namespace Tests
 {
     public static class InMemoryFactory
     {
-        private static readonly DbContextOptionsBuilder<ApplicationDbContext> optionsBuilder = 
-                                    new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("InMemoryDb");
+        private static DbContextOptions<ApplicationDbContext> CreateDbContextOptions()
+        {
+            return new DbContextOptionsBuilder<ApplicationDbContext>()
+                // Database with same name gets reused, so let's isolate the tests from each other...
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+        }
 
         public static VaccinationSystem.Repositories.AdministratorRepository
             GetAdministratorRepository(ApplicationDbContext dbContext)
@@ -23,6 +29,13 @@ namespace Tests
             var userStore = TestUserStore<ApplicationUser>();
             var userManager = TestUserManager(userStore);
             return new VaccinationSystem.Repositories.AdministratorRepository(dbContext, userManager, userStore);
+        }
+
+        public static VaccinationSystem.Repositories.DoctorRepository
+            GetDoctorRepository(ApplicationDbContext dbContext)
+        {
+            var visitRepository = new VaccinationSystem.Repositories.VisitRepository(dbContext);
+            return new VaccinationSystem.Repositories.DoctorRepository(dbContext, visitRepository);
         }
 
         public static UserService GetUserService()
@@ -54,7 +67,7 @@ namespace Tests
 
         public static ApplicationDbContext GetDbContext()
         {
-            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+            var dbContext = new ApplicationDbContext(CreateDbContextOptions());
             // EnsureCreated uruchomi seeding
             dbContext.Database.EnsureCreated();
             return dbContext;

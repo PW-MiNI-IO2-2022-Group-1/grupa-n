@@ -5,11 +5,13 @@ using VaccinationSystem.IRepositories;
 using VaccinationSystem.Data.Classes;
 using API.ModelValidation;
 using API.RequestModels.Doctor;
+using Microsoft.AspNetCore.Cors;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("/doctor")]
+    [EnableCors("API_Policy")]
     [Authorize(Roles = Roles.Doctor.Name)]
     public class DoctorController : ControllerBase
     {

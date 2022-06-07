@@ -6,28 +6,37 @@ using VaccinationSystem.Data.Classes;
 using API.ModelValidation;
 using API.RequestModels.Doctor;
 using API.RequestModels.Patient;
+using Microsoft.AspNetCore.Cors;
+using VaccinationSystem.Services;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("/patient")]
+    [EnableCors("API_Policy")]
     [Authorize(Roles = Roles.Patient.Name)]
     public class PatientController : ControllerBase
     {
         private readonly IUserService _userService;
         private readonly IPatientRepository _patientRepository;
         private readonly IVaccineRepository _vaccineRepository;
+        private readonly IVisitRepository _visitRepository;
+        private readonly ICertificateGeneratorService _certificateGenerator;
 
         private const int pageSize = 10;
 
         public PatientController(
             IUserService userService,
             IPatientRepository patientRepository,
-            IVaccineRepository vaccineRepository)
+            IVaccineRepository vaccineRepository,
+            ICertificateGeneratorService certificateGenerator,
+            IVisitRepository visitRepository)
         {
             _userService = userService;
             _patientRepository = patientRepository;
             _vaccineRepository = vaccineRepository;
+            _certificateGenerator = certificateGenerator;
+            _visitRepository = visitRepository;
         }
 
         [HttpPost("login")]
@@ -151,14 +160,94 @@ namespace API.Controllers
         {
             // TODO: filtracja
             var vaccines = await _vaccineRepository.GetAllAsync();
-            var response = vaccines.Select(vaccine => new ApiVaccine
+            var array = vaccines.Select(vaccine => new ApiVaccine
             {
                 Id = vaccine.Id,
                 Disease = vaccine.Disease.Name,
                 Name = vaccine.Name,
                 RequiredDoses = vaccine.RequiredDoses
             }).ToArray();
-            return Ok(response);
+            return Ok(new { vaccines = array });
+        }
+
+        [HttpGet("vaccinations")]
+        public async Task<IActionResult> GetVaccinations([FromQuery] int page)
+        {
+            if (page < 1)
+            {
+                return new NotFoundResponse("Wrong page.");
+            }
+
+            var (visits, pagination) = Pagination<Visit>
+                .ShrinkList(await _patientRepository.GetAllVisits(GetPatientId()),
+                page, pageSize);
+
+            return Ok(new
+            {
+                Pagination = pagination,
+                Data = visits.Select(visit =>
+                {
+                    return new ApiVaccination
+                    {
+                        Id = visit.Id,
+                        Vaccine = visit.Vaccine != null ? new ApiVaccine
+                        {
+                            Id = (int)visit.VaccineId,
+                            Name = visit.Vaccine.Name,
+                            Disease = visit.Vaccine.Disease.Name,
+                            RequiredDoses = visit.Vaccine.RequiredDoses
+                        } : null,
+                        VaccinationSlot = new ApiVaccinationSlot
+                        {
+                            Id = visit.Id,
+                            Date = visit.Date
+                        },
+                        Status = visit.Status.ToString(),
+                        Patient = visit.Patient != null ? new ApiPatient
+                        {
+                            Id = visit.Patient.Id,
+                            FirstName = visit.Patient.FirstName,
+                            LastName = visit.Patient.LastName,
+                            Pesel = visit.Patient.Pesel,
+                            Email = visit.Patient.Email,
+                            Address = visit.Patient.Address
+                        } : null,
+                        Doctor = visit.Doctor != null ? new ApiUser
+                        {
+                            Id = visit.Doctor.Id,
+                            Email = visit.Doctor.Email,
+                            FirstName = visit.Doctor.FirstName,
+                            LastName = visit.Doctor.LastName,
+                        } : null
+                    };
+                }).ToArray()
+            });
+        }
+
+        [HttpGet("vaccinations/{vaccinationId}/certificate")]
+        public async Task<IActionResult> DownloadCertificate(int vaccinationId)
+        {
+            var patientId = GetPatientId();
+            var patient = await _patientRepository.GetAsync(patientId);
+            var visit = await _visitRepository.GetAsync(vaccinationId);
+
+            if (patient is null || visit is null)
+            {
+                return NotFound();
+            }
+
+            if (visit.Status != VaccinationStatus.Completed)
+            {
+                return BadRequest();
+            }
+
+            if (visit.PatientId != patientId)
+            {
+                return Unauthorized();
+            }
+
+            var fileBytes = _certificateGenerator.Generate(new[] { visit });
+            return File(fileBytes, "application/pdf");
         }
 
         private int GetPatientId()

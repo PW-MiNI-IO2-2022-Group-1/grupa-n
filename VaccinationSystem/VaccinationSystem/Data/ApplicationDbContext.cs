@@ -11,6 +11,7 @@ namespace VaccinationSystem.Data
         public DbSet<Disease>? Diseases { get; set; }
         public DbSet<Vaccine>? Vaccines { get; set; }
         public DbSet<Visit>? Visits { get; set; }
+        public DbSet<BugReport>? BugReports { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -29,6 +30,7 @@ namespace VaccinationSystem.Data
             builder.ApplyConfiguration(new DiseaseSeedConfiguration());
             builder.ApplyConfiguration(new VaccineSeedConfiguration());
             builder.ApplyConfiguration(new VisitSeedConfiguration());
+            builder.ApplyConfiguration(new BugReportSeedConfiguration());
         }
     }
 }

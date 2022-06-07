@@ -11,6 +11,7 @@ using VaccinationSystem.Data;
 using VaccinationSystem.Data.Classes;
 using VaccinationSystem.IRepositories;
 using VaccinationSystem.Repositories;
+using VaccinationSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,15 @@ builder.Services.AddScoped<IVaccineRepository, VaccineRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
+builder.Services.AddScoped<ICertificateGeneratorService, CertificateGeneratorService>();
+
+builder.Services.AddCors(options =>
+    options.AddPolicy("API_Policy", builder =>
+         builder.WithOrigins("http://localhost:3000")
+         .AllowAnyOrigin()
+         .AllowAnyMethod()
+         .AllowAnyHeader()));
+
 
 builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
 {
@@ -125,7 +135,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
-
+app.UseRouting();
+app.UseCors("API_Policy");
 app.UseAuthentication();
 app.UseAuthorization();
 

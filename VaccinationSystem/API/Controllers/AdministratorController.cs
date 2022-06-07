@@ -5,11 +5,13 @@ using API.RequestModels.Admin;
 using VaccinationSystem.Data;
 using VaccinationSystem.IRepositories;
 using VaccinationSystem.Data.Classes;
+using Microsoft.AspNetCore.Cors;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("/admin")]
+    [EnableCors("API_Policy")]
     [Authorize(Roles = Roles.Admin.Name)]
     public class AdministratorController : ControllerBase
     {

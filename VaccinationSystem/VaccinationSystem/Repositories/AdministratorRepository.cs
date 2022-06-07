@@ -150,5 +150,22 @@ namespace VaccinationSystem.Repositories
                 .Include("Address")
                 .FirstOrDefault();
         }
+
+        public async Task<Visit> CreateVisit(VaccinationStatus status, DateTime date, int doctorId, int? patientId = null, int? vaccineId = null)
+        {
+            Visit visit = new Visit
+            {
+                Status = status,
+                Date = date,
+                DoctorId = doctorId,
+                PatientId = patientId,
+                VaccineId = vaccineId,
+            };
+
+            context.Visits.Add(visit);
+            await context.SaveChangesAsync();
+
+            return visit;
+        }
     }
 }

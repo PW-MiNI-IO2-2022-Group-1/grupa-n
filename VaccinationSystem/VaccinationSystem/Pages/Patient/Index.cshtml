@@ -1,5 +1,5 @@
 ﻿@page
-@model             PatientPanelModel
+@model PatientPanelModel
 @{
     ViewData["Title"] = "Patient panel";
 }
@@ -29,15 +29,18 @@
     </tr>
 </table>
 
-<h4>History of visits</h4>
+<h4 style="padding-top: 25px;">
+    Booked visits
+</h4>
 <table class="table">
     <tr>
         <th>Date</th>
         <th>Doctor</th>
         <th>Vaccine</th>
         <th>Status</th>
+        <th></th>
     </tr>
-    @foreach (var visit in Model.Visits)
+    @foreach (var visit in Model.BookedVisits)
     {
         <tr>
             <td>
@@ -51,6 +54,78 @@
             </td>
             <td>
                 @visit.Status
+            </td>
+            <td>
+                <a asp-page="./Cancel" asp-route-visitid="@visit.Id" asp-route-patientid="@Model.Patient.Id">Cancel</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<h4 style="padding-top: 25px;">
+    Available visits
+</h4>
+<table class="table">
+    <tr>
+        <th>Date</th>
+        <th>Doctor</th>
+        <th>Vaccine</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+    @foreach (var visit in Model.AvailableVisits)
+    {
+        <tr>
+            <td>
+                @visit.Date
+            </td>
+            <td>
+                @visit.Doctor?.FirstName @visit.Doctor?.LastName
+            </td>
+            <td>
+                @(visit.Vaccine?.Name == null ? "Any" : visit.Vaccine?.Name)
+            </td>
+            <td>
+                @visit.Status
+            </td>
+            <td>
+                <a asp-page="./Book" asp-route-visitid="@visit.Id" asp-route-patientid="@Model.Patient.Id">Book</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<h4 style="padding-top: 25px;">
+    History of visits
+</h4>
+<table class="table">
+    <tr>
+        <th>Date</th>
+        <th>Doctor</th>
+        <th>Vaccine</th>
+        <th>Status</th>
+        <th>Certificate</th>
+    </tr>
+    @foreach (var visit in Model.HistoryVisits)
+    {
+        <tr>
+            <td>
+                @visit.Date
+            </td>
+            <td>
+                @visit.Doctor?.FirstName @visit.Doctor?.LastName
+            </td>
+            <td>
+                @visit.Vaccine?.Name
+            </td>
+            <td>
+                @visit.Status
+            </td>
+            <td>
+                @if (visit.Status == Data.Classes.VaccinationStatus.Completed)
+                {
+                    <a asp-page="./Certificate/Index" asp-route-visitid="@visit.Id" class="btn btn-outline-primary btn-sm">Download</a>
+                }
             </td>
         </tr>
     }

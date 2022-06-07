@@ -16,6 +16,9 @@ namespace VaccinationSystem.Repositories
         {
             if ((date - DateTime.Now).Days < 1)
                 return null;
+            var doctor = context.Users.FirstOrDefault(user => user.Id == doctorId);
+            if (doctor == null)
+                return null;
             var entity = context.Visits?.Where(visit => visit.DoctorId == doctorId);
             entity = entity?.Where(visit => date.AddMinutes(15) > visit.Date);
             entity = entity?.Where(visit => date.AddMinutes(-15) < visit.Date);
@@ -39,8 +42,25 @@ namespace VaccinationSystem.Repositories
             return result;
 
         }
+
+        public async Task<Visit?> RenewVisit(int visitId)
+        {
+            var entity = context.Visits?.FirstOrDefault(visit => visit.Id == visitId);
+            if (entity == null || entity.Status != VaccinationStatus.Cancelled || entity.DoctorId == null)
+                return null;
+            var date = entity.Date;
+            int doctorId = (int)entity.DoctorId;
+            var result = await visitRepository.DeleteAsync(visitId);
+            if (result == false)
+            {
+                return null;
+            }
+            return await CreateVisit(date, doctorId);
+        }
+        
         public async Task<List<Visit>?> GetVisits(int DoctorId, string? onlyReserved = null, DateTime? startDate = null, DateTime? endDate = null)
         {
+            _ = await FilterExpiredVisits(DoctorId);
             var entity = context.Visits?.Where(visit => visit.DoctorId == DoctorId && visit.Status == VaccinationStatus.Planned);
             if (entity == null)
                 return null;
@@ -60,12 +80,42 @@ namespace VaccinationSystem.Repositories
                 .Include(visit => visit.Patient.Address)
                 .ToListAsync();
         }
+
+        public async Task<List<Visit>?> PassedVisits(int doctorId)
+        {
+            var entity = context.Visits?.Where(visit => visit.DoctorId == doctorId && (visit.Status != VaccinationStatus.Planned));
+            if (entity == null)
+                return null;
+            return await entity
+                .Include(visit => visit.Patient)
+                .Include(visit => visit.Doctor)
+                .Include(visit => visit.Vaccine)
+                .Include(visit => visit.Vaccine.Disease)
+                .Include(visit => visit.Patient.Address)
+                .ToListAsync();
+        }
+
         public async Task<bool> VaccinatePatient(int visitId)
         {
-            var entity = context.Visits?.FirstOrDefault(visit => visit.Id == visitId);
+            var entity = context.Visits?
+                .Include(visit => visit.Patient)
+                .Include(visit => visit.Doctor)
+                .Include(visit => visit.Vaccine)
+                .FirstOrDefault(visit => visit.Id == visitId);
             if (entity == null) 
                 return false;
+            if (entity.Patient == null)
+                return false;
             entity.Status = VaccinationStatus.Completed;
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> FilterExpiredVisits(int DoctorId)
+        {
+            var entity = context.Visits?.Where(visit => visit.DoctorId == DoctorId && visit.Status == VaccinationStatus.Planned);
+            foreach (var visit in entity)
+                if (entity != null && visit.Date < DateTime.Now)
+                    visit.Status = VaccinationStatus.Expired;
             return await context.SaveChangesAsync() > 0;
         }
     }

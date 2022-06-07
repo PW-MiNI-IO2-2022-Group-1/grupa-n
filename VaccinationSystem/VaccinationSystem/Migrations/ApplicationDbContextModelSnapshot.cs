@@ -55,21 +55,21 @@ namespace VaccinationSystem.Migrations
                         new
                         {
                             Id = -1,
-                            ConcurrencyStamp = "713e240b-a0bc-428c-add8-487f3bb85414",
+                            ConcurrencyStamp = "fb353d99-8c4f-45f3-aa38-b99e5f2825c4",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = -2,
-                            ConcurrencyStamp = "e5f6762f-1bfd-419a-b28f-d0bf6d0fc5f7",
+                            ConcurrencyStamp = "46172b24-8cba-41e8-a080-d6a3ab0d33f2",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
                             Id = -3,
-                            ConcurrencyStamp = "c37b36f2-cdcd-4994-85c5-e67021547651",
+                            ConcurrencyStamp = "c47f1d7f-eb38-4421-a5f9-1b78b255b5d9",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -216,6 +216,7 @@ namespace VaccinationSystem.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LocalNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Street")
@@ -228,7 +229,7 @@ namespace VaccinationSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Address");
 
                     b.HasData(
                         new
@@ -322,6 +323,44 @@ namespace VaccinationSystem.Migrations
                     b.ToTable("AspNetUsers", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
+                });
+
+            modelBuilder.Entity("VaccinationSystem.Data.Classes.BugReport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Origin")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BugReports");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            Date = new DateTime(2022, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Stuck on loading",
+                            Origin = 0,
+                            UserId = -3
+                        });
                 });
 
             modelBuilder.Entity("VaccinationSystem.Data.Classes.Disease", b =>
@@ -568,7 +607,7 @@ namespace VaccinationSystem.Migrations
                         {
                             Id = -1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9aae1c9d-a33e-4057-95af-eef808854bea",
+                            ConcurrencyStamp = "79bd0449-c9c8-4063-907f-eabb8d473884",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -576,7 +615,7 @@ namespace VaccinationSystem.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF95ANdp1GiBg6thtLyRF3PtnV/PIbspztMJI2/HrFgo7IS1AbViAFaV/cdsAA1/0w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDXgEs0kXU91biF9qfssZbtKi7rWecP+GUFs7c3xlUFVYilhyhj3HpMWB3bC7PrhAw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
                             TwoFactorEnabled = false,
@@ -599,7 +638,7 @@ namespace VaccinationSystem.Migrations
                         {
                             Id = -2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "db863869-b1e2-4919-9d18-f89f35c4e173",
+                            ConcurrencyStamp = "a927042a-f7a8-47bf-b4cd-ac78a23051b3",
                             Email = "doctor@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Default",
@@ -607,31 +646,12 @@ namespace VaccinationSystem.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DOCTOR@LOCALHOST.COM",
                             NormalizedUserName = "DOCTOR@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPlw0CCm8QviWdbT1NCvfiqz6jikVzXcNTVk4nWDw0sTNDaJhv3ecbezwZWd9IOBNA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK0908/GFIqJSN4nNP5aKlmiKFOtSl2mj6Wa6j3WF63yxjmiQMpqCVM/tkI0NaBLsQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
                             TwoFactorEnabled = false,
                             UserName = "doctor@localhost.com",
                             LicenceId = "-1"
-                        },
-                        new
-                        {
-                            Id = -22,
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "329ce455-db71-4f6c-8742-3aaa58705c45",
-                            Email = "testdoctor@localhost.com",
-                            EmailConfirmed = true,
-                            FirstName = "Test",
-                            LastName = "Doctor",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "DOCTOR@LOCALHOST.COM",
-                            NormalizedUserName = "DOCTOR@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEH6F3gsWZx1DbKt3qI6bPAXmqgaUBqxX9QQQR9hL7rMb/MrW6EAPNqB1VSobKZvjcQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
-                            TwoFactorEnabled = false,
-                            UserName = "testdoctor@localhost.com",
-                            LicenceId = "-22"
                         });
                 });
 
@@ -655,7 +675,7 @@ namespace VaccinationSystem.Migrations
                         {
                             Id = -3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1b663b03-17f2-4d50-82c0-0166d23b813d",
+                            ConcurrencyStamp = "fe4d0e20-3a7a-4c05-85cb-34fed040b90e",
                             Email = "patient@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Default",
@@ -663,7 +683,7 @@ namespace VaccinationSystem.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PATIENT@LOCALHOST.COM",
                             NormalizedUserName = "PATIENT@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKU9I6RASWT8rmmc6HjT1mHuYte2zul95gG5Q4v6XdNC5SghInR5wRnTKpB5NjdBJw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF+9fpomZI4oFqd6Ty/my34t0UERFxO1S1IOqE3z5PY8tEYz+61itorOrm5VU5UavA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "T4G4EBCXKGJUCPCGBAPXV7FMUMXNE464",
                             TwoFactorEnabled = false,
@@ -722,6 +742,15 @@ namespace VaccinationSystem.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("VaccinationSystem.Data.Classes.BugReport", b =>
+                {
+                    b.HasOne("VaccinationSystem.Data.Classes.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("VaccinationSystem.Data.Classes.Vaccine", b =>
